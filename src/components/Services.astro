@@ -1,0 +1,994 @@
+---
+/**
+ * Storitve — bento mreža (ne enaka mreža) s SpotlightCard svetlobo in
+ * mikro-animacijami, ki tečejo samo, ko je mreža na zaslonu (.is-visible).
+ */
+import Icon from './ui/Icon.astro';
+
+const checklist = ['Domena', 'Gostovanje', 'SSL certifikat', 'Varnostne kopije', 'Posodobitve', 'Nadzor delovanja', 'Tehnična podpora'];
+---
+
+<section class="section services" id="storitve" aria-labelledby="storitve-title">
+  <div class="container">
+    <header class="section-head section-head--split">
+      <p class="eyebrow"><b>(03)</b> Storitve</p>
+      <h2 class="h2" id="storitve-title" data-float>
+        Vse, kar potrebuje vaša spletna stran. <em>Na enem mestu.</em>
+      </h2>
+      <p class="lead" data-reveal>
+        Oblikujem, razvijem, gostim in vzdržujem. Vi dobite eno kontaktno osebo in nobenih tehničnih skrbi.
+      </p>
+    </header>
+
+    <div class="bento" data-inview>
+      <!-- A: Oblikovanje in razvoj -->
+      <article class="tile tile--a" data-spotlight data-reveal style="--d:0">
+        <div class="tile__viz viz-dc" aria-hidden="true">
+          <div class="viz-dc__design">
+            <span class="viz-dc__tag">Dizajn</span>
+            <div class="frame">
+              <div class="frame__nav"><i></i><i></i><i></i></div>
+              <div class="frame__hero"><i></i><i></i><b></b></div>
+              <div class="frame__grid"><i></i><i></i><i></i></div>
+              <span class="frame__sel"></span>
+            </div>
+          </div>
+          <div class="viz-dc__code">
+            <span class="viz-dc__tag">Koda</span>
+            <pre><code><span class="c1">&lt;section</span> <span class="c2">class</span>=<span class="c3">"hero"</span><span class="c1">&gt;</span>
+  <span class="c1">&lt;h1&gt;</span>Vaše podjetje<span class="c1">&lt;/h1&gt;</span>
+  <span class="c1">&lt;p&gt;</span>Odprto vsak dan<span class="c1">&lt;/p&gt;</span>
+  <span class="c1">&lt;a</span> <span class="c2">href</span>=<span class="c3">"tel:…"</span><span class="c1">&gt;</span>
+    Pokličite
+  <span class="c1">&lt;/a&gt;</span>
+<span class="c1">&lt;/section&gt;</span><span class="viz-dc__caret"></span></code></pre>
+          </div>
+        </div>
+        <div class="tile__text">
+          <span class="tile__icon"><Icon name="palette" /></span>
+          <h3 class="tile__title">Oblikovanje in razvoj spletne strani</h3>
+          <p class="tile__desc">
+            Unikaten dizajn po meri vašega podjetja in sodoben, hiter razvoj — brez predlog, ki jih ima že vsak.
+          </p>
+        </div>
+      </article>
+
+      <!-- B: Za vse poskrbim jaz -->
+      <article class="tile tile--b" data-spotlight data-reveal style="--d:1">
+        <div class="tile__viz viz-care" aria-hidden="true">
+          <div class="viz-care__status"><span class="viz-care__dot"></span> Vse deluje</div>
+          <ul class="viz-care__list">
+            {
+              checklist.map((item, i) => (
+                <li style={`--i:${i}`}>
+                  <Icon name="check" />
+                  {item}
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+        <div class="tile__text">
+          <span class="tile__icon"><Icon name="shield" /></span>
+          <h3 class="tile__title">Za vse poskrbim jaz</h3>
+          <p class="tile__desc">
+            Vam ni treba skrbeti za svojo spletno stran. Posodobitve, varnost, varnostne kopije in podpora — vse
+            uredim jaz.
+          </p>
+        </div>
+      </article>
+
+      <!-- C: Gostovanje in domene -->
+      <article class="tile tile--c" data-spotlight data-reveal style="--d:2">
+        <div class="tile__viz viz-host" aria-hidden="true">
+          <div class="viz-host__url">
+            <Icon name="lock" />
+            <span class="viz-host__proto">https://</span><span class="viz-host__domain">vasepodjetje.si</span>
+          </div>
+          <ul class="viz-host__rows">
+            <li><span>SSL</span><b>veljaven</b></li>
+            <li><span>Gostovanje</span><b>aktivno</b></li>
+            <li><span>Kopija</span><b>danes 03:00</b></li>
+          </ul>
+        </div>
+        <div class="tile__text">
+          <span class="tile__icon"><Icon name="server" /></span>
+          <h3 class="tile__title">Gostovanje in domene</h3>
+          <p class="tile__desc">Registracija domene, hitro gostovanje in SSL certifikat.</p>
+        </div>
+      </article>
+
+      <!-- D: Mobile first -->
+      <article class="tile tile--d" data-spotlight data-reveal style="--d:3">
+        <div class="tile__viz viz-phone" aria-hidden="true">
+          <div class="viz-phone__device">
+            <div class="viz-phone__screen">
+              <div class="viz-phone__feed">
+                <i class="t"></i><i class="img"></i><i></i><i class="s"></i><i class="btn"></i><i class="img"></i><i></i><i class="s"></i>
+                <i class="t"></i><i class="img"></i><i></i><i class="s"></i><i class="btn"></i><i class="img"></i><i></i><i class="s"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tile__text">
+          <span class="tile__icon"><Icon name="smartphone" /></span>
+          <h3 class="tile__title">Mobile-first dizajn</h3>
+          <p class="tile__desc">Najprej oblikujem za telefon — tam je večina vaših obiskovalcev.</p>
+        </div>
+      </article>
+
+      <!-- E: Popolnoma odzivno -->
+      <article class="tile tile--e" data-spotlight data-reveal style="--d:1">
+        <div class="tile__viz viz-resp" aria-hidden="true">
+          <div class="viz-resp__frame">
+            <div class="viz-resp__bar"><i></i><i></i><i></i></div>
+            <div class="viz-resp__content">
+              <div class="viz-resp__grid"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            </div>
+          </div>
+          <div class="viz-resp__devices">
+            <span><Icon name="monitor" /></span><span><Icon name="layout" /></span><span><Icon name="smartphone" /></span>
+          </div>
+        </div>
+        <div class="tile__text">
+          <span class="tile__icon"><Icon name="layout" /></span>
+          <h3 class="tile__title">Popolnoma odzivno</h3>
+          <p class="tile__desc">Brezhiben prikaz na telefonu, tablici in računalniku — samodejno.</p>
+        </div>
+      </article>
+
+      <!-- F: Hitrost -->
+      <article class="tile tile--f" data-spotlight data-reveal style="--d:2">
+        <div class="tile__viz viz-speed" aria-hidden="true">
+          <svg class="viz-speed__gauge" viewBox="0 0 120 120">
+            <circle class="viz-speed__track" cx="60" cy="60" r="52"></circle>
+            <circle class="viz-speed__value" cx="60" cy="60" r="52" pathLength="100"></circle>
+          </svg>
+          <span class="viz-speed__num" data-count="100">100</span>
+        </div>
+        <div class="tile__text">
+          <span class="tile__icon"><Icon name="zap" /></span>
+          <h3 class="tile__title">Optimizirana hitrost</h3>
+          <p class="tile__desc">Hitro nalaganje pomeni manj izgubljenih obiskovalcev in boljšo uvrstitev.</p>
+        </div>
+      </article>
+
+      <!-- G: SEO -->
+      <article class="tile tile--g" data-spotlight data-reveal style="--d:3">
+        <div class="tile__viz viz-seo" aria-hidden="true">
+          <div class="viz-seo__q"><Icon name="search" /> vaša storitev + kraj</div>
+          <svg class="viz-seo__chart" viewBox="0 0 200 80" preserveAspectRatio="none">
+            <path class="viz-seo__area" d="M0 72 C 30 70, 45 62, 70 58 S 110 44, 130 36 S 170 14, 200 8 L200 80 L0 80 Z"></path>
+            <path class="viz-seo__line" pathLength="100" d="M0 72 C 30 70, 45 62, 70 58 S 110 44, 130 36 S 170 14, 200 8"></path>
+          </svg>
+        </div>
+        <div class="tile__text">
+          <span class="tile__icon"><Icon name="trending-up" /></span>
+          <h3 class="tile__title">SEO optimizacija</h3>
+          <p class="tile__desc">Tehnična in vsebinska optimizacija, da vas stranke najdejo na spletu.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .services {
+    border-top: 1px solid var(--border);
+  }
+
+  /* ================================================================ Bento */
+  .bento {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-rows: minmax(250px, auto);
+    grid-template-areas:
+      'a a b b'
+      'a a c d'
+      'e e f g';
+  }
+
+  .tile--a {
+    grid-area: a;
+  }
+  .tile--b {
+    grid-area: b;
+  }
+  .tile--c {
+    grid-area: c;
+  }
+  .tile--d {
+    grid-area: d;
+  }
+  .tile--e {
+    grid-area: e;
+  }
+  .tile--f {
+    grid-area: f;
+  }
+  .tile--g {
+    grid-area: g;
+  }
+
+  .tile {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    overflow: hidden;
+    padding: clamp(20px, 2.2vw, 30px);
+    border-radius: var(--r-md);
+    border: 1px solid var(--border);
+    background: var(--surface-alt);
+    transition:
+      border-color 0.4s var(--ease-out),
+      background-color 0.4s var(--ease-out);
+  }
+
+  .tile::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0;
+    background: radial-gradient(
+      440px circle at var(--mx, 50%) var(--my, 50%),
+      rgba(var(--accent-rgb), 0.24),
+      transparent 62%
+    );
+    transition: opacity 0.4s var(--ease-out);
+  }
+
+  .tile::after {
+    /* obroba, ki zasveti ob kazalcu */
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    padding: 1px;
+    border-radius: inherit;
+    opacity: 0;
+    pointer-events: none;
+    background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(var(--accent-ink-rgb), 0.9), transparent 60%);
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    transition: opacity 0.4s var(--ease-out);
+  }
+
+  .tile:hover {
+    background: var(--surface-hover);
+    border-color: var(--border-hover);
+  }
+
+  .tile:hover::before,
+  .tile:hover::after {
+    opacity: 1;
+  }
+
+  .tile__viz {
+    position: relative;
+    flex: 1;
+    min-height: 120px;
+  }
+
+  .tile__text {
+    display: grid;
+    gap: 8px;
+  }
+
+  .tile__icon {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    margin-bottom: 4px;
+    border-radius: var(--r-sm);
+    border: 1px solid var(--border-hover);
+    color: var(--accent-ink);
+  }
+
+  .tile__title {
+    font-size: var(--fs-h4);
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+
+  .tile__desc {
+    max-width: 46ch;
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: var(--text-secondary);
+  }
+
+  /* Animacije tečejo samo, ko je mreža na zaslonu */
+  .frame__sel,
+  .viz-dc__caret,
+  .viz-care__dot,
+  .viz-care__list li,
+  .viz-host__domain,
+  .viz-phone__feed,
+  .viz-resp__frame,
+  .viz-resp__devices span {
+    animation-play-state: paused;
+  }
+
+  .bento:global(.is-visible) .frame__sel,
+  .bento:global(.is-visible) .viz-dc__caret,
+  .bento:global(.is-visible) .viz-care__dot,
+  .bento:global(.is-visible) .viz-care__list li,
+  .bento:global(.is-visible) .viz-host__domain,
+  .bento:global(.is-visible) .viz-phone__feed,
+  .bento:global(.is-visible) .viz-resp__frame,
+  .bento:global(.is-visible) .viz-resp__devices span {
+    animation-play-state: running;
+  }
+
+  .viz-dc__tag,
+  .viz-care__status {
+    font: 500 0.6875rem / 1 var(--font-mono);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+  }
+
+  /* ---------------------------------------------- A: dizajn ↔ koda */
+  .viz-dc {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: 14px;
+    min-height: 300px;
+  }
+
+  .viz-dc__design,
+  .viz-dc__code {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 14px;
+    border-radius: var(--r-sm);
+    border: 1px solid var(--border);
+    background: var(--bg);
+    overflow: hidden;
+  }
+
+  .viz-dc__code {
+    justify-content: center;
+  }
+
+  .viz-dc__code .viz-dc__tag {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+  }
+
+  .frame {
+    position: relative;
+    flex: 1;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: 10px;
+    padding: 12px;
+    border-radius: var(--r-xs);
+    background: var(--surface);
+    contain: layout;
+  }
+
+  .frame i,
+  .frame b {
+    display: block;
+    border-radius: 3px;
+  }
+
+  .frame__nav {
+    display: flex;
+    gap: 6px;
+    justify-content: flex-end;
+  }
+
+  .frame__nav i {
+    width: 22px;
+    height: 5px;
+    background: var(--border-hover);
+  }
+
+  .frame__nav i:first-child {
+    width: 40px;
+    margin-right: auto;
+    background: var(--text-tertiary);
+  }
+
+  .frame__hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 18px 14px;
+    border-radius: 4px;
+    background:
+      radial-gradient(90% 80% at 85% 10%, rgba(var(--accent-ink-rgb), 0.55), transparent 60%),
+      linear-gradient(135deg, var(--accent-deep), var(--accent));
+  }
+
+  .frame__hero i {
+    height: 10px;
+    width: 78%;
+    background: rgba(var(--white-rgb), 0.9);
+  }
+
+  .frame__hero i + i {
+    width: 52%;
+    height: 6px;
+    background: rgba(var(--white-rgb), 0.5);
+  }
+
+  .frame__hero b {
+    width: 64px;
+    height: 16px;
+    margin-top: 6px;
+    border-radius: var(--r-pill);
+    background: var(--on-accent);
+  }
+
+  .frame__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+
+  .frame__grid i {
+    height: 46px;
+    background: var(--surface-hover);
+  }
+
+  .frame__sel {
+    position: absolute;
+    border: 1px solid var(--accent-ink);
+    border-radius: 3px;
+    box-shadow: 0 0 0 3px rgba(var(--accent-ink-rgb), 0.15);
+    animation: sel-move 6s var(--ease-in-out-quart) infinite;
+  }
+
+  @keyframes sel-move {
+    0%,
+    22% {
+      top: 6px;
+      left: 6px;
+      width: 52px;
+      height: 17px;
+    }
+    33%,
+    55% {
+      top: 27px;
+      left: 6px;
+      width: calc(100% - 12px);
+      height: calc(100% - 96px);
+    }
+    66%,
+    88% {
+      top: calc(100% - 64px);
+      left: 6px;
+      width: calc(33% - 6px);
+      height: 58px;
+    }
+    100% {
+      top: 6px;
+      left: 6px;
+      width: 52px;
+      height: 17px;
+    }
+  }
+
+  .viz-dc__code pre {
+    margin: 0;
+    font: 400 0.8125rem / 1.75 var(--font-mono);
+    color: var(--text-secondary);
+    white-space: pre;
+    overflow: hidden;
+  }
+
+  .viz-dc__code .c1 {
+    color: var(--accent-ink);
+  }
+  .viz-dc__code .c2 {
+    color: var(--text-tertiary);
+  }
+  .viz-dc__code .c3 {
+    color: var(--text);
+  }
+
+  .viz-dc__caret {
+    display: inline-block;
+    width: 7px;
+    height: 1.1em;
+    margin-left: 2px;
+    vertical-align: -0.2em;
+    background: var(--accent-ink);
+    animation: caret 1s steps(1) infinite;
+  }
+
+  @keyframes caret {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  /* ---------------------------------------------- B: vse uredim jaz */
+  .viz-care {
+    display: grid;
+    align-content: start;
+    gap: 16px;
+  }
+
+  .viz-care__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--success);
+  }
+
+  .viz-care__dot {
+    position: relative;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--success);
+  }
+
+  .viz-care__dot::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: var(--success);
+    animation: pulse-ok 2s var(--ease-out) infinite;
+    animation-play-state: paused;
+  }
+
+  .bento:global(.is-visible) .viz-care__dot::after {
+    animation-play-state: running;
+  }
+
+  @keyframes pulse-ok {
+    0% {
+      transform: scale(1);
+      opacity: 0.5;
+    }
+    70%,
+    100% {
+      transform: scale(3.2);
+      opacity: 0;
+    }
+  }
+
+  .viz-care__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .viz-care__list li {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border-radius: var(--r-pill);
+    border: 1px solid var(--border-hover);
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+    animation: care-tick 7s var(--ease-out) infinite;
+    animation-delay: calc(var(--i) * 0.35s);
+  }
+
+  .viz-care__list li :global(.icon) {
+    width: 14px;
+    height: 14px;
+    color: var(--accent-ink);
+  }
+
+  @keyframes care-tick {
+    0%,
+    6% {
+      background: transparent;
+      border-color: var(--border-hover);
+      color: var(--text-secondary);
+    }
+    12%,
+    70% {
+      background: rgba(var(--accent-rgb), 0.18);
+      border-color: rgba(var(--accent-rgb), 0.7);
+      color: var(--text);
+    }
+    82%,
+    100% {
+      background: transparent;
+      border-color: var(--border-hover);
+      color: var(--text-secondary);
+    }
+  }
+
+  /* ---------------------------------------------- C: gostovanje */
+  .viz-host {
+    display: grid;
+    align-content: start;
+    gap: 12px;
+  }
+
+  .viz-host__url {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: 40px;
+    padding: 0 14px;
+    border-radius: var(--r-pill);
+    border: 1px solid var(--border-hover);
+    background: var(--bg);
+    font: 500 0.8125rem / 1 var(--font-mono);
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .viz-host__url :global(.icon) {
+    width: 14px;
+    height: 14px;
+    color: var(--success);
+  }
+
+  .viz-host__proto {
+    color: var(--text-tertiary);
+  }
+
+  .viz-host__domain {
+    display: inline-block;
+    overflow: hidden;
+    color: var(--text);
+    border-right: 1px solid var(--accent-ink);
+    animation: type-domain 6s steps(15) infinite;
+  }
+
+  @keyframes type-domain {
+    0% {
+      max-width: 0;
+    }
+    40%,
+    85% {
+      max-width: 15ch;
+    }
+    100% {
+      max-width: 0;
+    }
+  }
+
+  .viz-host__rows {
+    display: grid;
+    gap: 6px;
+  }
+
+  .viz-host__rows li {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 2px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.8125rem;
+    color: var(--text-tertiary);
+  }
+
+  .viz-host__rows b {
+    font-weight: 500;
+    color: var(--success);
+  }
+
+  /* ---------------------------------------------- D: telefon */
+  .viz-phone {
+    display: grid;
+    place-items: center;
+  }
+
+  .viz-phone__device {
+    width: 110px;
+    height: 170px;
+    padding: 6px;
+    border-radius: 20px;
+    border: 1px solid var(--border-hover);
+    background: var(--bg);
+  }
+
+  .viz-phone__screen {
+    height: 100%;
+    overflow: hidden;
+    border-radius: 14px;
+    background: var(--surface);
+  }
+
+  .viz-phone__feed {
+    display: grid;
+    gap: 6px;
+    padding: 10px 8px;
+    animation: phone-scroll 9s linear infinite;
+  }
+
+  .viz-phone__feed i {
+    display: block;
+    height: 5px;
+    width: 85%;
+    border-radius: 3px;
+    background: var(--border-hover);
+  }
+
+  .viz-phone__feed .t {
+    height: 9px;
+    width: 70%;
+    background: var(--text-secondary);
+  }
+
+  .viz-phone__feed .s {
+    width: 55%;
+  }
+
+  .viz-phone__feed .img {
+    height: 44px;
+    width: 100%;
+    background: linear-gradient(135deg, var(--accent-deep), var(--accent));
+  }
+
+  .viz-phone__feed .btn {
+    height: 12px;
+    width: 46%;
+    border-radius: var(--r-pill);
+    background: var(--accent);
+  }
+
+  @keyframes phone-scroll {
+    to {
+      transform: translateY(-50%);
+    }
+  }
+
+  /* ---------------------------------------------- E: odzivno */
+  .viz-resp {
+    display: grid;
+    grid-template-rows: 1fr auto;
+    gap: 12px;
+  }
+
+  .viz-resp__frame {
+    justify-self: center;
+    width: 100%;
+    height: 150px;
+    border-radius: var(--r-sm);
+    border: 1px solid var(--border-hover);
+    background: var(--bg);
+    overflow: hidden;
+    contain: layout paint;
+    animation: resp-width 9s var(--ease-in-out-quart) infinite;
+  }
+
+  @keyframes resp-width {
+    0%,
+    20% {
+      width: 100%;
+    }
+    33%,
+    53% {
+      width: 58%;
+    }
+    66%,
+    86% {
+      width: 28%;
+    }
+    100% {
+      width: 100%;
+    }
+  }
+
+  .viz-resp__bar {
+    display: flex;
+    gap: 5px;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .viz-resp__bar i {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--border-hover);
+  }
+
+  .viz-resp__content {
+    container-type: inline-size;
+    padding: 10px;
+  }
+
+  .viz-resp__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+
+  .viz-resp__grid i {
+    display: block;
+    height: 40px;
+    border-radius: 4px;
+    background: var(--surface-hover);
+  }
+
+  .viz-resp__grid i:first-child {
+    grid-column: 1 / -1;
+    height: 22px;
+    background: linear-gradient(90deg, var(--accent-deep), var(--accent));
+  }
+
+  @container (max-width: 300px) {
+    .viz-resp__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @container (max-width: 150px) {
+    .viz-resp__grid {
+      grid-template-columns: 1fr;
+    }
+    .viz-resp__grid i {
+      height: 22px;
+    }
+  }
+
+  .viz-resp__devices {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    color: var(--text-tertiary);
+  }
+
+  .viz-resp__devices span {
+    animation: device-on 9s steps(1) infinite;
+  }
+
+  .viz-resp__devices span:nth-child(2) {
+    animation-delay: -6s;
+  }
+
+  .viz-resp__devices span:nth-child(3) {
+    animation-delay: -3s;
+  }
+
+  @keyframes device-on {
+    0% {
+      color: var(--accent-ink);
+    }
+    33.3% {
+      color: var(--text-tertiary);
+    }
+  }
+
+  /* ---------------------------------------------- F: hitrost */
+  .viz-speed {
+    display: grid;
+    place-items: center;
+  }
+
+  .viz-speed__gauge {
+    width: 132px;
+    height: 132px;
+    transform: rotate(-90deg);
+  }
+
+  .viz-speed__track,
+  .viz-speed__value {
+    fill: none;
+    stroke-width: 7;
+  }
+
+  .viz-speed__track {
+    stroke: var(--border);
+  }
+
+  .viz-speed__value {
+    stroke: var(--success);
+    stroke-linecap: round;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    transition: stroke-dashoffset 2s var(--ease-out);
+  }
+
+  .bento:global(.is-visible) .viz-speed__value {
+    stroke-dashoffset: 0;
+  }
+
+  .viz-speed__num {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font-family: var(--font-display);
+    font-size: 2.75rem;
+    line-height: 1;
+    color: var(--success);
+  }
+
+  /* ---------------------------------------------- G: SEO */
+  .viz-seo {
+    display: grid;
+    align-content: start;
+    gap: 14px;
+  }
+
+  .viz-seo__q {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 36px;
+    padding: 0 12px;
+    border-radius: var(--r-pill);
+    border: 1px solid var(--border-hover);
+    background: var(--bg);
+    font-size: 0.8125rem;
+    color: var(--text-tertiary);
+  }
+
+  .viz-seo__chart {
+    width: 100%;
+    height: 80px;
+    overflow: visible;
+  }
+
+  .viz-seo__area {
+    fill: rgba(var(--accent-rgb), 0.16);
+  }
+
+  .viz-seo__line {
+    fill: none;
+    stroke: var(--accent-ink);
+    stroke-width: 2;
+    vector-effect: non-scaling-stroke;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    transition: stroke-dashoffset 2.2s var(--ease-out) 0.3s;
+  }
+
+  .bento:global(.is-visible) .viz-seo__line {
+    stroke-dashoffset: 0;
+  }
+
+  /* ================================================================ Odzivnost */
+  @media (max-width: 1024px) {
+    .bento {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-areas:
+        'a a'
+        'b b'
+        'c d'
+        'e e'
+        'f g';
+    }
+  }
+
+  @media (max-width: 640px) {
+    .bento {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-areas: 'a' 'b' 'c' 'd' 'e' 'f' 'g';
+    }
+
+    .viz-dc {
+      grid-template-columns: 1fr;
+    }
+
+    .viz-dc__code {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .viz-speed__value,
+    .viz-seo__line {
+      stroke-dashoffset: 0;
+    }
+  }
+</style>

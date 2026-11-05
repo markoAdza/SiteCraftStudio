@@ -1,0 +1,14 @@
+# Cloudflare Pages konfiguracija za sitecraftstudio.si
+# Dokumentacija: https://developers.cloudflare.com/pages/functions/wrangler-configuration/
+name = "sitecraftstudio"
+pages_build_output_dir = "./dist"
+compatibility_date = "2026-10-01"
+
+# Javne (ne-skrivne) nastavitve za kontaktni obrazec.
+# Skrivnosti (RESEND_API_KEY, TURNSTILE_SECRET_KEY) NE sodijo sem —
+# nastavi jih v Cloudflare nadzorni plošči ali z:
+#   npx wrangler pages secret put RESEND_API_KEY
+#   npx wrangler pages secret put TURNSTILE_SECRET_KEY
+[vars]
+CONTACT_TO = "marko.4adzaga.4@gmail.com"
+CONTACT_FROM = "Site Craft Studio <obrazec@sitecraftstudio.si>"

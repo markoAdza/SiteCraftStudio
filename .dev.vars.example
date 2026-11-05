@@ -1,0 +1,11 @@
+# Kopiraj v .dev.vars za lokalno testiranje z `npm run preview` (wrangler pages dev).
+# .dev.vars je v .gitignore — nikoli ga ne objavi.
+
+# Resend API ključ (https://resend.com/api-keys)
+RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+# Turnstile testni skrivni ključ, ki VEDNO uspe (samo za lokalni razvoj):
+TURNSTILE_SECRET_KEY=1x0000000000000000000000000000000AA
+
+# Za lokalni test brez potrjene domene pri Resend uporabi:
+# CONTACT_FROM=Site Craft Studio <onboarding@resend.dev>

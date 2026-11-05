@@ -1,0 +1,58 @@
+---
+/**
+ * Gumb/povezava z YAUYA »text-roll« hoverjem (dve kopiji napisa) in
+ * opcijskim magnetnim učinkom (`magnet`) — samo na napravah z miško.
+ */
+import Icon from './Icon.astro';
+import type { IconName } from './icons';
+
+interface Props {
+  href?: string;
+  label: string;
+  variant?: 'primary' | 'ghost' | 'ink' | 'outline-ink';
+  size?: 'sm' | 'md' | 'lg';
+  icon?: IconName;
+  iconLeft?: IconName;
+  magnet?: boolean;
+  type?: 'button' | 'submit';
+  external?: boolean;
+  class?: string;
+  [key: `data-${string}`]: string | undefined;
+  'aria-label'?: string;
+}
+
+const {
+  href,
+  label,
+  variant = 'primary',
+  size = 'md',
+  icon,
+  iconLeft,
+  magnet = false,
+  type = 'button',
+  external = false,
+  class: className,
+  ...rest
+} = Astro.props;
+
+const classes = [
+  'btn',
+  variant !== 'primary' && `btn--${variant}`,
+  size !== 'md' && `btn--${size}`,
+  className,
+];
+const Tag = href ? 'a' : 'button';
+const linkAttrs = href
+  ? { href, ...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {}) }
+  : { type };
+---
+
+<Tag class:list={classes} data-magnet={magnet ? '' : undefined} {...linkAttrs} {...rest}>
+  {iconLeft && <Icon name={iconLeft} />}
+  <span class="btn__roll">
+    <span>{label}</span>
+    <span aria-hidden="true">{label}</span>
+  </span>
+  {icon && <Icon name={icon} />}
+  {external && <span class="sr-only"> (odpre se v novem zavihku)</span>}
+</Tag>

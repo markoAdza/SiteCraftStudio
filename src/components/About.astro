@@ -1,0 +1,235 @@
+---
+import { Image } from 'astro:assets';
+import { SITE } from '../data/site';
+import Icon from './ui/Icon.astro';
+import Button from './ui/Button.astro';
+// TODO: zamenjaj s pravo fotografijo (portret 4:5, vsaj 900 × 1125 px)
+import portrait from '../assets/about/portrait-placeholder.jpg';
+---
+
+<section class="section sheet about" id="o-meni" aria-labelledby="o-meni-title">
+  <div class="container about__grid">
+    <figure class="about__photo" data-reveal>
+      <Image
+        src={portrait}
+        alt="Delovni prostor razvijalca — koda na zaslonu prenosnika"
+        widths={[420, 640, 900]}
+        sizes="(max-width: 1024px) 90vw, 36vw"
+        loading="lazy"
+        class="about__img"
+      />
+      <figcaption class="about__caption">
+        <span class="about__name">{SITE.owner}</span>
+        <span class="about__title">{SITE.ownerTitle}</span>
+      </figcaption>
+    </figure>
+
+    <div class="about__body">
+      <p class="eyebrow"><b>(05)</b> O meni</p>
+      <h2 class="h2" id="o-meni-title" data-float>Pozdravljeni, sem <em>Marko.</em></h2>
+
+      <p class="about__lead" data-scroll-reveal>
+        Sem magister računalništva in informatike (Fakulteta za računalništvo in informatiko, Univerza v Ljubljani). Že
+        več kot pet let programiram in razvijam poslovne rešitve — to znanje danes uporabljam, da podjetjem izdelam
+        spletne strani, ki so hitre, lepe in prinašajo stranke.
+      </p>
+
+      <p class="about__text" data-reveal>
+        Z mano imate eno kontaktno osebo za vse: od prvega osnutka do objave in vzdrževanja. Brez posrednikov, brez
+        čakanja in brez tehničnega žargona.
+      </p>
+
+      <dl class="stats">
+        <div class="stat" data-reveal style="--d:0">
+          <dt class="stat__label">let izkušenj v razvoju</dt>
+          <dd class="stat__value"><span data-count="5">5</span><span class="stat__suffix">+</span></dd>
+        </div>
+        <div class="stat" data-reveal style="--d:1">
+          <dt class="stat__label">dni od ideje do objave</dt>
+          <dd class="stat__value"><span data-count="7">7</span></dd>
+        </div>
+        <div class="stat" data-reveal style="--d:2">
+          <dt class="stat__label">kontaktna oseba za vse</dt>
+          <dd class="stat__value"><span>1</span></dd>
+        </div>
+      </dl>
+
+      <div class="about__secret" data-reveal>
+        <span class="about__lock"><Icon name="lock" /></span>
+        <p>
+          Velik del mojega dela ostaja za zaprtimi vrati: za podjetja izdelujem tudi <strong
+            >interne spletne aplikacije in poslovne rešitve</strong
+          >, ki jih zaradi zaupnosti ne morem javno prikazati. Spodaj je izbor javnih projektov.
+        </p>
+      </div>
+
+      <div class="about__cta" data-reveal>
+        <Button href="#projekti" label="Poglejte projekte" variant="ghost" icon="arrow-down" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about {
+    border-top: 1px solid var(--border);
+  }
+
+  .about__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(40px, 6vw, 120px);
+    align-items: start;
+  }
+
+  .about__photo {
+    position: sticky;
+    top: calc(var(--nav-h) + 32px);
+    overflow: hidden;
+    border-radius: var(--r-md);
+    border: 1px solid var(--border-hover);
+    background: var(--surface);
+  }
+
+  .about__photo :global(.about__img) {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+  }
+
+  .about__photo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(0deg, rgba(var(--black-rgb), 0.75) 0%, transparent 42%);
+    pointer-events: none;
+  }
+
+  .about__caption {
+    position: absolute;
+    left: 20px;
+    right: 20px;
+    bottom: 18px;
+    z-index: 1;
+    display: grid;
+    gap: 4px;
+  }
+
+  .about__name {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 2.4vw, 2.25rem);
+    line-height: 1;
+  }
+
+  .about__title {
+    font: 500 var(--fs-label) / 1.3 var(--font-mono);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+  }
+
+  .about__body {
+    display: grid;
+    gap: 28px;
+    padding-top: 8px;
+  }
+
+  .about__lead {
+    font-size: clamp(1.25rem, 1.9vw, 1.75rem);
+    line-height: 1.45;
+    letter-spacing: -0.01em;
+    color: var(--text);
+  }
+
+  .about__text {
+    max-width: 58ch;
+    font-size: var(--fs-body-l);
+    color: var(--text-secondary);
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 6px;
+    padding: 22px 0;
+  }
+
+  .stat + .stat {
+    padding-left: clamp(16px, 2.4vw, 32px);
+    border-left: 1px solid var(--border);
+  }
+
+  .stat__value {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 5vw, 4.5rem);
+    line-height: 1;
+  }
+
+  .stat__suffix {
+    color: var(--accent-ink);
+  }
+
+  .stat__label {
+    font-size: var(--fs-small);
+    color: var(--text-tertiary);
+  }
+
+  .about__secret {
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    gap: 16px;
+    align-items: start;
+    padding: 20px;
+    border-radius: var(--r-md);
+    border: 1px dashed var(--border-hover);
+    background: var(--surface);
+    color: var(--text-secondary);
+  }
+
+  .about__secret strong {
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .about__lock {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(var(--accent-rgb), 0.18);
+    color: var(--accent-ink);
+  }
+
+  @media (max-width: 1024px) {
+    .about__grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .about__photo {
+      position: relative;
+      top: auto;
+      max-width: 520px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .stats {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .stat + .stat {
+      padding-left: 0;
+      border-left: 0;
+      border-top: 1px solid var(--border);
+    }
+  }
+</style>

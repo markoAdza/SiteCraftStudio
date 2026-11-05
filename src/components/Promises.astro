@@ -1,0 +1,994 @@
+---
+/**
+ * »Kaj dobite« — levo pripeto / desno menjava prizorov (L3 scroll-story).
+ * Namizje: sekcija 3 × 100svh, vsebina sticky; napredek drsenja izbere
+ * aktivno obljubo in »scruba« njen prizor. Mobilno: sklad (obljuba → prizor).
+ */
+import Icon from './ui/Icon.astro';
+
+const promises = [
+  {
+    title: 'Spletna stran v enem tednu.',
+    text: 'Od prvega pogovora do objave v sedmih dneh. Jasen načrt, brez dolgega čakanja in brez zapletov.',
+  },
+  {
+    title: 'Vidni tam, kjer vas iščejo.',
+    text: 'Optimizacija za Google in lokalno iskanje, da vas stranke najdejo takrat, ko vas potrebujejo.',
+  },
+  {
+    title: 'Nove stranke iz čisto nove smeri.',
+    text: 'Spletna stran dela 24 ur na dan in vam prinaša povpraševanja z interneta — od ljudi, ki za vas še niso slišali.',
+  },
+];
+
+const days = [
+  { d: 'Pon', t: 'Posvet' },
+  { d: 'Tor', t: 'Vsebina' },
+  { d: 'Sre', t: 'Dizajn' },
+  { d: 'Čet', t: 'Razvoj' },
+  { d: 'Pet', t: 'Testiranje' },
+  { d: 'Sob', t: 'Popravki' },
+  { d: 'Ned', t: 'Objava' },
+];
+
+const results = [
+  { url: 'imenik-podjetij.si', title: 'Imenik podjetij — frizerji v Zasavju', desc: 'Seznam salonov z ocenami in kontakti …' },
+  { url: 'zemljevid-storitev.si', title: 'Zemljevid storitev: frizer Trbovlje', desc: 'Lokacije, delovni čas in navodila …' },
+  { url: 'forum.si', title: 'Kateri frizer v Trbovljah je najboljši?', desc: 'Priporočila uporabnikov foruma …' },
+  { url: 'vasepodjetje.si', title: 'Vaše podjetje — frizerski salon v Trbovljah', desc: 'Naročite se na termin z enim klikom.', you: true },
+];
+
+const notes = [
+  { icon: 'mail', title: 'Novo povpraševanje', text: 'Spletni obrazec · »Imate v petek prost termin?«', time: 'zdaj' },
+  { icon: 'phone', title: 'Klic s spletne strani', text: '+386 41 ••• ••• · klik za klic', time: '4 min' },
+  { icon: 'calendar', title: 'Rezervacija termina', text: 'Petek, 10:00 · prek spletne strani', time: '1 h' },
+  { icon: 'message', title: 'Novo povpraševanje', text: '»Bi nam lahko poslali ponudbo …«', time: '3 h' },
+] as const;
+const bars = [28, 34, 31, 46, 52, 49, 63, 71, 78, 92];
+---
+
+<div class="promises" data-promises>
+  <div class="promises__sticky">
+    <div class="promises__grid container">
+      <header class="promises__head">
+        <p class="eyebrow"><b>(02)</b> Kaj dobite</p>
+        <h2 class="h2" data-float>Spletna stran, ki <em>dela</em> za vas.</h2>
+      </header>
+
+      <div class="promises__list">
+        {
+          promises.map((p, i) => (
+            <article class="promise" data-promise={i} style={`--o:${i * 2 + 1}`}>
+              <span class="promise__num">{String(i + 1).padStart(2, '0')}</span>
+              <div class="promise__body">
+                <h3 class="promise__title">{p.title}</h3>
+                <p class="promise__text">{p.text}</p>
+              </div>
+            </article>
+          ))
+        }
+        <div class="promises__progress" aria-hidden="true"><span data-promises-bar></span></div>
+      </div>
+
+      <div class="promises__stage" aria-hidden="true">
+        <!-- Prizor 1: teden -->
+        <div class="scene scene--week" data-scene="0" style="--o:2">
+          <div class="browser">
+            <div class="browser__bar">
+              <span class="browser__dots"><i></i><i></i><i></i></span>
+              <span class="browser__url"><Icon name="lock" /> vasepodjetje.si</span>
+            </div>
+            <div class="browser__body">
+              <div class="wf wf--nav"><i></i><i></i><i></i><i></i></div>
+              <div class="wf wf--hero">
+                <div class="wf__text">
+                  <i class="wf__l1"></i><i class="wf__l2"></i><i class="wf__l3"></i>
+                  <b class="wf__btn"></b>
+                </div>
+                <div class="wf__img"><span class="wf__fill"></span></div>
+              </div>
+              <div class="wf wf--cards">
+                <i><span class="wf__fill"></span></i><i><span class="wf__fill"></span></i><i><span class="wf__fill"></span></i>
+              </div>
+            </div>
+            <span class="browser__badge"><Icon name="check" /> Objavljeno</span>
+          </div>
+          <ol class="week">
+            {
+              days.map((day) => (
+                <li class="week__day">
+                  <span class="week__d">{day.d}</span>
+                  <span class="week__t">{day.t}</span>
+                </li>
+              ))
+            }
+          </ol>
+          <div class="week__bar"><span></span></div>
+          <p class="scene__note">Ponazoritev</p>
+        </div>
+
+        <!-- Prizor 2: iskanje -->
+        <div class="scene scene--search" data-scene="1" style="--o:4">
+          <div class="search">
+            <div class="search__bar">
+              <Icon name="search" />
+              <span class="search__q" data-query="frizer trbovlje"></span><span class="search__caret"></span>
+            </div>
+            <div class="search__meta">
+              <span>Uvrstitev vašega podjetja</span>
+              <b class="search__rank" data-rank-label>4.</b>
+            </div>
+            <ol class="search__results">
+              {
+                results.map((r, i) => (
+                  <li class:list={['res', r.you && 'res--you']} data-res={i}>
+                    <span class="res__url">
+                      <Icon name="globe" /> {r.url}
+                      {r.you && <span class="res__badge">Vaša stran</span>}
+                    </span>
+                    <span class="res__title">{r.title}</span>
+                    <span class="res__desc">{r.desc}</span>
+                  </li>
+                ))
+              }
+            </ol>
+          </div>
+          <p class="scene__note">Ponazoritev</p>
+        </div>
+
+        <!-- Prizor 3: povpraševanja -->
+        <div class="scene scene--leads" data-scene="2" style="--o:6">
+          <div class="leads">
+            <div class="leads__head">
+              <span class="leads__label">Povpraševanja ta mesec</span>
+              <b class="leads__count" data-leads-count>0</b>
+              <span class="leads__trend"><Icon name="trending-up" /> rast</span>
+            </div>
+            <div class="leads__chart">
+              {bars.map((h) => <i style={`--h:${h}%`}></i>)}
+            </div>
+            <ul class="leads__feed">
+              {
+                notes.map((n) => (
+                  <li class="note">
+                    <span class="note__icon">
+                      <Icon name={n.icon} />
+                    </span>
+                    <span class="note__body">
+                      <b>{n.title}</b>
+                      <span>{n.text}</span>
+                    </span>
+                    <time class="note__time">{n.time}</time>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+          <p class="scene__note">Ponazoritev</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* ============================================================ Postavitev */
+  .promises {
+    position: relative;
+    height: 300svh;
+  }
+
+  .promises__sticky {
+    position: sticky;
+    top: var(--nav-h);
+    height: calc(100svh - var(--nav-h));
+    display: flex;
+    align-items: center;
+  }
+
+  .promises__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    grid-template-rows: auto 1fr;
+    column-gap: clamp(40px, 6vw, 112px);
+    row-gap: clamp(28px, 4vw, 56px);
+    align-items: start;
+  }
+
+  .promises__head {
+    display: grid;
+    gap: 20px;
+  }
+
+  .promises__list {
+    position: relative;
+    display: grid;
+    gap: 6px;
+    padding-left: 22px;
+  }
+
+  .promises__stage {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: center;
+    position: relative;
+    height: min(560px, calc(100svh - var(--nav-h) - 96px));
+  }
+
+  /* ============================================================ Obljube */
+  .promise {
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    gap: 8px;
+    padding-block: 14px;
+    opacity: 0.34;
+    transition: opacity 0.6s var(--ease-out);
+  }
+
+  .promise:global(.is-active) {
+    opacity: 1;
+  }
+
+  .promise__num {
+    padding-top: 0.55em;
+    font: 500 var(--fs-label) / 1 var(--font-mono);
+    letter-spacing: 0.1em;
+    color: var(--accent-ink);
+  }
+
+  .promise__title {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 2.3vw, 2.25rem);
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+  }
+
+  .promise__text {
+    max-width: 42ch;
+    margin-top: 8px;
+    color: var(--text-secondary);
+  }
+
+  .promises__progress {
+    position: absolute;
+    left: 0;
+    top: 14px;
+    bottom: 14px;
+    width: 1px;
+    background: var(--border-hover);
+  }
+
+  .promises__progress span {
+    position: absolute;
+    inset: 0;
+    background: var(--accent-ink);
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+
+  /* ============================================================ Prizori */
+  .scene {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 16px;
+    opacity: 0;
+    transform: translate3d(0, 18px, 0) scale(0.985);
+    transition:
+      opacity 0.7s var(--ease-out),
+      transform 0.7s var(--ease-out);
+    pointer-events: none;
+  }
+
+  .scene:global(.is-active) {
+    opacity: 1;
+    transform: none;
+  }
+
+  .scene__note {
+    position: absolute;
+    right: 0;
+    bottom: -26px;
+    font: 500 0.6875rem / 1 var(--font-mono);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+  }
+
+  /* -------------------------------------------- Prizor 1: brskalnik */
+  .browser {
+    position: relative;
+    border: 1px solid var(--border-hover);
+    border-radius: var(--r-md);
+    background: var(--surface);
+    overflow: hidden;
+    box-shadow: var(--shadow-raised);
+  }
+
+  .browser__bar {
+    height: 38px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 0 14px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface-alt);
+  }
+
+  .browser__dots {
+    display: flex;
+    gap: 6px;
+  }
+
+  .browser__dots i {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--border-hover);
+  }
+
+  .browser__url {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: 24px;
+    max-width: 340px;
+    padding: 0 10px;
+    border-radius: var(--r-pill);
+    background: var(--bg);
+    font: 500 0.6875rem / 1 var(--font-mono);
+    color: var(--text-tertiary);
+  }
+
+  .browser__url :global(.icon) {
+    width: 11px;
+    height: 11px;
+    color: var(--success);
+  }
+
+  .browser__body {
+    display: grid;
+    gap: 16px;
+    padding: clamp(14px, 1.8vw, 24px);
+  }
+
+  .wf i,
+  .wf b {
+    display: block;
+  }
+
+  .wf--nav {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+  }
+
+  .wf--nav i {
+    width: 38px;
+    height: 7px;
+    border-radius: 4px;
+    background: var(--border-hover);
+  }
+
+  .wf--nav i:first-child {
+    width: 72px;
+    margin-right: auto;
+    background: var(--text-tertiary);
+  }
+
+  .wf--hero {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 18px;
+    align-items: center;
+  }
+
+  .wf__text i {
+    height: 13px;
+    margin-bottom: 9px;
+    border-radius: 4px;
+    background: var(--text-secondary);
+    transform-origin: left;
+  }
+
+  .wf__l1 {
+    width: 92%;
+  }
+
+  .wf__l2 {
+    width: 70%;
+  }
+
+  .wf__l3 {
+    width: 54%;
+    height: 7px !important;
+    background: var(--border-hover) !important;
+  }
+
+  .wf__btn {
+    width: 92px;
+    height: 24px;
+    margin-top: 14px;
+    border-radius: var(--r-pill);
+    background: var(--accent);
+    transform-origin: left;
+  }
+
+  .wf__img,
+  .wf--cards i {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--r-sm);
+    border: 1px dashed var(--border-hover);
+  }
+
+  .wf__img {
+    aspect-ratio: 4 / 3;
+  }
+
+  .wf__fill {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    background:
+      radial-gradient(80% 90% at 80% 10%, rgba(var(--accent-ink-rgb), 0.55), transparent 60%),
+      linear-gradient(135deg, var(--accent-deep), var(--accent));
+  }
+
+  .wf--cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  .wf--cards i {
+    height: clamp(44px, 5vw, 64px);
+    background: var(--surface-alt);
+  }
+
+  .wf--cards .wf__fill {
+    background: linear-gradient(160deg, var(--surface-hover), var(--accent-deep));
+  }
+
+  .browser__badge {
+    position: absolute;
+    right: 14px;
+    top: 52px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 12px;
+    border-radius: var(--r-pill);
+    background: var(--success);
+    color: var(--ink);
+    font: 600 0.75rem / 1 var(--font-sans);
+    opacity: 0;
+    transform: scale(0.6);
+  }
+
+  .week {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+  }
+
+  .week__day {
+    display: grid;
+    gap: 4px;
+  }
+
+  /* Neaktiven dan: --text-tertiary (4,6:1); aktiven: polna barva (animira GSAP) */
+  .week__d {
+    font: 500 0.6875rem / 1 var(--font-mono);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+  }
+
+  .week__t {
+    font-size: 0.8125rem;
+    line-height: 1.2;
+    color: var(--text-tertiary);
+  }
+
+  .week__bar {
+    height: 2px;
+    background: var(--border);
+    overflow: hidden;
+  }
+
+  .week__bar span {
+    display: block;
+    height: 100%;
+    background: var(--accent-ink);
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+
+  /* -------------------------------------------- Prizor 2: iskanje */
+  .search {
+    display: grid;
+    gap: 14px;
+    padding: clamp(16px, 2vw, 26px);
+    border: 1px solid var(--border-hover);
+    border-radius: var(--r-md);
+    background: var(--surface);
+    box-shadow: var(--shadow-raised);
+  }
+
+  .search__bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 48px;
+    padding: 0 18px;
+    border-radius: var(--r-pill);
+    border: 1px solid var(--border-hover);
+    background: var(--bg);
+    font-size: 1rem;
+  }
+
+  .search__bar :global(.icon) {
+    color: var(--text-tertiary);
+  }
+
+  .search__caret {
+    width: 1px;
+    height: 20px;
+    margin-left: -10px;
+    background: var(--accent-ink);
+    animation: caret 1s steps(1) infinite;
+  }
+
+  @keyframes caret {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  .search__meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font: 500 var(--fs-label) / 1 var(--font-mono);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+  }
+
+  .search__rank {
+    font-family: var(--font-display);
+    font-size: 2.25rem;
+    font-weight: 400;
+    letter-spacing: 0;
+    color: var(--accent-ink);
+  }
+
+  .search__results {
+    position: relative;
+    height: calc(4 * 82px + 3 * 8px);
+  }
+
+  .res {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 82px;
+    display: grid;
+    align-content: center;
+    gap: 3px;
+    padding: 0 16px;
+    border-radius: var(--r-sm);
+    border: 1px solid var(--border);
+    background: var(--surface-alt);
+    transform: translate3d(0, calc(var(--y, 0) * 90px), 0);
+  }
+
+  .res[data-res='0'] {
+    --y: 0;
+  }
+
+  .res[data-res='1'] {
+    --y: 1;
+  }
+
+  .res[data-res='2'] {
+    --y: 2;
+  }
+
+  .res[data-res='3'] {
+    --y: 3;
+  }
+
+  .res__url {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font: 500 0.6875rem / 1 var(--font-mono);
+    color: var(--text-tertiary);
+  }
+
+  .res__url :global(.icon) {
+    width: 12px;
+    height: 12px;
+  }
+
+  .res__title {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--accent-ink);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .res__desc {
+    font-size: 0.8125rem;
+    color: var(--text-tertiary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .res--you {
+    z-index: 2;
+    border-color: rgba(var(--accent-rgb), 0.9);
+    background: linear-gradient(90deg, rgba(var(--accent-rgb), 0.22), var(--surface-alt) 70%);
+  }
+
+  .res--you .res__title {
+    color: var(--text);
+  }
+
+  .res__badge {
+    margin-left: auto;
+    white-space: nowrap;
+    padding: 4px 8px;
+    border-radius: var(--r-pill);
+    background: var(--accent);
+    color: var(--on-accent);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* -------------------------------------------- Prizor 3: povpraševanja */
+  .leads {
+    display: grid;
+    gap: 16px;
+    padding: clamp(16px, 2vw, 26px);
+    border: 1px solid var(--border-hover);
+    border-radius: var(--r-md);
+    background: var(--surface);
+    box-shadow: var(--shadow-raised);
+  }
+
+  .leads__head {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 2px 16px;
+  }
+
+  .leads__label {
+    font: 500 var(--fs-label) / 1.3 var(--font-mono);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+  }
+
+  .leads__count {
+    grid-row: 2;
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 5vw, 4.25rem);
+    font-weight: 400;
+    line-height: 1;
+  }
+
+  .leads__trend {
+    grid-row: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: var(--r-pill);
+    background: rgba(var(--accent-rgb), 0.18);
+    color: var(--accent-ink);
+    font: 500 0.75rem / 1 var(--font-mono);
+  }
+
+  .leads__chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 6px;
+    height: 72px;
+  }
+
+  .leads__chart i {
+    flex: 1;
+    height: var(--h);
+    border-radius: 3px 3px 0 0;
+    background: linear-gradient(180deg, var(--accent), rgba(var(--accent-rgb), 0.25));
+    transform-origin: bottom;
+  }
+
+  .leads__feed {
+    display: grid;
+    gap: 8px;
+  }
+
+  .note {
+    display: grid;
+    grid-template-columns: 36px 1fr auto;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: var(--r-sm);
+    border: 1px solid var(--border);
+    background: var(--surface-alt);
+  }
+
+  .note__icon {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(var(--accent-rgb), 0.2);
+    color: var(--accent-ink);
+  }
+
+  .note__body {
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .note__body b {
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .note__body span {
+    font-size: 0.8125rem;
+    color: var(--text-tertiary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .note__time {
+    font: 500 0.6875rem / 1 var(--font-mono);
+    color: var(--text-tertiary);
+  }
+
+  /* ============================================================ Mobilno */
+  @media (max-width: 1024px) {
+    .promises {
+      height: auto;
+      padding-block: var(--section-y);
+    }
+
+    .promises__sticky {
+      position: static;
+      height: auto;
+      display: block;
+    }
+
+    .promises__grid {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+    }
+
+    .promises__head {
+      margin-bottom: 40px;
+    }
+
+    .promises__list,
+    .promises__stage {
+      display: contents;
+    }
+
+    .promise,
+    .scene {
+      order: var(--o);
+    }
+
+    .promise {
+      opacity: 1;
+      padding-block: 8px 20px;
+    }
+
+    .promises__progress {
+      display: none;
+    }
+
+    .scene {
+      position: relative;
+      inset: auto;
+      opacity: 1;
+      transform: none;
+      margin-bottom: 64px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .promise {
+      grid-template-columns: 36px 1fr;
+    }
+
+    .week__t {
+      font-size: 0.6875rem;
+    }
+
+    .browser__badge {
+      top: 48px;
+    }
+
+    .search__results {
+      height: calc(4 * 62px + 3 * 8px);
+    }
+
+    .res {
+      height: 62px;
+      padding: 0 12px;
+      transform: translate3d(0, calc(var(--y, 0) * 70px), 0);
+    }
+
+    .res__desc {
+      display: none;
+    }
+
+    .search__meta {
+      font-size: 0.6875rem;
+    }
+  }
+</style>
+
+<script>
+  import { gsap, ScrollTrigger, reduceMotion, navOffset, onIdle } from '../scripts/motion';
+
+  const root = document.querySelector<HTMLElement>('[data-promises]');
+
+  function buildWeek(scene: HTMLElement) {
+    const tl = gsap.timeline({ paused: true, defaults: { ease: 'power2.out' } });
+    const days = scene.querySelectorAll('.week__day');
+    const css = getComputedStyle(document.documentElement);
+    const on = { d: css.getPropertyValue('--accent-ink').trim(), t: css.getPropertyValue('--text').trim() };
+    tl.to(scene.querySelector('.week__bar span'), { scaleX: 1, duration: 7, ease: 'none' }, 0);
+    days.forEach((d, i) => {
+      tl.to(d.querySelector('.week__d'), { color: on.d, duration: 0.4 }, i + 0.1);
+      tl.to(d.querySelector('.week__t'), { color: on.t, duration: 0.4 }, i + 0.1);
+    });
+    tl.from(scene.querySelectorAll('.wf__text i, .wf__btn'), { scaleX: 0, duration: 0.8, stagger: 0.15 }, 1);
+    tl.from(scene.querySelectorAll('.wf__img, .wf--cards i'), { opacity: 0, y: 10, duration: 0.8, stagger: 0.12 }, 2);
+    tl.to(scene.querySelectorAll('.wf__fill'), { opacity: 1, duration: 0.9, stagger: 0.12 }, 3);
+    tl.to(scene.querySelector('.browser__badge'), { opacity: 1, scale: 1, duration: 0.6, ease: 'back.out(2)' }, 6.2);
+    return tl;
+  }
+
+  function buildSearch(scene: HTMLElement) {
+    const tl = gsap.timeline({ paused: true, defaults: { ease: 'power2.out' } });
+    const q = scene.querySelector<HTMLElement>('.search__q');
+    const text = q?.dataset.query ?? '';
+    const typing = { n: 0 };
+    const rankLabel = scene.querySelector<HTMLElement>('[data-rank-label]');
+    const rows = [...scene.querySelectorAll<HTMLElement>('.res')];
+    const step = () => (rows[0]?.offsetHeight ?? 82) + 8;
+    const rank = { r: 3 };
+
+    tl.to(typing, {
+      n: text.length,
+      duration: 1.6,
+      ease: 'none',
+      onUpdate: () => {
+        if (q) q.textContent = text.slice(0, Math.round(typing.n));
+      },
+    });
+    tl.from(rows, { opacity: 0, x: -12, duration: 0.6, stagger: 0.12 }, 1.5);
+    // »Vaše podjetje« se povzpne s 4. na 1. mesto, ostali se pomaknejo navzdol
+    tl.to(rows[3], { y: () => 0, duration: 2.2, ease: 'power3.inOut' }, 2.6);
+    rows.slice(0, 3).forEach((row, i) => {
+      tl.to(row, { y: () => (i + 1) * step(), duration: 2.2, ease: 'power3.inOut' }, 2.6);
+    });
+    tl.to(
+      rank,
+      {
+        r: 0,
+        duration: 2.2,
+        ease: 'power3.inOut',
+        onUpdate: () => {
+          if (rankLabel) rankLabel.textContent = `${Math.round(rank.r) + 1}.`;
+        },
+      },
+      2.6,
+    );
+    // Začetni položaji (GSAP prevzame transform)
+    rows.forEach((row, i) => gsap.set(row, { y: i * step() }));
+    return tl;
+  }
+
+  function buildLeads(scene: HTMLElement) {
+    const tl = gsap.timeline({ paused: true, defaults: { ease: 'power3.out' } });
+    const count = scene.querySelector<HTMLElement>('[data-leads-count]');
+    const counter = { v: 0 };
+    tl.from(scene.querySelectorAll('.leads__chart i'), { scaleY: 0, duration: 1, stagger: 0.08 }, 0);
+    tl.to(
+      counter,
+      {
+        v: 27,
+        duration: 2.4,
+        ease: 'power1.inOut',
+        onUpdate: () => {
+          if (count) count.textContent = String(Math.round(counter.v));
+        },
+      },
+      0,
+    );
+    tl.from(scene.querySelectorAll('.note'), { opacity: 0, y: -16, duration: 0.7, stagger: 0.45 }, 0.4);
+    return tl;
+  }
+
+  if (root) onIdle(() => initPromises(root));
+
+  function initPromises(root: HTMLElement) {
+    const scenes = [...root.querySelectorAll<HTMLElement>('[data-scene]')];
+    const items = [...root.querySelectorAll<HTMLElement>('[data-promise]')];
+    const bar = root.querySelector<HTMLElement>('[data-promises-bar]');
+    const builders = [buildWeek, buildSearch, buildLeads];
+    const timelines = scenes.map((s, i) => builders[i](s));
+
+    const setActive = (idx: number) => {
+      scenes.forEach((s, i) => s.classList.toggle('is-active', i === idx));
+      items.forEach((it, i) => it.classList.toggle('is-active', i === idx));
+    };
+
+    if (reduceMotion) {
+      timelines.forEach((tl) => tl.progress(1));
+      setActive(0);
+      scenes.forEach((s) => s.classList.add('is-active'));
+      items.forEach((it) => it.classList.add('is-active'));
+    } else {
+      const mm = gsap.matchMedia();
+
+      mm.add('(min-width: 1025px)', () => {
+        setActive(0);
+        const n = scenes.length;
+        const st = ScrollTrigger.create({
+          trigger: root,
+          start: () => `top top+=${navOffset()}`,
+          end: 'bottom bottom',
+          onUpdate(self) {
+            const p = self.progress * n;
+            const idx = Math.min(n - 1, Math.floor(p));
+            const local = gsap.utils.clamp(0, 1, (p - idx) / 0.8);
+            setActive(idx);
+            timelines.forEach((tl, i) => tl.progress(i < idx ? 1 : i > idx ? 0 : local));
+            if (bar) bar.style.transform = `scaleY(${self.progress})`;
+          },
+        });
+        return () => st.kill();
+      });
+
+      mm.add('(max-width: 1024px)', () => {
+        scenes.forEach((s) => s.classList.add('is-active'));
+        items.forEach((it) => it.classList.add('is-active'));
+        const triggers = scenes.map((scene, i) =>
+          ScrollTrigger.create({
+            trigger: scene,
+            start: 'top 85%',
+            end: 'bottom 55%',
+            scrub: 0.6,
+            onUpdate: (self) => timelines[i].progress(self.progress),
+          }),
+        );
+        return () => triggers.forEach((t) => t.kill());
+      });
+    }
+  }
+</script>

@@ -1,0 +1,140 @@
+---
+/**
+ * Velik trak z besedilom (ScrollVelocity): hitrost in smer sledita drsenju.
+ * Okrasni element — vsebina je povzeta v sekcijah pod njim.
+ */
+import Icon from './ui/Icon.astro';
+
+const rows = [
+  { dir: 1, items: ['Spletna stran v enem tednu', 'Vidnost na spletu', 'Nove stranke', 'Brez skrbi'] },
+  { dir: -1, items: ['Oblikovanje', 'Razvoj', 'Gostovanje', 'Domene', 'SEO', 'Vzdrževanje'] },
+];
+---
+
+<div class="marquee" data-marquee aria-hidden="true">
+  {
+    rows.map((row, r) => (
+      <div class:list={['marquee__row', r === 1 && 'marquee__row--alt']} data-dir={row.dir}>
+        <div class="marquee__track">
+          {[0, 1].map(() => (
+            <div class="marquee__half">
+              {[...row.items, ...row.items].map((item) => (
+                <span class="marquee__item">
+                  {item}
+                  <Icon name="sparkle" class="marquee__star" />
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .marquee {
+    display: grid;
+    gap: clamp(4px, 1vw, 12px);
+    padding-block: clamp(40px, 7vw, 96px);
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .marquee__row {
+    display: flex;
+    overflow: hidden;
+  }
+
+  .marquee__track {
+    display: flex;
+    flex: none;
+    will-change: transform;
+  }
+
+  .marquee__half {
+    display: flex;
+    flex: none;
+  }
+
+  .marquee__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.32em;
+    padding-right: 0.32em;
+    font-family: var(--font-display);
+    font-size: clamp(3.25rem, 8.6vw, 8.75rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+    color: var(--text);
+  }
+
+  .marquee__row--alt .marquee__item {
+    font-style: italic;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(var(--text-rgb), 0.42);
+  }
+
+  .marquee__item :global(.marquee__star) {
+    width: 0.42em;
+    height: 0.42em;
+    color: var(--accent);
+  }
+
+  .marquee__row--alt .marquee__item :global(.marquee__star) {
+    color: var(--accent-ink);
+    opacity: 0.6;
+  }
+</style>
+
+<script>
+  import { gsap, ScrollTrigger, reduceMotion, onIdle } from '../scripts/motion';
+
+  if (!reduceMotion) onIdle(() => document.querySelectorAll<HTMLElement>('[data-marquee]').forEach(initMarquee));
+
+  function initMarquee(root: HTMLElement) {
+    const tweens = [...root.querySelectorAll<HTMLElement>('.marquee__row')].map((row) => {
+      const dir = Number(row.dataset.dir) || 1;
+      const track = row.querySelector('.marquee__track');
+      const tween = gsap.fromTo(
+        track,
+        { xPercent: dir > 0 ? 0 : -50 },
+        { xPercent: dir > 0 ? -50 : 0, duration: 46, ease: 'none', repeat: -1 },
+      );
+      // Prostor za vzvratno predvajanje (negativen timeScale)
+      tween.totalTime(tween.duration() * 500);
+      tween.pause();
+      return tween;
+    });
+
+    let base = 1;
+    let target = 1;
+    let current = 1;
+    const tick = () => {
+      target += (base - target) * 0.05;
+      current += (target - current) * 0.12;
+      tweens.forEach((t) => t.timeScale(current));
+    };
+
+    ScrollTrigger.create({
+      trigger: root,
+      start: 'top bottom',
+      end: 'bottom top',
+      onToggle(self) {
+        if (self.isActive) {
+          tweens.forEach((t) => t.resume());
+          gsap.ticker.add(tick);
+        } else {
+          tweens.forEach((t) => t.pause());
+          gsap.ticker.remove(tick);
+        }
+      },
+      onUpdate(self) {
+        base = self.direction;
+        const boost = gsap.utils.clamp(1, 6, 1 + Math.abs(self.getVelocity()) / 260);
+        target = boost * base;
+      },
+    });
+  }
+</script>

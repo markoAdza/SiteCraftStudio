@@ -1,0 +1,441 @@
+---
+import { PLANS, ZERO_PLAN } from '../data/pricing';
+import Icon from './ui/Icon.astro';
+import Button from './ui/Button.astro';
+---
+
+<section class="section section--paper sheet on-paper pricing" id="cenik" aria-labelledby="cenik-title">
+  <div class="container">
+    <header class="section-head section-head--split">
+      <p class="eyebrow"><b>(04)</b> Cenik</p>
+      <h2 class="h2" id="cenik-title" data-float>Izberite paket, ki <em>ustreza</em> vašemu podjetju.</h2>
+      <p class="lead" data-reveal>
+        Vsi paketi vključujejo izdelavo spletne strani, gostovanje, SSL, varnostne kopije in tehnično podporo. Ena
+        mesečna naročnina — brez presenečenj.
+      </p>
+    </header>
+
+    <div class="plans">
+      {
+        PLANS.map((plan, i) => (
+          <article
+            class:list={['plan', plan.featured && 'plan--featured']}
+            data-reveal
+            data-spotlight
+            style={`--d:${i}`}
+            aria-labelledby={`plan-${plan.id}`}
+          >
+            {plan.featured && <div class="plan__glow" aria-hidden="true" />}
+            {plan.featured && <span class="plan__badge">Najbolj priljubljeno</span>}
+            <header class="plan__head">
+              <h3 class="plan__name" id={`plan-${plan.id}`}>
+                {plan.name}
+              </h3>
+              <p class="plan__tagline">{plan.tagline}</p>
+            </header>
+            <p class="plan__price">
+              <span class="plan__amount">{plan.price} €</span>
+              <span class="plan__per">/ mesec</span>
+            </p>
+            <p class="plan__setup">{plan.setup}</p>
+            <p class="plan__desc">{plan.description}</p>
+            <hr class="plan__rule" />
+            {plan.includes && <p class="plan__includes">{plan.includes}</p>}
+            <ul class="plan__features">
+              {plan.features.map((f) => (
+                <li>
+                  <Icon name="check" />
+                  <span>{f}</span>
+                </li>
+              ))}
+            </ul>
+            <Button
+              href="#kontakt"
+              label={`Izberi ${plan.name}`}
+              variant={plan.featured ? 'primary' : 'ink'}
+              class="plan__cta"
+              data-plan={plan.id}
+              icon="arrow-right"
+              magnet={plan.featured}
+            />
+          </article>
+        ))
+      }
+    </div>
+
+    <article class="zero" data-reveal aria-labelledby="plan-zero">
+      <span class="zero__watermark" aria-hidden="true">0 €</span>
+      <div class="zero__intro">
+        <span class="zero__badge">{ZERO_PLAN.tagline}</span>
+        <h3 class="plan__name zero__name" id="plan-zero">{ZERO_PLAN.name}</h3>
+        <p class="zero__desc">{ZERO_PLAN.description}</p>
+      </div>
+      <div class="zero__price">
+        <p class="plan__price">
+          <span class="plan__amount">{ZERO_PLAN.price} €</span>
+          <span class="plan__per">/ mesec</span>
+        </p>
+        <p class="plan__setup">{ZERO_PLAN.setup}</p>
+      </div>
+      <div class="zero__side">
+        <p class="plan__includes">{ZERO_PLAN.includes}</p>
+        <ul class="plan__features zero__features">
+          {
+            ZERO_PLAN.features.map((f) => (
+              <li>
+                <Icon name="check" />
+                <span>{f}</span>
+              </li>
+            ))
+          }
+        </ul>
+        <Button
+          href="#kontakt"
+          label="Izberi BUSINESS ZERO"
+          variant="ink"
+          data-plan={ZERO_PLAN.id}
+          icon="arrow-right"
+          class="plan__cta"
+        />
+      </div>
+    </article>
+
+    <p class="pricing__note" data-reveal>
+      Niste prepričani, kateri paket je pravi? <a class="link" href="#kontakt">Pokličite ali pišite</a> — skupaj
+      izbereva najboljšo možnost za vaše podjetje.
+    </p>
+  </div>
+</section>
+
+<style>
+  .plans {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    align-items: stretch;
+  }
+
+  /* ================================================================ Plan */
+  .plan {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    flex-direction: column;
+    padding: clamp(24px, 2.4vw, 36px);
+    border-radius: var(--r-md);
+    border: 1px solid var(--paper-line);
+    background: var(--paper-2);
+    color: var(--ink);
+    transition: border-color 0.4s var(--ease-out);
+  }
+
+  .plan:hover {
+    border-color: var(--ink-3);
+  }
+
+  .plan__head {
+    display: grid;
+    gap: 6px;
+  }
+
+  .plan__name {
+    font: 600 0.8125rem / 1 var(--font-mono);
+    letter-spacing: 0.16em;
+  }
+
+  .plan__tagline {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.5rem;
+    line-height: 1.1;
+    color: var(--ink-2);
+  }
+
+  .plan__price {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-top: 28px;
+  }
+
+  .plan__amount {
+    font-family: var(--font-display);
+    font-size: clamp(3.5rem, 5vw, 4.75rem);
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+  }
+
+  .plan__per {
+    font-size: var(--fs-small);
+    color: var(--ink-3);
+  }
+
+  .plan__setup {
+    margin-top: 10px;
+    font: 500 var(--fs-label) / 1.4 var(--font-mono);
+    letter-spacing: 0.06em;
+    color: var(--ink-3);
+  }
+
+  .plan__desc {
+    margin-top: 18px;
+    color: var(--ink-2);
+  }
+
+  .plan__rule {
+    margin: 24px 0 20px;
+    border: 0;
+    border-top: 1px solid var(--paper-line);
+  }
+
+  .plan__includes {
+    margin-bottom: 12px;
+    font: 600 0.8125rem / 1.4 var(--font-sans);
+    color: var(--ink);
+  }
+
+  .plan__features {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 32px;
+  }
+
+  .plan__features li {
+    display: grid;
+    grid-template-columns: 18px 1fr;
+    gap: 10px;
+    font-size: 0.9375rem;
+    line-height: 1.45;
+    color: var(--ink-2);
+  }
+
+  .plan__features :global(.icon) {
+    width: 18px;
+    height: 18px;
+    margin-top: 1px;
+    color: var(--accent);
+  }
+
+  .plan :global(.plan__cta) {
+    margin-top: auto;
+    width: 100%;
+  }
+
+  /* ------------------------------------------------- Izpostavljen paket */
+  .plan--featured {
+    border-color: transparent;
+    background: var(--ink) padding-box;
+    color: var(--text);
+    box-shadow: var(--shadow-glow);
+  }
+
+  .plan--featured:hover {
+    border-color: transparent;
+  }
+
+  .plan--featured .plan__tagline,
+  .plan--featured .plan__desc,
+  .plan--featured .plan__features li {
+    color: var(--text-secondary);
+  }
+
+  .plan--featured .plan__per,
+  .plan--featured .plan__setup {
+    color: var(--text-tertiary);
+  }
+
+  .plan--featured .plan__includes {
+    color: var(--text);
+  }
+
+  .plan--featured .plan__rule {
+    border-color: var(--border-hover);
+  }
+
+  .plan--featured .plan__features :global(.icon) {
+    color: var(--accent-ink);
+  }
+
+  .plan--featured::before {
+    /* svetloba, ki sledi kazalcu */
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    opacity: 0;
+    background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 0%), rgba(var(--accent-rgb), 0.3), transparent 60%);
+    transition: opacity 0.4s var(--ease-out);
+  }
+
+  .plan--featured:hover::before {
+    opacity: 1;
+  }
+
+  .plan__glow {
+    position: absolute;
+    inset: -1px;
+    z-index: 1;
+    padding: 1px;
+    border-radius: inherit;
+    overflow: hidden;
+    pointer-events: none;
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+
+  .plan__glow::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 200%;
+    aspect-ratio: 1;
+    translate: -50% -50%;
+    background: conic-gradient(
+      from 0deg,
+      transparent 0deg,
+      transparent 230deg,
+      var(--accent) 290deg,
+      var(--accent-ink) 320deg,
+      transparent 360deg
+    );
+    animation: glow-spin 5s linear infinite;
+  }
+
+  @keyframes glow-spin {
+    to {
+      rotate: 360deg;
+    }
+  }
+
+  .plan__badge {
+    position: absolute;
+    top: -13px;
+    left: 50%;
+    translate: -50% 0;
+    z-index: 2;
+    padding: 7px 14px;
+    border-radius: var(--r-pill);
+    background: var(--accent);
+    color: var(--on-accent);
+    font: 600 0.6875rem / 1 var(--font-mono);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  @media (min-width: 1025px) {
+    .plan--featured {
+      translate: 0 -14px;
+    }
+  }
+
+  /* ================================================================ ZERO */
+  .zero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.8fr) minmax(0, 1fr);
+    gap: clamp(24px, 4vw, 64px);
+    align-items: center;
+    margin-top: 16px;
+    padding: clamp(24px, 3vw, 44px);
+    border-radius: var(--r-md);
+    border: 1px solid var(--ink);
+    background: var(--paper-2);
+  }
+
+  .zero__watermark {
+    position: absolute;
+    right: -0.04em;
+    bottom: -0.22em;
+    z-index: -1;
+    font-family: var(--font-display);
+    font-size: clamp(10rem, 22vw, 20rem);
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(var(--accent-rgb), 0.28);
+    pointer-events: none;
+  }
+
+  .zero__intro {
+    display: grid;
+    gap: 12px;
+    justify-items: start;
+  }
+
+  .zero__badge {
+    padding: 7px 12px;
+    border-radius: var(--r-pill);
+    background: var(--ink);
+    color: var(--paper);
+    font: 600 0.6875rem / 1 var(--font-mono);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .zero__name {
+    font-size: 0.9375rem;
+  }
+
+  .zero__desc {
+    max-width: 46ch;
+    color: var(--ink-2);
+  }
+
+  .zero__price .plan__price {
+    margin-top: 0;
+  }
+
+  .zero__side {
+    display: grid;
+    gap: 4px;
+  }
+
+  .zero__features {
+    margin-bottom: 20px;
+  }
+
+  .zero :global(.plan__cta) {
+    width: 100%;
+  }
+
+  .pricing__note {
+    margin-top: 40px;
+    text-align: center;
+    color: var(--ink-2);
+  }
+
+  /* ================================================================ Odzivnost */
+  @media (max-width: 1024px) {
+    .plans {
+      grid-template-columns: minmax(0, 1fr);
+      max-width: 580px;
+      margin-inline: auto;
+      gap: 28px;
+    }
+
+    .zero {
+      grid-template-columns: minmax(0, 1fr);
+      max-width: 580px;
+      margin: 28px auto 0;
+    }
+  }
+</style>
+
+<script>
+  // »Izberi paket« → v obrazcu vnaprej izbere paket (drsenje uredi motion.ts)
+  document.querySelectorAll<HTMLElement>('[data-plan]').forEach((el) => {
+    el.addEventListener('click', () => {
+      const select = document.querySelector<HTMLSelectElement>('#contact-plan');
+      if (!select || !el.dataset.plan) return;
+      select.value = el.dataset.plan;
+      select.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+  });
+</script>

@@ -1,0 +1,25 @@
+---
+/**
+ * Inline SVG ikona. Okrasne ikone so aria-hidden; če ikona nosi pomen, podaj `label`.
+ */
+import { ICONS, type IconName } from './icons';
+
+interface Props {
+  name: IconName;
+  class?: string;
+  label?: string;
+}
+
+const { name, class: className = '', label } = Astro.props;
+const body = ICONS[name];
+---
+
+<svg
+  class:list={['icon', className]}
+  viewBox="0 0 24 24"
+  aria-hidden={label ? undefined : 'true'}
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  focusable="false"
+  set:html={body}
+></svg>

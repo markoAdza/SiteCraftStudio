@@ -1,0 +1,132 @@
+/* ==========================================================================
+   Design tokens — vir resnice je DESIGN.md (poglavja 2, 3, 5, 6, 7).
+   V komponentah NI hex vrednosti: vse gre skozi te spremenljivke.
+   ========================================================================== */
+
+:root {
+  /* Backgrounds */
+  --bg: #0a0a0b;
+  --surface: #121214;
+  --surface-alt: #18181b;
+  --surface-hover: #1f1f23;
+  --paper: #e9e9ec;
+  --paper-2: #f4f4f6;
+
+  /* Borders */
+  --border: #26262b;
+  --border-hover: #3a3a42;
+  --paper-line: #cbcbd3;
+
+  /* Text (temna podlaga) */
+  --text: #f2f2f3;
+  --text-secondary: #a1a1aa;
+  --text-tertiary: #85858f;
+
+  /* Text (papir) */
+  --ink: #0a0a0b;
+  --ink-2: #3f3f46;
+  --ink-3: #5f5f68;
+
+  /* Accent — ultramarin */
+  --accent: #2340f5;
+  --accent-hover: #3a55ff;
+  --accent-press: #1a31c9;
+  --accent-ink: #8fa2ff;
+  --accent-deep: #0b1240;
+  --on-accent: #ffffff;
+  --on-accent-2: rgba(255, 255, 255, 0.82);
+
+  /* RGB variants */
+  --bg-rgb: 10, 10, 11;
+  --paper-rgb: 233, 233, 236;
+  --text-rgb: 242, 242, 243;
+  --accent-rgb: 35, 64, 245;
+  --accent-ink-rgb: 143, 162, 255;
+  --black-rgb: 0, 0, 0;
+  --white-rgb: 255, 255, 255;
+
+  /* Semantic */
+  --success: #3ddc97;
+  --success-rgb: 61, 220, 151;
+  --error: #ff6b6b;
+  --warning: #ffb547;
+  --success-ink: #0f7a4a;
+  --error-ink: #c62828;
+
+  /* Project brand tokens — samo znotraj kartic projektov */
+  --lan-ink: #1c1c1c;
+  --lan-ink-2: #262626;
+  --lan-sun: #f9cd1e;
+  --lan-cream: #f7f3e7;
+  --ahil-ink: #0b0b0a;
+  --ahil-ink-rgb: 11, 11, 10;
+  --ahil-chalk-rgb: 236, 235, 230;
+  --ahil-chalk: #ecebe6;
+  --ahil-bronze: #b08d57;
+  --ahil-gold: #d6aa6c;
+  --ahil-deep: #7a5c33;
+  --ahil-dim: #1e1912;
+  --ahil-patina-1: #5a4426;
+  --ahil-patina-2: #9c7a49;
+  --ahil-patina-3: #3a2c18;
+  --ahil-patina-4: #161310;
+  --bmb-paper: #f6f1e7;
+  --bmb-paper-deep: #ebe3d4;
+  --bmb-ink: #16130f;
+  --bmb-olive: #33452f;
+  --bmb-terracotta: #c2703a;
+  --bmb-clay: #a2422f;
+  --bmb-straw: #d8be86;
+
+  /* Typography */
+  --font-display: 'Instrument Serif', 'Times New Roman', Georgia, serif;
+  --font-sans: 'Geist Variable', 'Geist', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+
+  --fs-display: clamp(2.6rem, 5.4vw, 5.75rem);
+  --fs-h2: clamp(2.5rem, 5vw, 4.75rem);
+  --fs-h3: clamp(1.9rem, 3vw, 3.25rem);
+  --fs-h4: clamp(1.125rem, 1.3vw, 1.25rem);
+  --fs-body-l: clamp(1.0625rem, 1.2vw, 1.25rem);
+  --fs-body: 1rem;
+  --fs-small: 0.875rem;
+  --fs-label: 0.75rem;
+
+  /* Wordmark: širina besedila »Site Craft Studio.« v em (izmerjeno s Playwright) */
+  --wm-ratio: 5.12;
+  /* Hero: črke so ločeni elementi (brez kerninga) → nekoliko širše */
+  --wm-ratio-split: 5.16;
+  --wm-ratio-split-2l: 2.84;
+
+  /* Layout */
+  --container: 1440px;
+  --gutter: clamp(16px, 2.4vw, 32px);
+  --section-y: clamp(88px, 12vw, 168px);
+  --nav-h-top: 72px;
+  --nav-h-strip: 34px;
+  --nav-h: calc(var(--nav-h-top) + var(--nav-h-strip));
+
+  /* Radii */
+  --r-xs: 4px;
+  --r-sm: 6px;
+  --r-md: 10px;
+  --r-lg: 20px;
+  --r-pill: 999px;
+
+  /* Elevation */
+  --shadow-raised: inset 0 1px 0 rgba(var(--white-rgb), 0.04), 0 20px 40px -20px rgba(var(--black-rgb), 0.6);
+  --shadow-glow: 0 0 0 1px rgba(var(--accent-rgb), 0.5), 0 24px 80px -24px rgba(var(--accent-rgb), 0.55);
+  --shadow-curtain: 0 -18px 44px rgba(var(--black-rgb), 0.2);
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quart: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-slide: cubic-bezier(0.62, 0.05, 0.14, 1);
+}
+
+@media (max-width: 1024px) {
+  :root {
+    --nav-h-top: 60px;
+    --nav-h-strip: 30px;
+  }
+}

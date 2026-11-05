@@ -1,0 +1,111 @@
+---
+/**
+ * Bistro Bombina — uvodni prizor s strani: fotografija krožnika levo,
+ * papir z raztrganim robom (TornEdge iz Bombine) z logotipom desno.
+ * Statičen vizual, kot pri ostalih projektih.
+ */
+import { Image } from 'astro:assets';
+import heroPlate from '../../assets/work/bmb-hero-plate.webp';
+import wordmark from '../../assets/work/bmb-wordmark.png';
+---
+
+<div class="bmb" aria-hidden="true">
+  <div class="bmb__photo">
+    <Image src={heroPlate} alt="" widths={[400, 640]} sizes="320px" loading="lazy" />
+  </div>
+  <div class="bmb__paper">
+    <span class="bmb__kicker">Trbovlje · Zasavje</span>
+    <Image class="bmb__wordmark" src={wordmark} alt="" width={420} loading="lazy" />
+    <p class="bmb__lead">Majhna restavracija s preprosto, a kakovostno kuhinjo.</p>
+    <span class="bmb__btn">Rezerviraj mizo</span>
+  </div>
+</div>
+
+<style>
+  .bmb {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: var(--bmb-paper);
+    color: var(--bmb-ink);
+  }
+
+  .bmb__photo {
+    position: absolute;
+    inset: 0 46% 0 0;
+    overflow: hidden;
+  }
+
+  .bmb__photo :global(img) {
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Papir z raztrganim levim robom (TornEdge iz Bombine) */
+  .bmb__paper {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 52%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 12px;
+    padding: 24px 20px 48px 34px;
+    background: var(--bmb-paper);
+    clip-path: polygon(
+      4% 0,
+      100% 0,
+      100% 100%,
+      3% 100%,
+      5% 95%,
+      2% 90%,
+      4.5% 84%,
+      1.5% 78%,
+      4% 71%,
+      2% 64%,
+      5% 57%,
+      2.5% 50%,
+      4% 43%,
+      1% 36%,
+      4.5% 29%,
+      2% 22%,
+      5% 15%,
+      2.5% 8%
+    );
+  }
+
+  .bmb__kicker {
+    font: 600 0.5625rem / 1 var(--font-sans);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--bmb-clay);
+  }
+
+  .bmb__paper :global(.bmb__wordmark) {
+    width: 82%;
+    height: auto;
+  }
+
+  .bmb__lead {
+    font-family: var(--font-display);
+    font-size: clamp(0.95rem, 1.4vw, 1.25rem);
+    line-height: 1.2;
+  }
+
+  .bmb__btn {
+    align-self: flex-start;
+    padding: 7px 12px;
+    border-radius: var(--r-pill);
+    background: var(--bmb-clay);
+    color: var(--bmb-paper);
+    font: 600 0.5625rem / 1 var(--font-sans);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+</style>

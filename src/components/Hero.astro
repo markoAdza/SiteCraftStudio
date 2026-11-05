@@ -1,0 +1,417 @@
+---
+/**
+ * HERO (YAUYA): 100svh, celozaslonsko ozadje (tu: WebGL svila), črn gradient
+ * spodaj in ogromen wordmark čez celo širino ob spodnjem robu.
+ * Hero je sticky »zavesa« — vsebina strani zdrsne čezenj.
+ */
+const lines = ['Site Craft', 'Studio.'];
+let index = 0;
+// Vsaka črka v svojem elementu (maska za razkritje). Druga vrstica dobi vodilni
+// presledek, ki je na mobilnem (dve vrstici) skrit.
+const split = lines.map((line, li) =>
+  [...(li > 0 ? ' ' : '') + line].map((ch, ci) => ({
+    ch,
+    i: ch === ' ' ? -1 : index++,
+    dot: ch === '.',
+    lead: li > 0 && ci === 0,
+  })),
+);
+---
+
+<div class="hero-wrap" id="top">
+  <header class="hero" data-hero>
+    <div class="hero__bg" aria-hidden="true">
+      <canvas class="hero__gl" data-hero-gl></canvas>
+      <div class="hero__shade"></div>
+      <div class="hero__dim" data-hero-dim></div>
+    </div>
+
+    <div class="hero__inner" data-hero-inner>
+      <div class="hero__top">
+        <p class="hero__label">Izdelava spletnih strani</p>
+        <p class="hero__label hero__label--right">
+          <span class="hero__pulse" aria-hidden="true"></span>Spletna stran v enem tednu
+        </p>
+      </div>
+
+      <div class="hero__bottom">
+        <div class="hero__row">
+          <a class="hero__scroll" href="#kaj-delam">
+            <span>Podrsajte</span>
+            <span class="hero__scroll-line" aria-hidden="true"></span>
+          </a>
+        </div>
+
+        <h1 class="wm">
+          <span class="sr-only">Site Craft Studio — izdelava spletnih strani za podjetja</span>
+          <span class="wm__visual" aria-hidden="true">
+            {
+              split.map((line) => (
+                <span class="wm__line">
+                  {line.map(({ ch, i, dot, lead }) =>
+                    ch === ' ' ? (
+                      <span class:list={['wm__space', lead && 'wm__space--lead']}>{' '}</span>
+                    ) : (
+                      <span class:list={['wm__ch', dot && 'wm__dot']} style={`--i:${i}`}>
+                        <span>{ch}</span>
+                      </span>
+                    ),
+                  )}
+                </span>
+              ))
+            }
+          </span>
+        </h1>
+      </div>
+    </div>
+  </header>
+</div>
+
+<style>
+  .hero-wrap {
+    position: relative;
+    z-index: 1;
+    height: 200svh;
+    margin-bottom: -100svh;
+  }
+
+  .hero {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    min-height: 560px;
+    overflow: hidden;
+    isolation: isolate;
+    color: var(--text);
+  }
+
+  /* --------------------------------------------------------- Ozadje */
+  .hero__bg {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(55% 65% at 76% 22%, rgba(var(--accent-rgb), 0.42), transparent 70%),
+      radial-gradient(35% 40% at 88% 8%, rgba(var(--accent-ink-rgb), 0.2), transparent 70%),
+      radial-gradient(70% 60% at 30% 80%, rgba(var(--accent-rgb), 0.08), transparent 70%),
+      var(--bg);
+  }
+
+  .hero__gl {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1.6s var(--ease-out);
+  }
+
+  .hero__gl:global(.is-ready) {
+    opacity: 1;
+  }
+
+  /* YAUYA: črn gradient čez spodnjih ~40 % za berljiv wordmark */
+  .hero__shade {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(0deg, rgba(var(--black-rgb), 0.96) 0%, rgba(var(--black-rgb), 0.55) 24%, transparent 50%),
+      linear-gradient(180deg, rgba(var(--black-rgb), 0.45) 0%, transparent 18%);
+  }
+
+  .hero__dim {
+    position: absolute;
+    inset: 0;
+    background: var(--bg);
+    opacity: 0;
+  }
+
+  /* --------------------------------------------------------- Vsebina */
+  .hero__inner {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: var(--gutter);
+    padding-bottom: clamp(18px, 2.2vw, 30px);
+  }
+
+  .hero__top {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .hero__label {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font: 500 var(--fs-label) / 1.3 var(--font-mono);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+  }
+
+  .hero__pulse {
+    position: relative;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent-ink);
+  }
+
+  /* Utrip samo s transform/opacity (compositor) */
+  .hero__pulse::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: var(--accent-ink);
+    animation: pulse 2.4s var(--ease-out) infinite;
+  }
+
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+      opacity: 0.55;
+    }
+    70%,
+    100% {
+      transform: scale(3.6);
+      opacity: 0;
+    }
+  }
+
+  .hero__bottom {
+    container-type: inline-size;
+  }
+
+  .hero__row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    gap: 24px;
+    margin-bottom: clamp(12px, 2vw, 28px);
+  }
+
+  .hero__scroll {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    min-width: 44px;
+    padding: 6px;
+    font: 500 var(--fs-label) / 1 var(--font-mono);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    transition: color 0.3s var(--ease-out);
+  }
+
+  .hero__scroll:hover {
+    color: var(--text);
+  }
+
+  .hero__scroll-line {
+    position: relative;
+    width: 1px;
+    height: 56px;
+    overflow: hidden;
+    background: rgba(var(--white-rgb), 0.18);
+  }
+
+  .hero__scroll-line::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1px;
+    height: 40%;
+    background: var(--text);
+    animation: scroll-line 2.2s var(--ease-in-out-quart) infinite;
+  }
+
+  @keyframes scroll-line {
+    0% {
+      transform: translateY(-100%);
+    }
+    100% {
+      transform: translateY(260%);
+    }
+  }
+
+  /* --------------------------------------------------------- Wordmark */
+  .wm {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: calc(100cqw / var(--wm-ratio-split));
+    line-height: 0.82;
+    letter-spacing: -0.035em;
+    color: var(--text);
+    white-space: nowrap;
+    text-shadow: 0 0 40px rgba(var(--accent-rgb), 0.35);
+  }
+
+  /* Flex: prazni znaki iz markupa med elementi se ne izrišejo (natančna širina) */
+  .wm__visual {
+    display: flex;
+    flex-wrap: nowrap;
+  }
+
+  .wm__line {
+    display: flex;
+  }
+
+  .wm__ch {
+    display: inline-block;
+    line-height: 1.02;
+    padding-top: 0.04em;
+    clip-path: inset(-30% -20% 0 -20%);
+  }
+
+  .wm__ch > span {
+    display: inline-block;
+  }
+
+  .wm__dot > span {
+    color: var(--accent);
+  }
+
+  /* Uvodna animacija (CSS — ne potrebuje JS knjižnice) */
+  :global(.js) .wm__ch > span {
+    transform: translate3d(0, 108%, 0);
+  }
+
+  :global(.js.fonts-ready) .wm__ch > span {
+    animation: wm-in 1.15s var(--ease-out) forwards;
+    animation-delay: calc(var(--i) * 30ms + 80ms);
+  }
+
+  :global(.js.fonts-ready) .wm__dot > span {
+    animation:
+      wm-in 1.15s var(--ease-out) forwards,
+      wm-blink 0.5s steps(1, end) 4;
+    animation-delay:
+      calc(var(--i) * 30ms + 80ms),
+      calc(var(--i) * 30ms + 1150ms);
+  }
+
+  @keyframes wm-in {
+    from {
+      transform: translate3d(0, 108%, 0);
+    }
+    to {
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes wm-blink {
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  :global(.js) .hero__top,
+  :global(.js) .hero__row {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+  }
+
+  :global(.js.fonts-ready) .hero__top,
+  :global(.js.fonts-ready) .hero__row {
+    animation: hero-fade 1.2s var(--ease-out) forwards;
+  }
+
+  :global(.js.fonts-ready) .hero__top {
+    animation-delay: 0.35s;
+  }
+
+  :global(.js.fonts-ready) .hero__row {
+    animation-delay: 0.6s;
+  }
+
+  @keyframes hero-fade {
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* --------------------------------------------------------- Mobilno */
+  @media (max-width: 640px) {
+    .wm {
+      font-size: calc(100cqw / var(--wm-ratio-split-2l));
+    }
+
+    .wm__visual {
+      flex-direction: column;
+    }
+
+    .wm__line + .wm__line {
+      margin-top: -0.16em;
+    }
+
+    .wm__space--lead {
+      display: none;
+    }
+
+    /* Edini element vrstice (»Podrsajte«) je na mobilnem skrit */
+    .hero__row {
+      display: none;
+    }
+
+    .hero__top {
+      flex-direction: column;
+      gap: 8px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(.js) .wm__ch > span,
+    :global(.js) .hero__top,
+    :global(.js) .hero__row {
+      transform: none;
+      opacity: 1;
+    }
+  }
+</style>
+
+<script>
+  import { gsap, reduceMotion, onIdle } from '../scripts/motion';
+  import { initHeroShader } from '../scripts/hero-shader';
+
+  const canvas = document.querySelector<HTMLCanvasElement>('[data-hero-gl]');
+  const host = document.querySelector<HTMLElement>('[data-hero]');
+
+  // Shader zaženemo ob prvi interakciji (premik miške, dotik, drsenje, tipka) ali najkasneje
+  // 3,5 s po nalaganju — CSS gradient je viden takoj, svila se nato mehko pojavi.
+  if (canvas && host) {
+    let started = false;
+    const events = ['pointermove', 'pointerdown', 'touchstart', 'wheel', 'keydown', 'scroll'] as const;
+    const start = () => {
+      if (started) return;
+      started = true;
+      events.forEach((e) => window.removeEventListener(e, start));
+      onIdle(() => {
+        const ok = initHeroShader(canvas, host, reduceMotion);
+        if (!ok) canvas.remove();
+      }, 400);
+    };
+    events.forEach((e) => window.addEventListener(e, start, { passive: true, once: true }));
+    onIdle(() => window.setTimeout(start, 3500));
+  }
+
+  if (!reduceMotion) {
+    // Zavesa: ko vsebina zdrsne čez hero, se ta rahlo dvigne in zatemni
+    gsap
+      .timeline({
+        scrollTrigger: { trigger: '.hero-wrap', start: 'top top', end: '+=100%', scrub: true },
+      })
+      .to('[data-hero-inner]', { yPercent: -9, ease: 'none' }, 0)
+      .to('[data-hero-dim]', { opacity: 0.82, ease: 'none' }, 0);
+  }
+</script>

@@ -1,0 +1,316 @@
+---
+/**
+ * Projekti — YAUYA »sladice«: navpičen sklad kartic, vsaka je
+ * position: sticky z `top` za 25 px večjim od prejšnje. Desna polovica
+ * vsake kartice je živ element s predstavljene strani.
+ */
+import { PROJECTS } from '../data/projects';
+import PinnedTitle from './PinnedTitle.astro';
+import Button from './ui/Button.astro';
+import LanSeal from './projects/LanSeal.astro';
+import AhilHelmet from './projects/AhilHelmet.astro';
+import BombinaChapters from './projects/BombinaChapters.astro';
+import InternalDashboard from './projects/InternalDashboard.astro';
+
+const total = String(PROJECTS.length).padStart(2, '0');
+---
+
+<PinnedTitle
+  id="projekti"
+  num="06"
+  label="Projekti"
+  tone="dark"
+  sub="Izbor javnih projektov. Vsaka kartica skriva košček prave strani — v živo."
+>
+  Strani, ki že <em>delajo</em> za svoje lastnike.
+</PinnedTitle>
+
+<section class="stack" aria-label="Izbrani projekti">
+  <div class="stack__inner container">
+    {
+      PROJECTS.map((p, i) => (
+        <article
+          class:list={['pcard', p.featured && 'pcard--featured', `pcard--${p.id}`]}
+          style={`--i:${i}`}
+          data-pcard
+          aria-labelledby={`pcard-${p.id}`}
+        >
+          <div class="pcard__info">
+            <div class="pcard__top">
+              <span class="pcard__index">
+                {String(i + 1).padStart(2, '0')} / {total}
+              </span>
+              {p.featured && <span class="pcard__badge">Izpostavljen projekt</span>}
+            </div>
+
+            <div class="pcard__main">
+              <p class="pcard__meta">{p.meta}</p>
+              <h3 class="h3 pcard__title" id={`pcard-${p.id}`}>
+                {p.title}
+              </h3>
+              <p class="pcard__desc">{p.description}</p>
+              <ul class="pcard__tags">
+                {p.tags.map((t) => (
+                  <li class="chip">{t}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div class="pcard__actions">
+              {p.url ? (
+                <Button href={p.url} external label="Obišči stran" icon="arrow-up-right" variant="ink" />
+              ) : (
+                <Button href="#kontakt" label="Povprašajte za rešitev" icon="arrow-right" variant="ink" />
+              )}
+            </div>
+          </div>
+
+          <div class="pcard__visual" data-inview>
+            {p.id === 'lan' && <LanSeal />}
+            {p.id === 'ahil' && <AhilHelmet />}
+            {p.id === 'bombina' && <BombinaChapters />}
+            {p.id === 'internal' && <InternalDashboard />}
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .stack {
+    position: relative;
+    z-index: 1;
+    padding-block: clamp(48px, 6vw, 88px) var(--section-y);
+    background: var(--bg);
+    border-radius: var(--r-lg) var(--r-lg) 0 0;
+    border-top: 1px solid var(--border);
+    box-shadow: var(--shadow-curtain);
+  }
+
+  .stack__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* =============================================================== Kartica */
+  .pcard {
+    position: sticky;
+    top: calc(var(--nav-h) + 24px + var(--i) * 25px);
+    z-index: calc(var(--i) + 1);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr);
+    gap: clamp(20px, 2.4vw, 32px);
+    width: min(1180px, 100%);
+    height: min(66svh, 640px);
+    min-height: 460px;
+    margin-bottom: 30px;
+    padding: clamp(18px, 2vw, 28px);
+    border-radius: var(--r-sm);
+    border: 1px solid var(--paper-line);
+    background: var(--paper-2);
+    color: var(--ink);
+    box-shadow: var(--shadow-raised);
+    transform-origin: 50% 0;
+  }
+
+  .pcard--featured {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.2fr);
+    border-color: var(--accent);
+    box-shadow:
+      0 0 0 1px var(--accent),
+      var(--shadow-glow);
+  }
+
+  .pcard__info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+    min-width: 0;
+    padding: 6px 8px 6px 6px;
+  }
+
+  .pcard__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .pcard__index {
+    font: 500 var(--fs-label) / 1 var(--font-mono);
+    letter-spacing: 0.12em;
+    color: var(--ink-3);
+  }
+
+  .pcard__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 12px;
+    border-radius: var(--r-pill);
+    background: var(--accent);
+    color: var(--on-accent);
+    font: 600 0.6875rem / 1 var(--font-mono);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .pcard__main {
+    display: grid;
+    gap: 14px;
+  }
+
+  .pcard__meta {
+    font: 500 var(--fs-label) / 1.3 var(--font-mono);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .pcard__title {
+    font-size: clamp(2.25rem, 4vw, 3.75rem);
+  }
+
+  .pcard__desc {
+    max-width: 48ch;
+    color: var(--ink-2);
+  }
+
+  .pcard__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .pcard__tags :global(.chip) {
+    border-color: var(--paper-line);
+    color: var(--ink-2);
+  }
+
+  .pcard__visual {
+    position: relative;
+    min-height: 0;
+    overflow: hidden;
+    border-radius: var(--r-xs);
+    border: 1px solid var(--paper-line);
+    background: var(--ink);
+  }
+
+  /* =============================================================== Odzivnost */
+  @media (max-width: 1024px) {
+    .pcard,
+    .pcard--featured {
+      top: calc(var(--nav-h) + 16px + var(--i) * 15px);
+      width: 100%;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+
+    .pcard__tags {
+      display: none;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .pcard,
+    .pcard--featured {
+      top: calc(var(--nav-h) + 10px + var(--i) * 10px);
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: minmax(0, 46%) minmax(0, 1fr);
+      height: min(80svh, 700px);
+      min-height: 0;
+      gap: 14px;
+      padding: 12px;
+    }
+
+    .pcard__visual {
+      grid-row: 1;
+    }
+
+    .pcard__info {
+      grid-row: 2;
+      gap: 12px;
+      padding: 2px 4px 4px;
+    }
+
+    .pcard__main {
+      gap: 8px;
+    }
+
+    .pcard__title {
+      font-size: clamp(1.9rem, 8vw, 2.5rem);
+    }
+
+    .pcard__desc {
+      font-size: 0.9375rem;
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .pcard__actions :global(.btn) {
+      width: 100%;
+    }
+  }
+</style>
+
+<script>
+  import { gsap, reduceMotion, canHover, navOffset, onIdle } from '../scripts/motion';
+
+  const cards = [...document.querySelectorAll<HTMLElement>('[data-pcard]')];
+
+  if (!reduceMotion && cards.length) onIdle(initProjects);
+
+  function initProjects() {
+    // Kartica se rahlo pomanjša, ko jo prekrije naslednja (globina sklada)
+    cards.forEach((card, i) => {
+      const next = cards[i + 1];
+      if (!next) return;
+      gsap.to(card, {
+        scale: 0.94 + i * 0.012,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: next,
+          start: 'top bottom',
+          end: () => `top top+=${navOffset() + 24 + (i + 1) * 25}`,
+          scrub: true,
+        },
+      });
+    });
+
+    // Ahil: paralaksa — ozadje (0,14) se premika hitreje kot čelada (0,06)
+    const ahil = document.querySelector<HTMLElement>('[data-ahil]');
+    if (ahil) {
+      const stack = ahil.closest('.stack') ?? ahil;
+      const bg = ahil.querySelector('[data-ahil-bg]');
+      const helmet = ahil.querySelector<HTMLElement>('[data-ahil-helmet]');
+      const tl = gsap.timeline({
+        scrollTrigger: { trigger: stack, start: 'top bottom', end: 'bottom top', scrub: true },
+      });
+      tl.fromTo(bg, { yPercent: -9 }, { yPercent: 9, ease: 'none' }, 0);
+      tl.fromTo(helmet, { yPercent: 6 }, { yPercent: -6, ease: 'none' }, 0);
+
+      // Rahel nagib čelade proti kazalcu
+      if (canHover && helmet) {
+        const card = ahil.closest<HTMLElement>('.pcard') ?? ahil;
+        const rx = gsap.quickTo(helmet, 'rotationY', { duration: 0.8, ease: 'power3.out' });
+        const ry = gsap.quickTo(helmet, 'rotationX', { duration: 0.8, ease: 'power3.out' });
+        gsap.set(helmet, { transformPerspective: 900 });
+        card.addEventListener('pointermove', (e) => {
+          const r = ahil.getBoundingClientRect();
+          rx(((e.clientX - r.left) / r.width - 0.5) * 16);
+          ry(-((e.clientY - r.top) / r.height - 0.5) * 10);
+        });
+        card.addEventListener('pointerleave', () => {
+          rx(0);
+          ry(0);
+        });
+      }
+    }
+  }
+</script>

@@ -1,0 +1,176 @@
+---
+/**
+ * Ahil fitnes — bronasta Ahilova čelada (vektorska sled iz originalnega
+ * logotipa, gradient + zrnatost kot v HelmetMark.tsx) s paralakso:
+ * ozadje se premika hitreje (0,14) kot čelada (0,06), kot na ahilfitnes.vercel.app.
+ */
+import { Image } from 'astro:assets';
+import hero from '../../assets/work/ahil-hero-gray.jpg';
+import helmetRaw from '../../assets/work/ahil-helmet.svg?raw';
+
+const d = helmetRaw.match(/\sd="([^"]+)"/)?.[1] ?? '';
+---
+
+<div class="ahil" data-ahil aria-hidden="true">
+  <div class="ahil__bg" data-ahil-bg>
+    <Image src={hero} alt="" widths={[640, 960, 1280]} sizes="(max-width: 640px) 92vw, 620px" loading="lazy" />
+  </div>
+  <div class="ahil__tint"></div>
+  <div class="ahil__vignette"></div>
+
+  <div class="ahil__helmet" data-ahil-helmet>
+    <svg viewBox="312 32 1068 1475" focusable="false">
+      <defs>
+        <linearGradient id="ahil-bronze" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" style="stop-color: var(--ahil-dim)"></stop>
+          <stop offset="0.22" style="stop-color: var(--ahil-patina-1)"></stop>
+          <stop offset="0.42" style="stop-color: var(--ahil-bronze)"></stop>
+          <stop offset="0.5" style="stop-color: var(--ahil-gold)"></stop>
+          <stop offset="0.6" style="stop-color: var(--ahil-patina-2)"></stop>
+          <stop offset="0.82" style="stop-color: var(--ahil-patina-3)"></stop>
+          <stop offset="1" style="stop-color: var(--ahil-patina-4)"></stop>
+        </linearGradient>
+        <filter id="ahil-grain" x="0" y="0" width="100%" height="100%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="2" stitchTiles="stitch" result="noise"
+          ></feTurbulence>
+          <feColorMatrix in="noise" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.4 0" result="specks"
+          ></feColorMatrix>
+          <feComposite in="specks" in2="SourceGraphic" operator="in" result="grain"></feComposite>
+          <feMerge>
+            <feMergeNode in="SourceGraphic"></feMergeNode>
+            <feMergeNode in="grain"></feMergeNode>
+          </feMerge>
+        </filter>
+      </defs>
+      <path fill-rule="evenodd" fill="url(#ahil-bronze)" filter="url(#ahil-grain)" d={d}></path>
+    </svg>
+  </div>
+
+  <div class="ahil__type">
+    <span class="ahil__eyebrow"><i></i> Odprto 24/7 · vse dni v letu</span>
+    <span class="ahil__word">
+      <span class="ahil__mega">AHIL</span><span class="ahil__script">fitnes</span>
+    </span>
+    <span class="ahil__sub">Fitnes v Hrastniku, Trbovljah in Sevnici.</span>
+  </div>
+</div>
+
+<style>
+  .ahil {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    isolation: isolate;
+    background: var(--ahil-ink);
+    color: var(--ahil-chalk);
+  }
+
+  .ahil__bg {
+    position: absolute;
+    inset: -12% 0;
+    z-index: -3;
+  }
+
+  .ahil__bg :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.42;
+  }
+
+  .ahil__tint {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background: var(--ahil-deep);
+    opacity: 0.35;
+    mix-blend-mode: color;
+  }
+
+  .ahil__vignette {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(110% 80% at 72% 38%, transparent, rgba(var(--ahil-ink-rgb), 0.55) 55%, var(--ahil-ink)),
+      linear-gradient(0deg, var(--ahil-ink) 0%, transparent 35%);
+  }
+
+  .ahil__helmet {
+    position: absolute;
+    right: -7%;
+    bottom: -6%;
+    height: 94%;
+    aspect-ratio: 1068 / 1475;
+    will-change: transform;
+  }
+
+  .ahil__helmet svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .ahil__type {
+    position: absolute;
+    left: clamp(18px, 2.4vw, 32px);
+    bottom: clamp(18px, 2.4vw, 32px);
+    display: grid;
+    gap: 10px;
+    max-width: 62%;
+  }
+
+  .ahil__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font: 600 0.625rem / 1 var(--font-sans);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .ahil__eyebrow i {
+    width: 6px;
+    height: 6px;
+    background: var(--ahil-gold);
+  }
+
+  .ahil__word {
+    display: flex;
+    align-items: baseline;
+    gap: 0.04em;
+  }
+
+  .ahil__mega {
+    font: 900 clamp(3.5rem, 7.4vw, 6.5rem) / 0.8 var(--font-sans);
+    letter-spacing: -0.06em;
+    transform: scaleX(0.82);
+    transform-origin: left bottom;
+    margin-right: -0.18em;
+    color: var(--ahil-chalk);
+  }
+
+  .ahil__script {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(2.25rem, 4.6vw, 4rem);
+    line-height: 0.7;
+    color: var(--ahil-gold);
+  }
+
+  .ahil__sub {
+    font-size: 0.8125rem;
+    color: rgba(var(--ahil-chalk-rgb), 0.75);
+  }
+
+  @media (max-width: 640px) {
+    .ahil__helmet {
+      right: -18%;
+      opacity: 0.85;
+    }
+
+    .ahil__type {
+      max-width: 80%;
+    }
+  }
+</style>

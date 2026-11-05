@@ -1,0 +1,76 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import Button from '../components/ui/Button.astro';
+---
+
+<Base
+  title="404 — Stran ne obstaja · Site Craft Studio."
+  description="Strani, ki jo iščete, ni (več). Vrnite se na prvo stran Site Craft Studio."
+  path="/404/"
+  noindex
+>
+  <div class="page">
+    <Nav home={false} />
+    <main id="vsebina" class="nf">
+      <div class="container nf__inner">
+        <p class="eyebrow"><b>(404)</b> Napaka</p>
+        <h1 class="nf__code">404<span>.</span></h1>
+        <p class="nf__text">
+          Te strani ni — morda se je preselila ali pa še nastaja. Dobra novica: novo spletno stran za vaše podjetje lahko izdelam v enem tednu.
+        </p>
+        <div class="nf__actions">
+          <Button href="/" label="Na prvo stran" icon="arrow-right" magnet />
+          <Button href="/#kontakt" label="Kontakt" variant="ghost" />
+        </div>
+      </div>
+    </main>
+  </div>
+  <Footer home={false} />
+</Base>
+
+<style>
+  .nf {
+    position: relative;
+    z-index: 1;
+    min-height: calc(100svh - var(--nav-h));
+    display: grid;
+    align-items: center;
+    padding-block: 80px;
+    background:
+      radial-gradient(50% 60% at 80% 20%, rgba(var(--accent-rgb), 0.28), transparent 70%),
+      var(--bg);
+    border-radius: 0 0 var(--r-lg) var(--r-lg);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nf__inner {
+    display: grid;
+    gap: 24px;
+    justify-items: start;
+  }
+
+  .nf__code {
+    font-family: var(--font-display);
+    font-size: clamp(8rem, 26vw, 22rem);
+    line-height: 0.8;
+    letter-spacing: -0.04em;
+  }
+
+  .nf__code span {
+    color: var(--accent);
+  }
+
+  .nf__text {
+    max-width: 48ch;
+    font-size: var(--fs-body-l);
+    color: var(--text-secondary);
+  }
+
+  .nf__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+</style>

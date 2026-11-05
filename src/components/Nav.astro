@@ -1,0 +1,478 @@
+---
+/**
+ * Navigacija (YAUYA): sticky pod herojem. Zgornja vrstica (levo povezave,
+ * sredina logotip, desno klik-za-klic + e-pošta + CTA) in modri informacijski trak.
+ * Na mobilnih: hamburger levo, logotip sredina, klic desno + spustni meni.
+ */
+import { NAV, SITE } from '../data/site';
+import Icon from './ui/Icon.astro';
+import Button from './ui/Button.astro';
+
+interface Props {
+  /** Na podstraneh vodijo sidra na prvo stran. */
+  home?: boolean;
+}
+const { home = true } = Astro.props;
+const href = (id: string) => (home ? `#${id}` : `/#${id}`);
+---
+
+<nav class="nav" data-nav aria-label="Glavna navigacija">
+  <div class="nav__bar">
+    <div class="nav__left">
+      <button
+        class="nav__burger"
+        type="button"
+        aria-expanded="false"
+        aria-controls="nav-menu"
+        data-nav-toggle
+      >
+        <span class="sr-only" data-nav-toggle-label>Odpri meni</span>
+        <span class="nav__burger-lines" aria-hidden="true"><span></span><span></span></span>
+      </button>
+      <ul class="nav__links">
+        {
+          NAV.map((item) => (
+            <li>
+              <a class="nav__link" href={href(item.id)} data-spy={item.id}>
+                <span class="nav__roll">
+                  <span>{item.label}</span>
+                  <span aria-hidden="true">{item.label}</span>
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <a class="nav__logo" href={home ? '#top' : '/'} aria-label="Site Craft Studio — na vrh">
+      Site Craft Studio<span class="nav__logo-dot">.</span>
+    </a>
+
+    <div class="nav__right">
+      <a class="nav__contact" href={SITE.phoneHref}>
+        <Icon name="phone" />
+        <span>{SITE.phone}</span>
+      </a>
+      <a
+        class="nav__contact nav__contact--mail"
+        href={SITE.emailHref}
+        title={SITE.email}
+        aria-label={`Pišite na ${SITE.email}`}
+      >
+        <Icon name="mail" />
+        <span class="nav__mail-text">{SITE.email}</span>
+      </a>
+      <Button href={href('kontakt')} label="Kontakt" size="sm" class="nav__cta" magnet />
+      <a class="nav__call" href={SITE.phoneHref} aria-label={`Pokličite ${SITE.phone}`}>
+        <Icon name="phone" />
+      </a>
+    </div>
+  </div>
+
+  <a class="nav__strip" href={SITE.phoneHref}>
+    <span>Spletna stran v enem tednu</span>
+    <span class="nav__strip-sep" aria-hidden="true"></span>
+    <span class="nav__strip-call">Pokličite {SITE.phone}</span>
+  </a>
+
+  <div class="nav__menu" id="nav-menu" data-nav-menu hidden>
+    <ul>
+      {
+        NAV.map((item) => (
+          <li>
+            <a href={href(item.id)} data-nav-close>
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+      <li>
+        <a href={href('kontakt')} data-nav-close>Kontakt</a>
+      </li>
+    </ul>
+    <div class="nav__menu-contact">
+      <a href={SITE.phoneHref}><Icon name="phone" />{SITE.phone}</a>
+      <a href={SITE.emailHref}><Icon name="mail" />{SITE.email}</a>
+    </div>
+  </div>
+</nav>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+
+  .nav__bar {
+    position: relative;
+    height: var(--nav-h-top);
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 16px;
+    padding-inline: var(--gutter);
+    background: rgba(var(--bg-rgb), 0.88);
+    backdrop-filter: blur(12px) saturate(140%);
+    -webkit-backdrop-filter: blur(12px) saturate(140%);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav__left {
+    display: flex;
+    align-items: center;
+  }
+
+  .nav__links {
+    display: flex;
+    gap: clamp(18px, 2.2vw, 32px);
+  }
+
+  .nav__link {
+    position: relative;
+    display: inline-flex;
+    padding-block: 10px;
+    font: 500 0.8125rem / 1 var(--font-sans);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    transition: color 0.25s var(--ease-out);
+  }
+
+  .nav__roll {
+    display: grid;
+    overflow: hidden;
+    height: 1.05em;
+    line-height: 1.05;
+  }
+
+  .nav__roll > span {
+    grid-area: 1 / 1;
+    transition: transform 0.5s var(--ease-in-out-quart);
+  }
+
+  .nav__roll > span + span {
+    transform: translateY(110%);
+  }
+
+  .nav__link:hover .nav__roll > span:first-child,
+  .nav__link:focus-visible .nav__roll > span:first-child {
+    transform: translateY(-110%);
+  }
+
+  .nav__link:hover .nav__roll > span + span,
+  .nav__link:focus-visible .nav__roll > span + span {
+    transform: none;
+  }
+
+  .nav__link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 2px;
+    height: 1px;
+    background: var(--accent-ink);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.45s var(--ease-out);
+  }
+
+  .nav__link:hover,
+  .nav__link[aria-current='true'] {
+    color: var(--text);
+  }
+
+  .nav__link[aria-current='true']::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  .nav__logo {
+    font-family: var(--font-display);
+    font-size: clamp(1.375rem, 1.9vw, 1.75rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    white-space: nowrap;
+    padding: 8px 4px;
+  }
+
+  .nav__logo-dot {
+    color: var(--accent);
+    display: inline-block;
+    transition: transform 0.4s var(--ease-out);
+  }
+
+  .nav__logo:hover .nav__logo-dot {
+    transform: translateY(-0.12em) scale(1.25);
+  }
+
+  .nav__right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: clamp(14px, 1.8vw, 26px);
+  }
+
+  .nav__contact {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    font: 500 0.8125rem / 1 var(--font-sans);
+    letter-spacing: 0.02em;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    transition: color 0.25s var(--ease-out);
+  }
+
+  .nav__contact:hover {
+    color: var(--text);
+  }
+
+  .nav__contact .icon {
+    color: var(--accent-ink);
+  }
+
+  .nav__call {
+    display: none;
+  }
+
+  .nav__burger {
+    display: none;
+  }
+
+  /* ------------------------------------------------------------ Trak */
+  .nav__strip {
+    height: var(--nav-h-strip);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding-inline: var(--gutter);
+    background: var(--accent);
+    color: var(--on-accent);
+    font: 500 var(--fs-label) / 1 var(--font-mono);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    transition: background-color 0.3s var(--ease-out);
+  }
+
+  .nav__strip:hover {
+    background: var(--accent-hover);
+  }
+
+  .nav__strip-sep {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--on-accent-2);
+  }
+
+  /* ------------------------------------------------------- Mobilni meni */
+  .nav__menu {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    border-radius: 0 0 var(--r-md) var(--r-md);
+    padding: 8px var(--gutter) 24px;
+    box-shadow: var(--shadow-raised);
+    clip-path: inset(0 0 100% 0);
+    transition: clip-path 0.55s var(--ease-out);
+  }
+
+  .nav__menu:global(.is-open) {
+    clip-path: inset(0 0 0 0);
+  }
+
+  .nav__menu ul {
+    display: grid;
+  }
+
+  .nav__menu li + li {
+    border-top: 1px solid var(--border);
+  }
+
+  .nav__menu ul a {
+    display: flex;
+    justify-content: center;
+    padding: 18px 0;
+    font-family: var(--font-display);
+    font-size: 2rem;
+    line-height: 1;
+    color: var(--text);
+  }
+
+  .nav__menu-contact {
+    display: grid;
+    gap: 6px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+
+  .nav__menu-contact a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 44px;
+    color: var(--text-secondary);
+    font-size: var(--fs-small);
+  }
+
+  @media (max-width: 1280px) {
+    .nav__mail-text {
+      display: none;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .nav__links,
+    .nav__contact,
+    .nav__right :global(.nav__cta) {
+      display: none;
+    }
+
+    .nav__burger {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      margin-left: -10px;
+    }
+
+    .nav__burger-lines {
+      position: relative;
+      width: 20px;
+      height: 10px;
+    }
+
+    .nav__burger-lines span {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 1.5px;
+      background: var(--text);
+      transition: transform 0.4s var(--ease-out), top 0.4s var(--ease-out);
+    }
+
+    .nav__burger-lines span:first-child {
+      top: 0;
+    }
+
+    .nav__burger-lines span:last-child {
+      top: calc(100% - 1.5px);
+    }
+
+    .nav__burger[aria-expanded='true'] .nav__burger-lines span:first-child {
+      top: calc(50% - 0.75px);
+      transform: rotate(45deg);
+    }
+
+    .nav__burger[aria-expanded='true'] .nav__burger-lines span:last-child {
+      top: calc(50% - 0.75px);
+      transform: rotate(-45deg);
+    }
+
+    .nav__call {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      margin-right: -10px;
+      color: var(--accent-ink);
+    }
+
+    .nav__call .icon {
+      width: 20px;
+      height: 20px;
+    }
+
+    .nav__strip-sep,
+    .nav__strip-call {
+      display: none;
+    }
+  }
+
+  @media (min-width: 1025px) {
+    .nav__menu {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const nav = document.querySelector<HTMLElement>('[data-nav]');
+  const toggle = nav?.querySelector<HTMLButtonElement>('[data-nav-toggle]');
+  const toggleLabel = nav?.querySelector<HTMLElement>('[data-nav-toggle-label]');
+  const menu = nav?.querySelector<HTMLElement>('[data-nav-menu]');
+
+  function setOpen(open: boolean) {
+    if (!toggle || !menu) return;
+    toggle.setAttribute('aria-expanded', String(open));
+    if (toggleLabel) toggleLabel.textContent = open ? 'Zapri meni' : 'Odpri meni';
+    if (open) {
+      menu.hidden = false;
+      openedAt = window.scrollY;
+      requestAnimationFrame(() => menu.classList.add('is-open'));
+    } else {
+      menu.classList.remove('is-open');
+      window.setTimeout(() => {
+        if (!menu.classList.contains('is-open')) menu.hidden = true;
+      }, 560);
+    }
+  }
+
+  // Drsenje ne zaklenemo (overflow na <html> v nekaterih brskalnikih premakne stran);
+  // meni se zapre, ko uporabnik opazno podrsa.
+  let openedAt = 0;
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (toggle?.getAttribute('aria-expanded') === 'true' && Math.abs(window.scrollY - openedAt) > 60) setOpen(false);
+    },
+    { passive: true },
+  );
+
+  toggle?.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+  menu?.querySelectorAll('[data-nav-close]').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && toggle?.getAttribute('aria-expanded') === 'true') {
+      setOpen(false);
+      toggle.focus();
+    }
+  });
+  document.addEventListener('click', (e) => {
+    if (toggle?.getAttribute('aria-expanded') === 'true' && nav && !nav.contains(e.target as Node)) setOpen(false);
+  });
+
+  // Scrollspy: označi aktivno sekcijo v navigaciji
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('[data-spy]')];
+  // Poleg sekcij iz menija opazujemo še tiste brez povezave — takrat ni nič označeno.
+  const ids = [...links.map((a) => a.dataset.spy ?? ''), 'kaj-delam', 'kontakt'];
+  const sections = ids.map((id) => document.getElementById(id)).filter((s): s is HTMLElement => !!s);
+  if (sections.length) {
+    const spy = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          links.forEach((a) => {
+            if (a.dataset.spy === entry.target.id) a.setAttribute('aria-current', 'true');
+            else a.removeAttribute('aria-current');
+          });
+        }
+      },
+      { rootMargin: '-45% 0px -50% 0px' },
+    );
+    sections.forEach((s) => spy.observe(s));
+  }
+</script>

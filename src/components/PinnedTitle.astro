@@ -1,0 +1,176 @@
+---
+/**
+ * YAUYA »pripet naslov«: naslov je sticky (80svh) pod navigacijo, naslednja
+ * sekcija pa zdrsne čezenj (ovoj ima margin-bottom: -100svh + distančnik 100svh).
+ * Naslov se ob vstopu sestavi s ScrollFloat; foto-pilule (.pill) se razširijo.
+ */
+interface Props {
+  id: string;
+  num: string;
+  label: string;
+  tone?: 'paper' | 'dark';
+  sub?: string;
+}
+
+const { id, num, label, tone = 'paper', sub } = Astro.props;
+---
+
+<div class:list={['pin-wrap', `pin-wrap--${tone}`, tone === 'paper' && 'on-paper']} id={id} data-no-offset>
+  <section class="pin-title" aria-labelledby={`${id}-title`}>
+    <div class="pin-title__inner container">
+      <p class="eyebrow"><b>({num})</b> {label}</p>
+      <h2
+        class="display pin-title__h"
+        id={`${id}-title`}
+        data-float
+        data-float-trigger=".pin-wrap"
+        data-float-start="top bottom"
+        data-float-end="top top"
+      >
+        <slot />
+      </h2>
+      {sub && <p class="pin-title__sub">{sub}</p>}
+      <slot name="after" />
+    </div>
+  </section>
+  <div class="pin-spacer" aria-hidden="true"></div>
+</div>
+
+<style>
+  .pin-wrap {
+    position: relative;
+    margin-bottom: -100svh;
+  }
+
+  /* Ozadje ovoja: zaobljeni vogali naslednjega panela kažejo barvo naslova, ne noge */
+  .pin-wrap--paper {
+    background: var(--paper);
+  }
+
+  .pin-wrap--dark {
+    background: var(--bg);
+  }
+
+  .pin-title {
+    position: sticky;
+    top: var(--nav-h);
+    height: 80svh;
+    min-height: 520px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .pin-wrap--paper .pin-title {
+    background: var(--paper);
+    color: var(--ink);
+  }
+
+  .pin-wrap--dark .pin-title {
+    background: var(--bg);
+    color: var(--text);
+  }
+
+  .pin-title__inner {
+    display: grid;
+    justify-items: center;
+    gap: clamp(20px, 2.6vw, 36px);
+    max-width: 1280px;
+  }
+
+  .pin-title__h {
+    max-width: 18ch;
+  }
+
+  .pin-title__sub {
+    max-width: 54ch;
+    font-size: var(--fs-body-l);
+    line-height: 1.55;
+    color: var(--text-secondary);
+  }
+
+  .on-paper .pin-title__sub {
+    color: var(--ink-2);
+  }
+
+  .pin-spacer {
+    height: 100svh;
+  }
+
+  /* ---------------------------------------------------- Foto-pilule */
+  .pin-title :global(.pill) {
+    position: relative;
+    display: inline-block;
+    width: 2.15em;
+    height: 0.74em;
+    margin-inline: 0.06em;
+    vertical-align: -0.02em;
+    overflow: hidden;
+    border-radius: 0.37em;
+    border: 1px solid var(--paper-line);
+    background: var(--surface);
+    transition:
+      width 1.2s var(--ease-out),
+      margin 1.2s var(--ease-out),
+      opacity 0.6s var(--ease-out);
+  }
+
+  .pin-wrap--dark .pin-title :global(.pill) {
+    border-color: var(--border-hover);
+  }
+
+  :global(.js) .pin-title :global(.pill:not(.is-open)) {
+    width: 0;
+    margin-inline: 0;
+    opacity: 0;
+  }
+
+  .pin-title :global(.pill img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+    object-position: 0% 30%;
+    transform: scale(1.04);
+  }
+
+  @media (max-width: 640px) {
+    .pin-title {
+      height: 78svh;
+      min-height: 460px;
+    }
+
+    .pin-title :global(.pill) {
+      width: 1.7em;
+    }
+  }
+</style>
+
+<script>
+  // Pilule se razširijo, ko pripet naslov pride v zgornji del zaslona.
+  const titles = document.querySelectorAll<HTMLElement>('.pin-title__h');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const open = (title: Element) =>
+    title.querySelectorAll<HTMLElement>('.pill').forEach((pill, i) => {
+      window.setTimeout(() => pill.classList.add('is-open'), reduce ? 0 : 200 + i * 180);
+    });
+
+  if (reduce) {
+    titles.forEach(open);
+  } else {
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          open(entry.target);
+          io.unobserve(entry.target);
+        }
+      },
+      { rootMargin: '0px 0px -42% 0px' },
+    );
+    titles.forEach((t) => io.observe(t));
+  }
+</script>

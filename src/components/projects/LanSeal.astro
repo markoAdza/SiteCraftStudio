@@ -1,0 +1,187 @@
+---
+/**
+ * Fast Food Lan — vrteči se pečat (kot na fast-food-lan.vercel.app):
+ * SVG <textPath> obroč se vrti (26 s, linearno), logotip v sredini miruje.
+ * Spodaj rumeni »belt« trak, prav tako s strani.
+ */
+import { Image } from 'astro:assets';
+import logo from '../../assets/work/lan-logo.png';
+
+const ring = 'KEBAB • JUFKA • BURGER • PIZZA • ŽAR • POMMES • ';
+const belt = ['Kebab', 'Jufka', 'Burger', 'Pizza', 'Žar', 'Pommes'];
+---
+
+<div class="lan" aria-hidden="true">
+  <p class="lan__kicker">Hrastnik <i></i> Zasavje</p>
+
+  <div class="lan__seal">
+    <svg class="lan__ring" viewBox="0 0 240 240">
+      <defs>
+        <path id="lan-ring-path" d="M120,120 m-95,0 a95,95 0 1,1 190,0 a95,95 0 1,1 -190,0"></path>
+      </defs>
+      <text>
+        <textPath href="#lan-ring-path" textLength="592" lengthAdjust="spacing">{ring}</textPath>
+      </text>
+    </svg>
+    <Image class="lan__logo" src={logo} alt="" width={224} height={225} loading="lazy" />
+  </div>
+
+  <div class="lan__belt">
+    <div class="lan__belt-track">
+      {
+        [0, 1].map(() => (
+          <div class="lan__belt-half">
+            {[...belt, ...belt].map((w) => (
+              <span>
+                {w}
+                <i>✦</i>
+              </span>
+            ))}
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</div>
+
+<style>
+  .lan {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    background:
+      repeating-linear-gradient(19deg, transparent 0 70px, rgba(var(--white-rgb), 0.028) 70px 140px),
+      repeating-linear-gradient(19deg, transparent 0 22px, rgba(var(--white-rgb), 0.018) 22px 24px),
+      var(--lan-ink);
+  }
+
+  .lan__kicker {
+    position: absolute;
+    top: 22px;
+    left: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font: 700 0.6875rem / 1 var(--font-sans);
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--lan-sun);
+  }
+
+  .lan__kicker i {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.6;
+  }
+
+  .lan__seal {
+    position: relative;
+    width: min(78%, 340px);
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    margin-bottom: 36px;
+  }
+
+  .lan__ring {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    animation: lan-spin 26s linear infinite;
+  }
+
+  .lan__ring text {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 17px;
+    fill: var(--lan-sun);
+    text-transform: uppercase;
+  }
+
+  @keyframes lan-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .lan__seal :global(.lan__logo) {
+    width: 63%;
+    height: auto;
+    border-radius: 50%;
+    background: var(--lan-cream);
+  }
+
+  .lan__belt {
+    position: absolute;
+    left: -2%;
+    right: -2%;
+    bottom: 18px;
+    overflow: hidden;
+    padding: 9px 0;
+    background: var(--lan-sun);
+    transform: rotate(-1.6deg);
+  }
+
+  .lan__belt-track {
+    display: flex;
+    width: max-content;
+    animation: lan-belt 30s linear infinite;
+  }
+
+  .lan__belt-half {
+    display: flex;
+    flex: none;
+  }
+
+  .lan__belt span {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    padding-right: 14px;
+    font: 800 0.875rem / 1 var(--font-sans);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--lan-ink);
+    white-space: nowrap;
+  }
+
+  .lan__belt i {
+    font-style: normal;
+    font-size: 0.75rem;
+  }
+
+  @keyframes lan-belt {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* Pavza, ko kartica ni na zaslonu (data-inview na .pcard__visual) */
+  :global(.pcard__visual:not(.is-visible)) .lan__ring,
+  :global(.pcard__visual:not(.is-visible)) .lan__belt-track {
+    animation-play-state: paused;
+  }
+
+  @media (max-width: 640px) {
+    .lan__seal {
+      width: min(62%, 240px);
+      margin-bottom: 28px;
+    }
+
+    .lan__kicker {
+      top: 14px;
+      left: 16px;
+    }
+
+    .lan__belt {
+      bottom: 12px;
+      padding: 7px 0;
+    }
+  }
+</style>

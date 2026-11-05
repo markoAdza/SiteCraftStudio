@@ -1,0 +1,53 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Nav from '../components/Nav.astro';
+import PinnedTitle from '../components/PinnedTitle.astro';
+import Promises from '../components/Promises.astro';
+import Services from '../components/Services.astro';
+import Pricing from '../components/Pricing.astro';
+import About from '../components/About.astro';
+import Projects from '../components/Projects.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Base>
+  <Hero />
+
+  <div class="page">
+    <Nav />
+
+    <main id="vsebina">
+      <PinnedTitle
+        id="kaj-delam"
+        num="01"
+        label="Kaj delam"
+        tone="paper"
+        sub="Oblikujem, razvijem in vzdržujem spletne strani za podjetja."
+      >
+        Za vse poskrbim jaz — vi se posvetite <em>svojemu poslu.</em>
+      </PinnedTitle>
+
+      <section class="statement sheet" aria-label="Kaj dobite">
+        <Promises />
+      </section>
+
+      <Services />
+      <Pricing />
+      <About />
+      <Projects />
+      <Contact />
+    </main>
+  </div>
+
+  <Footer />
+</Base>
+
+<style>
+  .statement {
+    position: relative;
+    z-index: 1;
+    background: var(--bg);
+  }
+</style>
