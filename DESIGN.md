@@ -1,15 +1,17 @@
 # DESIGN.md — Site Craft Studio.
 
-> Uredniška umirjenost YAUYA, prenesena v črno-sivo tišino z enim samim ultramarin poudarkom. Gibanje je vedno namerno, nikoli dekorativni hrup.
+> Uredniška umirjenost YAUYA, prenesena v zeleno-črno tišino žajblja, z lanenim papirjem in toplim peskom kot edinim sijem. Gibanje je vedno namerno, nikoli dekorativni hrup.
 
 ---
 
 ## 1. Visual Theme & Atmosphere
 
-**Style**: Dark Editorial Studio
-**Keywords**: uredniško, črno-sivo, ultramarin, tanke obrobe, ogromna tipografija, sticky slojevitost, filmsko, natančno
-**Tone**: samozavestno, premium, tehnično brezhibno — NOT kričeče, »tech-bro« neon, generična SaaS predloga
-**Feel**: kot galerija sodobne umetnosti ponoči: črne stene, ena Kleinova modra slika, in vse ostalo utihne.
+**Style**: Dark Sage Editorial Studio
+**Keywords**: uredniško, zeleno-črno, žajbelj, lan, topel pesek, tanke obrobe, ogromna tipografija, sticky slojevitost, filmsko, natančno
+**Tone**: samozavestno, premium, umirjeno, naravno — NOT kričeče, »tech-bro« neon, generična SaaS predloga
+**Feel**: kot galerija ob mraku: stene v globokem žajbljevem tonu, laneno platno na mizi, zadnja topla svetloba pade na rob svile. Nič ne kriči, vse je izbrano.
+
+**Paleta (izhodišče naročnika):** `#586A6A` žajbelj (glavna barva znamke) · `#818D92` megla (modro-siva) · `#B9A394` pesek (topel taupe). Vse ostale barve so izpeljane iz teh treh.
 
 **Reference**:
 - **YAUYA (yauya.si)** — hero s celozaslonsko podlago in ogromnim wordmarkom čez spodnji rob; sticky navigacija pod herojem (zgornja vrstica + informacijski trak); pripeti naslovi s »foto-pilulami«; kartice, zložene s `position: sticky`; noga, ki se razkrije izza vsebine.
@@ -18,7 +20,7 @@
 **Interaction Tier**: **L3 — sostenitev (immersive)**
 **Dependencies**: GSAP 3.15 (+ ScrollTrigger, SplitText) · Lenis 1.3 · surovi WebGL (1 fragment shader, brez knjižnice)
 
-**Ritem podlag** (od vrha navzdol): hero (črna + WebGL) → nav (črna + modri trak) → pripet naslov (papir) → obljube (črna, zdrsne čez) → storitve (črna) → cenik (papir) → o meni (črna) → projekti (črna + svetle kartice) → kontakt (površina, zaobljeno dno) → noga (ultramarin, razkritje).
+**Ritem podlag** (od vrha navzdol): hero (zeleno-črna + WebGL svila žajbelj/pesek) → nav (zeleno-črna + žajbljev trak) → pripet naslov (lan + zrno) → obljube (zeleno-črna, zdrsne čez) → storitve (zeleno-črna) → cenik (lan + zrno) → o meni (zeleno-črna) → projekti (zeleno-črna + lanene kartice) → kontakt (površina, zaobljeno dno) → noga (polna žajbljeva ploskev, razkritje).
 
 ---
 
@@ -26,55 +28,68 @@
 
 ```css
 :root {
+  /* Paleta — primitivi */
+  --sage: #586A6A;             /* žajbelj — barva znamke */
+  --mist: #818D92;             /* megla — sekundarno besedilo, linije */
+  --sand: #B9A394;             /* pesek — topel poudarek na temnem */
+
   /* Backgrounds */
-  --bg: #0A0A0B;               /* stran, hero, temne sekcije */
-  --surface: #121214;          /* kartice, kontakt */
-  --surface-alt: #18181B;      /* izmenične površine, bento ploščice */
-  --surface-hover: #1F1F23;    /* hover površin */
-  --paper: #E9E9EC;            /* svetle sekcije (YAUYA krema → siva) */
-  --paper-2: #F4F4F6;          /* svetle kartice projektov in cenika */
+  --bg: #0F1414;               /* stran, hero, temne sekcije (zeleno-črna) */
+  --surface: #141A1A;          /* kartice, kontakt */
+  --surface-alt: #1A2121;      /* izmenične površine, bento ploščice */
+  --surface-hover: #1D2525;    /* hover površin (megla ≥ 4,5:1) */
+  --paper: #E7E1D9;            /* svetle sekcije — lan */
+  --paper-2: #F2EEE8;          /* svetle kartice projektov in cenika */
 
   /* Borders */
-  --border: #26262B;           /* privzeta 1px obroba na temnem */
-  --border-hover: #3A3A42;     /* hover obroba */
-  --paper-line: #CBCBD3;       /* 1px obroba na papirju */
+  --border: #263030;           /* privzeta 1px obroba na temnem */
+  --border-hover: #374343;     /* hover obroba */
+  --paper-line: #D3C9BD;       /* 1px obroba na lanu */
 
   /* Text (temna podlaga) */
-  --text: #F2F2F3;             /* naslovi, pomembno besedilo */
-  --text-secondary: #A1A1AA;   /* telo (7,7:1) */
-  --text-tertiary: #85858F;    /* oznake, meta (≥ 4,5:1 na vseh temnih površinah) */
+  --text: #F0ECE6;             /* naslovi — toplo bela (15,8:1) */
+  --text-secondary: #A8B1B3;   /* telo (8,5:1) */
+  --text-tertiary: #818D92;    /* = megla; oznake, meta (5,45:1 na bg, ≥ 4,5:1 na vseh temnih površinah) */
 
   /* Text (papir) */
-  --ink: #0A0A0B;
-  --ink-2: #3F3F46;            /* telo na papirju (8,6:1) */
-  --ink-3: #5F5F68;            /* meta na papirju (5,2:1) */
+  --ink: #121817;              /* 13,8:1 na lanu */
+  --ink-2: #3B4646;            /* telo na lanu (7,5:1) */
+  --ink-3: #5A6464;            /* meta na lanu (4,7:1) */
 
-  /* Accent — ultramarin (Klein) */
-  --accent: #2340F5;           /* CTA, trak, noga, pika v logotipu */
-  --accent-hover: #3A55FF;
-  --accent-press: #1A31C9;
-  --accent-ink: #8FA2FF;       /* poudarjeno besedilo na temnem (8,2:1) */
-  --accent-deep: #0B1240;      /* globina v shaderju */
-  --on-accent: #FFFFFF;        /* besedilo na modri (6,7:1) */
-  --on-accent-2: rgba(255, 255, 255, 0.82); /* sekundarno na modri (4,8:1) */
+  /* Accent — žajbelj (dejanja) + pesek (poudarek) */
+  --accent: #586A6A;           /* CTA, trak, noga, izpostavljen paket, pika v logotipu */
+  --accent-hover: #607373;     /* belo besedilo 5,0:1 */
+  --accent-press: #4A5959;     /* belo besedilo 7,3:1 */
+  --accent-ink: #B9A394;       /* = pesek; poudarjeno besedilo na temnem (7,7:1), fokus */
+  --accent-deep: #1B2B29;      /* globina v shaderju in gradientih */
+  --accent-on-paper: #455555;  /* malo besedilo + fokus na lanu (6,0:1) */
+  --on-accent: #FFFFFF;        /* besedilo na žajblju (5,7:1) */
+  --on-accent-2: rgba(255, 255, 255, 0.84); /* sekundarno na žajblju (4,8:1) */
 
   /* RGB variants for rgba() */
-  --bg-rgb: 10, 10, 11;
-  --paper-rgb: 233, 233, 236;
-  --text-rgb: 242, 242, 243;
-  --accent-rgb: 35, 64, 245;
-  --accent-ink-rgb: 143, 162, 255;
+  --bg-rgb: 15, 20, 20;
+  --paper-rgb: 231, 225, 217;
+  --text-rgb: 240, 236, 230;
+  --accent-rgb: 88, 106, 106;
+  --accent-ink-rgb: 185, 163, 148;
+  --sage-rgb: 88, 106, 106;
+  --mist-rgb: 129, 141, 146;
+  --sand-rgb: 185, 163, 148;
+  --shadow-rgb: 5, 10, 9;       /* sence in prekrivanja — zeleno-črne, nikoli čisto črne */
   --black-rgb: 0, 0, 0;
   --white-rgb: 255, 255, 255;
 
-  /* Semantic */
-  --success: #3DDC97;
-  --error: #FF6B6B;
-  --warning: #FFB547;
-  --success-ink: #0F7A4A;      /* na papirju */
-  --error-ink: #C62828;        /* na papirju */
+  /* Semantic (umirjene, a ločljive od žajblja) */
+  --success: #8CC0A0;          /* 9,0:1 na bg */
+  --error: #E8806F;            /* 6,9:1 na bg */
+  --warning: #E0B46A;
+  --success-ink: #2F6B4C;      /* na lanu (4,9:1) */
+  --error-ink: #A83B2C;        /* na lanu (4,9:1) */
 
-  /* Project brand tokens — SAMO znotraj kartic projektov */
+  /* Papirno zrno — statičen SVG feTurbulence (samo alfa), plast pod --paper */
+  --grain: url("data:image/svg+xml,…");   /* polna vrednost v src/styles/tokens.css */
+
+  /* Project brand tokens — SAMO znotraj kartic projektov (nespremenjeni) */
   --lan-ink: #1C1C1C;  --lan-ink-2: #262626;  --lan-sun: #F9CD1E;  --lan-cream: #F7F3E7;
   --ahil-ink: #0B0B0A; --ahil-chalk: #ECEBE6; --ahil-bronze: #B08D57; --ahil-gold: #D6AA6C; --ahil-deep: #7A5C33; --ahil-dim: #1E1912;
   --bmb-paper: #F6F1E7; --bmb-paper-deep: #EBE3D4; --bmb-ink: #16130F; --bmb-olive: #33452F; --bmb-terracotta: #C2703A; --bmb-clay: #A2422F; --bmb-straw: #D8BE86;
@@ -83,10 +98,15 @@
 
 **Color Rules:**
 - Vse barve gredo skozi CSS spremenljivke; v komponentah ni hex vrednosti (tudi v SVG uporabljaj `currentColor` ali `var(--…)`).
-- **En poudarek**: ultramarin je edina »barva« strani. Projektni tokeni živijo samo v vizualih kartic projektov.
-- `--accent` ni barva malega besedila na temnem (kontrast 2,9:1) — za besedilo na temnem uporabi `--accent-ink`.
-- Na papirju je `--accent` dovolj kontrasten (5,5:1) za povezave.
-- Polna modra površina je dovoljena samo za: informacijski trak v navigaciji, primarni CTA, nogo, izpostavljeni paket.
+- **Tri vloge, ena paleta**:
+  - **Žajbelj** (`--accent`) = dejanja in polne ploskve: CTA, informacijski trak, noga, izpostavljen paket, izbor besedila, pika v logotipu.
+  - **Pesek** (`--accent-ink`) = poudarek na temnem: *italic* besede v naslovih, številke v eyebrow »(01)«, utripajoča pika, fokusni obroč, grebeni svile, sij izpostavljenega paketa.
+  - **Megla** (`--text-tertiary`, `--mist`) = sekundarno besedilo, meta, hladna tančica v svili.
+- Projektni tokeni živijo samo v vizualih kartic projektov.
+- `--accent` (žajbelj) ni barva malega besedila na temnem (3,3:1) — tam uporabi `--accent-ink` (pesek).
+- Na lanu je žajbelj dovolj kontrasten samo za veliko besedilo (4,4:1 → italic naslovi). Za malo besedilo, povezave in fokus na lanu uporabi `--accent-on-paper` (6,0:1).
+- **Nikoli pesek na žajblju** (2,4:1) — na žajbljevi ploskvi je besedilo belo (`--on-accent`), dekorativna pika pa `--ink`.
+- Sence in prekrivanja uporabljajo `--shadow-rgb` / `--bg-rgb` (zeleno-črno), ne čiste črne.
 
 ---
 
@@ -126,11 +146,11 @@
 - Telo besedila nikoli pod 16px; vrstica največ 62ch.
 - **NEVER use**: Inter, Roboto, Arial kot vidno pisavo, Montserrat, Poppins, sistemski serif kot display, več kot 3 družine (izjema: pisave znotraj projektnih vizualov niso dovoljene — uporabi obstoječe tri).
 
-**Text Decoration** (po `text-decoration-rules.md`, slog med »极简克制« in »暗黑科技«):
-- Hero wordmark (temna podlaga, ≥ 80px): brez gradienta; subtilen glow `text-shadow: 0 0 40px rgba(var(--accent-rgb), .35)`.
-- Section H2: brez gradienta, brez senc (uredniška tišina). Poudarek je *italic* v `--accent-ink`.
+**Text Decoration** (po `text-decoration-rules.md`, slog »极简克制« — umirjeno):
+- Hero wordmark (temna podlaga, ≥ 80px): brez gradienta; mehak žajbljev sij `text-shadow: 0 0 48px rgba(var(--sage-rgb), .45)`.
+- Section H2: brez gradienta, brez senc (uredniška tišina). Poudarek je *italic* — na temnem v pesku (`--accent-ink`), na lanu v žajblju (`--accent`).
 - Telo `p`: nobene dekoracije.
-- Pika v »Site Craft Studio**.**« je vedno v `--accent` (na modri nogi v `--ink`).
+- Pika v »Site Craft Studio**.**« je vedno v `--accent` (na žajbljevi nogi v `--ink`).
 
 ---
 
@@ -181,7 +201,7 @@
 .tile:focus-within { border-color: var(--accent-ink); }
 ```
 
-### Navigation (YAUYA: zgornja vrstica + modri trak, sticky pod herojem)
+### Navigation (YAUYA: zgornja vrstica + žajbljev trak, sticky pod herojem)
 ```css
 .nav { position: sticky; top: 0; z-index: 50; }
 .nav__bar {
@@ -207,7 +227,8 @@
   text-decoration-color: rgba(var(--accent-ink-rgb), .4); transition: text-decoration-color .25s, color .25s; }
 .link:hover { color: var(--text); text-decoration-color: currentColor; }
 .link:focus-visible { outline: 2px solid var(--accent-ink); outline-offset: 2px; border-radius: 2px; }
-.on-paper .link { color: var(--accent); text-decoration-color: rgba(var(--accent-rgb), .35); }
+.on-paper .link { color: var(--accent-on-paper); text-decoration-color: rgba(var(--accent-rgb), .45); }
+.on-paper :focus-visible, .on-paper .btn:focus-visible { outline-color: var(--accent-on-paper); } /* pesek na lanu = 1,85:1 */
 ```
 
 ### Tags / Badges / Eyebrow
@@ -219,7 +240,7 @@
 .badge { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
 ```
 
-### Pricing card (izpostavljen: vrteča modra obroba)
+### Pricing card (izpostavljen: vrteča obroba žajbelj → pesek)
 ```css
 .plan { position: relative; display: flex; flex-direction: column; gap: 20px; padding: 32px; border-radius: var(--r-md);
   background: var(--paper-2); border: 1px solid var(--paper-line); color: var(--ink); }
@@ -285,11 +306,12 @@
 |-------|-----------|-----|
 | Flat | brez sence, 1px `--border` | privzeto: ploščice, polja, kartice na temnem |
 | Hairline | 1px `--paper-line` | kartice na papirju (YAUYA) |
-| Raised | `0 1px 0 rgba(var(--white-rgb),.04) inset, 0 20px 40px -20px rgba(var(--black-rgb),.6)` | kartice projektov v skladu, meni |
+| Raised | `0 1px 0 rgba(var(--white-rgb),.04) inset, 0 20px 40px -20px rgba(var(--shadow-rgb),.65)` | kartice projektov v skladu, meni |
 | Glow | `0 0 0 1px rgba(var(--accent-rgb),.5), 0 24px 80px -24px rgba(var(--accent-rgb),.55)` | izpostavljeni paket, fokus CTA |
-| Curtain | sekcija z `border-radius: var(--r-lg) var(--r-lg) 0 0` + senca `0 -30px 60px rgba(var(--black-rgb),.35)` | paneli, ki zdrsnejo čez pripete elemente |
+| Curtain | sekcija z `border-radius: var(--r-lg) var(--r-lg) 0 0` + senca `0 -18px 44px rgba(var(--shadow-rgb),.24)` | paneli, ki zdrsnejo čez pripete elemente |
+| Grain | `background: var(--grain), var(--paper)` | lanene sekcije (pripet naslov, cenik) — tipna, papirna površina brez stroška v izvajanju |
 
-Globino ustvarjajo **sloji in sticky prekrivanje**, ne težke sence.
+Globino ustvarjajo **sloji in sticky prekrivanje**, ne težke sence. Vse sence so zeleno-črne (`--shadow-rgb`).
 
 ---
 
@@ -351,7 +373,7 @@ Hero wordmark: črke iz maske (`SplitText`, `mask: 'chars'`), `yPercent: 110 →
 - Kartice projektov: puščica »↗« se premakne `translate(3px,-3px)`.
 
 ### Special Effects
-- **WebGL svila** (hero): domain-warped fbm, barve `--bg → --accent-deep → --accent → --accent-ink`, odziv na miško (lerp .06). Upodobitev pri 0,5× ločljivosti (mehka slika) in DPR ≤ 1,5; pavza ko hero ni viden ali je zavihek skrit. Fallback: CSS radialni gradienti.
+- **WebGL svila** (hero): valovite gube, barve `--bg → --accent-deep → --sage` (svila) z rahlo `--mist` tančico med gubami in `--sand` grebeni (topla svetloba); zatemnitev proti `--bg`, ne proti črni. Odziv na miško (lerp .06) s toplim peščenim sijem. Upodobitev pri 0,5× ločljivosti (mehka slika) in DPR ≤ 1,5; pavza ko hero ni viden ali je zavihek skrit. Fallback: CSS radialni gradienti.
 - **SpotlightCard** (bento), **vrteča obroba** (BUSINESS), **count-up** (O meni), **ScrollReveal** (besede iz `--text-tertiary` v `--text`).
 - **巧思**: ko je noga povsem razkrita, pika v wordmarku poskoči in zasveti, izpiše se »Prišli ste do konca strani. Naslednji korak je preprost — pokličite.«
 
@@ -371,7 +393,8 @@ JS: brez Lenisa, brez SplitText/scrub animacij (končna stanja), shader nariše 
 
 ### Do
 - Uporabljaj 1px obrobe in ogromno tipografijo za strukturo — to je YAUYA DNK.
-- Drži en sam poudarek (ultramarin) na celotni strani.
+- Drži vloge palete: žajbelj za dejanja in ploskve, pesek za poudarek na temnem, megla za sekundarno besedilo.
+- Na lanu za malo besedilo in fokus uporabljaj `--accent-on-paper`; žajbelj samo za veliko besedilo in ikone.
 - Pripete elemente delaj s CSS `position: sticky`; GSAP naj samo bere napredek.
 - Vsako sekcijo začni z eyebrow »(0X) Ime«.
 - Projektne vizuale zapri v njihove kartice z lastnimi tokeni.
@@ -380,7 +403,9 @@ JS: brez Lenisa, brez SplitText/scrub animacij (končna stanja), shader nariše 
 
 ### Don't
 - ❌ Ne uporabljaj gradientnega besedila ali neonskih glow učinkov na naslovih sekcij.
-- ❌ Ne dodajaj druge poudarjene barve (vijolična, zelena …) izven semantičnih stanj.
+- ❌ Ne dodajaj barv izven palete žajbelj / megla / pesek (in umirjenih semantičnih stanj) — nobene nasičene modre, vijolične ali neon zelene.
+- ❌ Ne postavljaj peska na žajbelj (2,4:1) in žajblja kot malega besedila na temno podlago (3,3:1).
+- ❌ Ne uporabljaj čisto črnih senc ali prekrivanj — vedno `--shadow-rgb` / `--bg-rgb`.
 - ❌ Ne animiraj `filter: blur()`, `box-shadow`, `width/height/top/left` na elementih, ki se premikajo ob drsenju (izjemi: enkratna razširitev foto-pilul in mikro-vizuali v bentu, ki tečejo samo na zaslonu).
 - ❌ Ne uporabljaj več kot enega WebGL canvasa.
 - ❌ Ne uporabljaj GSAP `pin` tam, kjer zadošča CSS sticky.

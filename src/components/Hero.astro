@@ -91,9 +91,10 @@ const split = lines.map((line, li) =>
     inset: 0;
     z-index: -1;
     background:
-      radial-gradient(55% 65% at 76% 22%, rgba(var(--accent-rgb), 0.42), transparent 70%),
-      radial-gradient(35% 40% at 88% 8%, rgba(var(--accent-ink-rgb), 0.2), transparent 70%),
-      radial-gradient(70% 60% at 30% 80%, rgba(var(--accent-rgb), 0.08), transparent 70%),
+      radial-gradient(55% 65% at 76% 22%, rgba(var(--sage-rgb), 0.55), transparent 70%),
+      radial-gradient(35% 40% at 88% 8%, rgba(var(--sand-rgb), 0.24), transparent 70%),
+      radial-gradient(45% 50% at 52% 40%, rgba(var(--mist-rgb), 0.12), transparent 70%),
+      radial-gradient(70% 60% at 30% 80%, rgba(var(--sage-rgb), 0.1), transparent 70%),
       var(--bg);
   }
 
@@ -110,13 +111,13 @@ const split = lines.map((line, li) =>
     opacity: 1;
   }
 
-  /* YAUYA: črn gradient čez spodnjih ~40 % za berljiv wordmark */
+  /* YAUYA: temen (zeleno-črn) gradient čez spodnjih ~40 % za berljiv wordmark */
   .hero__shade {
     position: absolute;
     inset: 0;
     background:
-      linear-gradient(0deg, rgba(var(--black-rgb), 0.96) 0%, rgba(var(--black-rgb), 0.55) 24%, transparent 50%),
-      linear-gradient(180deg, rgba(var(--black-rgb), 0.45) 0%, transparent 18%);
+      linear-gradient(0deg, rgba(var(--shadow-rgb), 0.95) 0%, rgba(var(--bg-rgb), 0.55) 24%, transparent 50%),
+      linear-gradient(180deg, rgba(var(--shadow-rgb), 0.45) 0%, transparent 18%);
   }
 
   .hero__dim {
@@ -250,7 +251,7 @@ const split = lines.map((line, li) =>
     letter-spacing: -0.035em;
     color: var(--text);
     white-space: nowrap;
-    text-shadow: 0 0 40px rgba(var(--accent-rgb), 0.35);
+    text-shadow: 0 0 48px rgba(var(--sage-rgb), 0.45);
   }
 
   /* Flex: prazni znaki iz markupa med elementi se ne izrišejo (natančna širina) */

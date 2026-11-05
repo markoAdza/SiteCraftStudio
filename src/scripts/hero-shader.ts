@@ -1,6 +1,6 @@
 /**
  * Hero WebGL »svila« — en sam fragment shader, brez knjižnic (DESIGN.md §7).
- * - Barve bere iz CSS spremenljivk (--bg, --accent-deep, --accent, --accent-ink).
+ * - Barve bere iz CSS spremenljivk (--bg, --accent-deep, --sage, --mist, --sand).
  * - Riše pri zmanjšani ločljivosti (mehka slika → poceni), DPR omejen.
  * - Ustavi se, ko hero ni viden ali je zavihek skrit.
  * - prefers-reduced-motion: nariše eno statično sličico.
@@ -25,6 +25,7 @@ uniform float uHover;
 uniform vec3 uBg;
 uniform vec3 uDeep;
 uniform vec3 uAccent;
+uniform vec3 uMist;
 uniform vec3 uInk;
 
 float hash(vec2 p) {
@@ -52,19 +53,22 @@ void main() {
   f = 0.5 + 0.5 * f;
 
   float folds = smoothstep(0.1, 1.0, f);
-  float sheen = pow(f, 7.0);
-  float crest = pow(f, 24.0);
+  float sheen = pow(f, 4.0);
+  float haze = smoothstep(0.35, 0.95, f) * (1.0 - sheen);
+  float crest = pow(f, 22.0);
 
+  // Gube: globina → žajbelj (svila) → pesek (topel greben); megla = hladna tančica med gubami
   vec3 col = mix(uBg, uDeep, folds);
-  col = mix(col, uAccent, sheen * 0.9);
-  col += uInk * crest * 0.38;
+  col = mix(col, uMist, haze * 0.14);
+  col = mix(col, uAccent, sheen);
+  col = mix(col, uInk, crest * 0.7);
 
-  // Svetloba prihaja zgoraj desno, levo spodaj ugasne v črno
+  // Svetloba prihaja zgoraj desno, levo spodaj ugasne v zeleno-črno
   float light = smoothstep(1.35, 0.05, length((uv - vec2(0.74, 0.8)) * vec2(1.15, 1.0)));
-  col *= mix(0.16, 1.0, light);
+  col = mix(uBg, col, mix(0.2, 1.0, light));
 
-  // Sij okoli kazalca
-  col += uAccent * 0.22 * uHover * exp(-md * md * 9.0);
+  // Sij okoli kazalca (topel pesek)
+  col += uInk * 0.16 * uHover * exp(-md * md * 9.0);
 
   // Zrno
   col += (hash(gl_FragCoord.xy + fract(uTime * 0.37)) - 0.5) * 0.04;
@@ -125,12 +129,14 @@ export function initHeroShader(canvas: HTMLCanvasElement, host: HTMLElement, red
     bg: gl.getUniformLocation(prog, 'uBg'),
     deep: gl.getUniformLocation(prog, 'uDeep'),
     accent: gl.getUniformLocation(prog, 'uAccent'),
+    mist: gl.getUniformLocation(prog, 'uMist'),
     ink: gl.getUniformLocation(prog, 'uInk'),
   };
   gl.uniform3fv(u.bg, cssColor('--bg'));
   gl.uniform3fv(u.deep, cssColor('--accent-deep'));
-  gl.uniform3fv(u.accent, cssColor('--accent'));
-  gl.uniform3fv(u.ink, cssColor('--accent-ink'));
+  gl.uniform3fv(u.accent, cssColor('--sage'));
+  gl.uniform3fv(u.mist, cssColor('--mist'));
+  gl.uniform3fv(u.ink, cssColor('--sand'));
 
   // Programsko renderiranje (brez GPU: SwiftShader/llvmpipe) → le ena statična sličica
   const dbg = gl.getExtension('WEBGL_debug_renderer_info');

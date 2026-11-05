@@ -96,6 +96,12 @@ p {
   outline-offset: 3px;
 }
 
+/* Pesek na lanu nima dovolj kontrasta (1,85:1) → na papirju temni žajbelj */
+.on-paper :focus-visible,
+.on-paper .btn:focus-visible {
+  outline-color: var(--accent-on-paper);
+}
+
 /* ==========================================================================
    Utilities
    ========================================================================== */
@@ -156,7 +162,7 @@ p {
 }
 
 .on-paper .eyebrow b {
-  color: var(--accent);
+  color: var(--accent-on-paper);
 }
 
 .display {
@@ -218,8 +224,8 @@ p {
 }
 
 .on-paper .link {
-  color: var(--accent);
-  text-decoration-color: rgba(var(--accent-rgb), 0.35);
+  color: var(--accent-on-paper);
+  text-decoration-color: rgba(var(--accent-rgb), 0.45);
 }
 
 .on-paper .link:hover {
@@ -416,7 +422,7 @@ p {
 }
 
 .section--paper {
-  background: var(--paper);
+  background: var(--grain), var(--paper);
   color: var(--ink);
 }
 

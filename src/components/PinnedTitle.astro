@@ -44,7 +44,7 @@ const { id, num, label, tone = 'paper', sub } = Astro.props;
 
   /* Ozadje ovoja: zaobljeni vogali naslednjega panela kažejo barvo naslova, ne noge */
   .pin-wrap--paper {
-    background: var(--paper);
+    background: var(--grain), var(--paper);
   }
 
   .pin-wrap--dark {
@@ -63,7 +63,7 @@ const { id, num, label, tone = 'paper', sub } = Astro.props;
   }
 
   .pin-wrap--paper .pin-title {
-    background: var(--paper);
+    background: var(--grain), var(--paper);
     color: var(--ink);
   }
 

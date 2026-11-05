@@ -4,54 +4,64 @@
    ========================================================================== */
 
 :root {
+  /* Paleta (DESIGN.md §2): žajbelj · megla · pesek */
+  --sage: #586a6a;
+  --mist: #818d92;
+  --sand: #b9a394;
+
   /* Backgrounds */
-  --bg: #0a0a0b;
-  --surface: #121214;
-  --surface-alt: #18181b;
-  --surface-hover: #1f1f23;
-  --paper: #e9e9ec;
-  --paper-2: #f4f4f6;
+  --bg: #0f1414;
+  --surface: #141a1a;
+  --surface-alt: #1a2121;
+  --surface-hover: #1d2525;
+  --paper: #e7e1d9;
+  --paper-2: #f2eee8;
 
   /* Borders */
-  --border: #26262b;
-  --border-hover: #3a3a42;
-  --paper-line: #cbcbd3;
+  --border: #263030;
+  --border-hover: #374343;
+  --paper-line: #d3c9bd;
 
   /* Text (temna podlaga) */
-  --text: #f2f2f3;
-  --text-secondary: #a1a1aa;
-  --text-tertiary: #85858f;
+  --text: #f0ece6;
+  --text-secondary: #a8b1b3;
+  --text-tertiary: #818d92;
 
   /* Text (papir) */
-  --ink: #0a0a0b;
-  --ink-2: #3f3f46;
-  --ink-3: #5f5f68;
+  --ink: #121817;
+  --ink-2: #3b4646;
+  --ink-3: #5a6464;
 
-  /* Accent — ultramarin */
-  --accent: #2340f5;
-  --accent-hover: #3a55ff;
-  --accent-press: #1a31c9;
-  --accent-ink: #8fa2ff;
-  --accent-deep: #0b1240;
+  /* Accent — žajbelj (dejanja, polne površine) + pesek (poudarek na temnem) */
+  --accent: #586a6a;
+  --accent-hover: #607373;
+  --accent-press: #4a5959;
+  --accent-ink: #b9a394;
+  --accent-deep: #1b2b29;
+  --accent-on-paper: #455555;
   --on-accent: #ffffff;
-  --on-accent-2: rgba(255, 255, 255, 0.82);
+  --on-accent-2: rgba(255, 255, 255, 0.84);
 
   /* RGB variants */
-  --bg-rgb: 10, 10, 11;
-  --paper-rgb: 233, 233, 236;
-  --text-rgb: 242, 242, 243;
-  --accent-rgb: 35, 64, 245;
-  --accent-ink-rgb: 143, 162, 255;
+  --bg-rgb: 15, 20, 20;
+  --paper-rgb: 231, 225, 217;
+  --text-rgb: 240, 236, 230;
+  --accent-rgb: 88, 106, 106;
+  --accent-ink-rgb: 185, 163, 148;
+  --sage-rgb: 88, 106, 106;
+  --mist-rgb: 129, 141, 146;
+  --sand-rgb: 185, 163, 148;
+  --shadow-rgb: 5, 10, 9;
   --black-rgb: 0, 0, 0;
   --white-rgb: 255, 255, 255;
 
   /* Semantic */
-  --success: #3ddc97;
-  --success-rgb: 61, 220, 151;
-  --error: #ff6b6b;
-  --warning: #ffb547;
-  --success-ink: #0f7a4a;
-  --error-ink: #c62828;
+  --success: #8cc0a0;
+  --success-rgb: 140, 192, 160;
+  --error: #e8806f;
+  --warning: #e0b46a;
+  --success-ink: #2f6b4c;
+  --error-ink: #a83b2c;
 
   /* Project brand tokens — samo znotraj kartic projektov */
   --lan-ink: #1c1c1c;
@@ -114,9 +124,12 @@
   --r-pill: 999px;
 
   /* Elevation */
-  --shadow-raised: inset 0 1px 0 rgba(var(--white-rgb), 0.04), 0 20px 40px -20px rgba(var(--black-rgb), 0.6);
+  --shadow-raised: inset 0 1px 0 rgba(var(--white-rgb), 0.04), 0 20px 40px -20px rgba(var(--shadow-rgb), 0.65);
   --shadow-glow: 0 0 0 1px rgba(var(--accent-rgb), 0.5), 0 24px 80px -24px rgba(var(--accent-rgb), 0.55);
-  --shadow-curtain: 0 -18px 44px rgba(var(--black-rgb), 0.2);
+  --shadow-curtain: 0 -18px 44px rgba(var(--shadow-rgb), 0.24);
+
+  /* Papirno zrno (statično, samo alfa — brez barv v SVG) */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .07 0 0 0 0 .1 0 0 0 0 .1 .22 0 0 0 -.06'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
 
   /* Motion */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);

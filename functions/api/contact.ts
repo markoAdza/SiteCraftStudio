@@ -147,7 +147,7 @@ export const onRequestPost = async ({ request, env }: PagesContext): Promise<Res
     )
     .join('')}</table>
 <p style="margin:20px 0 6px;color:#666">Sporočilo:</p>
-<div style="white-space:pre-wrap;border-left:3px solid #2340f5;padding:8px 14px">${escapeHtml(message)}</div>
+<div style="white-space:pre-wrap;border-left:3px solid #586a6a;padding:8px 14px">${escapeHtml(message)}</div>
 <p style="margin-top:24px;color:#999;font-size:12px">Odgovorite neposredno na to e-pošto — odgovor gre na ${escapeHtml(email)}.</p>
 </body></html>`;
   const text = `Novo povpraševanje s sitecraftstudio.si\n\n${rows.map(([k, v]) => `${k}: ${v}`).join('\n')}\n\nSporočilo:\n${message}\n`;

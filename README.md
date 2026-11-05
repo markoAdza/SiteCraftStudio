@@ -94,5 +94,5 @@ Za korensko domeno (apex) mora biti DNS cona na Cloudflare: pri registrarju `.si
 - Animacije: [GSAP](https://gsap.com) (ScrollTrigger, SplitText — brezplačna licenca), [Lenis](https://lenis.darkroom.engineering) (MIT).
 - Ikone: [Lucide](https://lucide.dev) (ISC).
 - Gibanje navdihnjeno z [vue-bits / react-bits](https://github.com/DavidHDev/vue-bits) by DavidHDev (MIT) — ScrollFloat, ScrollReveal, SpotlightCard, Magnet.
-- Placeholder fotografija »O meni«: [Unsplash](https://unsplash.com/photos/1555066931-4365d14bab8c) (Unsplash License), obdelana v duoton.
+- Placeholder fotografija »O meni«: [Unsplash](https://unsplash.com/photos/1555066931-4365d14bab8c) (Unsplash License), obdelana v duoton palete (zeleno-črna → žajbelj → pesek).
 - Posnetki zaslona in sredstva projektov: lastni projekti (Fast Food Lan, Ahil fitnes, Bistro Bombina). Fotografija ozadja Ahil: Unsplash (glej projekt Ahil, `public/images/CREDITS.md`).
