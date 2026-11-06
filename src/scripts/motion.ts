@@ -38,7 +38,7 @@ if (lenis) {
   window.__lenis = lenis;
 }
 
-/** Višina sticky navigacije (zgornja vrstica + trak). */
+/** Višina sticky navigacije. */
 export function navOffset(): number {
   const nav = document.querySelector<HTMLElement>('[data-nav]');
   return nav ? Math.round(nav.getBoundingClientRect().height) : 0;

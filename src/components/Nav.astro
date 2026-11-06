@@ -1,7 +1,7 @@
 ---
 /**
- * Navigacija (YAUYA): sticky pod herojem. Zgornja vrstica (levo povezave,
- * sredina logotip, desno klik-za-klic + e-pošta + CTA) in žajbljev informacijski trak.
+ * Navigacija (YAUYA): sticky pod herojem. Ena vrstica (levo povezave,
+ * sredina logotip, desno klik-za-klic + e-pošta + CTA).
  * Na mobilnih: hamburger levo, logotip sredina, klic desno + spustni meni.
  */
 import { NAV, SITE } from '../data/site';
@@ -69,12 +69,6 @@ const href = (id: string) => (home ? `#${id}` : `/#${id}`);
       </a>
     </div>
   </div>
-
-  <a class="nav__strip" href={SITE.phoneHref}>
-    <span>Spletna stran v enem tednu</span>
-    <span class="nav__strip-sep" aria-hidden="true"></span>
-    <span class="nav__strip-call">Pokličite {SITE.phone}</span>
-  </a>
 
   <div class="nav__menu" id="nav-menu" data-nav-menu hidden>
     <ul>
@@ -244,34 +238,6 @@ const href = (id: string) => (home ? `#${id}` : `/#${id}`);
     display: none;
   }
 
-  /* ------------------------------------------------------------ Trak */
-  .nav__strip {
-    height: var(--nav-h-strip);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-    padding-inline: var(--gutter);
-    background: var(--accent);
-    color: var(--on-accent);
-    font: 500 var(--fs-label) / 1 var(--font-mono);
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    white-space: nowrap;
-    transition: background-color 0.3s var(--ease-out);
-  }
-
-  .nav__strip:hover {
-    background: var(--accent-hover);
-  }
-
-  .nav__strip-sep {
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background: var(--on-accent-2);
-  }
-
   /* ------------------------------------------------------- Mobilni meni */
   .nav__menu {
     position: absolute;
@@ -395,11 +361,6 @@ const href = (id: string) => (home ? `#${id}` : `/#${id}`);
     .nav__call .icon {
       width: 20px;
       height: 20px;
-    }
-
-    .nav__strip-sep,
-    .nav__strip-call {
-      display: none;
     }
   }
 

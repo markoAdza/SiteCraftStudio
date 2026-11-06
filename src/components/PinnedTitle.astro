@@ -83,6 +83,15 @@ const { id, num, label, tone = 'paper', sub } = Astro.props;
     max-width: 18ch;
   }
 
+  /* Ročni prelom vrstic: vsaka .pin-line je svoja vrstica */
+  .pin-title__h:has(:global(.pin-line)) {
+    max-width: none;
+  }
+
+  .pin-title__h :global(.pin-line) {
+    display: block;
+  }
+
   .pin-title__sub {
     max-width: 54ch;
     font-size: var(--fs-body-l);

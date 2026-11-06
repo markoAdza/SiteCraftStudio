@@ -52,6 +52,8 @@ const belt = ['Kebab', 'Jufka', 'Burger', 'Pizza', 'Žar', 'Pommes'];
     display: grid;
     place-items: center;
     overflow: hidden;
+    /* Pečat se meri tudi po višini, da ne prekrije napisa zgoraj in traku spodaj */
+    container-type: size;
     background:
       repeating-linear-gradient(19deg, transparent 0 70px, rgba(var(--white-rgb), 0.028) 70px 140px),
       repeating-linear-gradient(19deg, transparent 0 22px, rgba(var(--white-rgb), 0.018) 22px 24px),
@@ -81,11 +83,12 @@ const belt = ['Kebab', 'Jufka', 'Burger', 'Pizza', 'Žar', 'Pommes'];
 
   .lan__seal {
     position: relative;
-    width: min(78%, 340px);
+    /* rezerviran pas: napis zgoraj (~44 px), trak spodaj (~64 px) */
+    width: min(78%, 340px, calc(100cqh - 112px));
     aspect-ratio: 1;
     display: grid;
     place-items: center;
-    margin-bottom: 36px;
+    margin: 44px 0 64px;
   }
 
   .lan__ring {
@@ -170,8 +173,8 @@ const belt = ['Kebab', 'Jufka', 'Burger', 'Pizza', 'Žar', 'Pommes'];
 
   @media (max-width: 640px) {
     .lan__seal {
-      width: min(62%, 240px);
-      margin-bottom: 28px;
+      width: min(62%, 240px, calc(100cqh - 88px));
+      margin: 34px 0 50px;
     }
 
     .lan__kicker {

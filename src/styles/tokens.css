@@ -113,8 +113,7 @@
   --gutter: clamp(16px, 2.4vw, 32px);
   --section-y: clamp(88px, 12vw, 168px);
   --nav-h-top: 72px;
-  --nav-h-strip: 34px;
-  --nav-h: calc(var(--nav-h-top) + var(--nav-h-strip));
+  --nav-h: var(--nav-h-top);
 
   /* Radii */
   --r-xs: 4px;
@@ -140,6 +139,5 @@
 @media (max-width: 1024px) {
   :root {
     --nav-h-top: 60px;
-    --nav-h-strip: 30px;
   }
 }
