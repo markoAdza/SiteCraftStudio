@@ -1,0 +1,105 @@
+---
+/**
+ * Stikalo temni / svetli način (v navigaciji). Privzet je svetli način; začetno
+ * stanje nastavi inline skripta v Base.astro (pred izrisom). Ob preklopu: data-theme na <html>,
+ * izbira v localStorage, theme-color in dogodek »themechange« (shader).
+ */
+import Icon from './ui/Icon.astro';
+---
+
+<button class="theme" type="button" aria-pressed="false" data-theme-toggle>
+  <span class="sr-only">Svetli način</span>
+  <span class="theme__icons" aria-hidden="true">
+    <Icon name="moon" class="theme__moon" />
+    <Icon name="sun" class="theme__sun" />
+  </span>
+</button>
+
+<style>
+  .theme {
+    display: inline-grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    flex: none;
+    border-radius: 50%;
+    border: 1px solid var(--border-hover);
+    color: var(--text-secondary);
+    transition:
+      color 0.25s var(--ease-out),
+      border-color 0.25s var(--ease-out),
+      background-color 0.25s var(--ease-out);
+  }
+
+  .theme:hover {
+    color: var(--text);
+    border-color: var(--text-tertiary);
+    background: rgba(var(--overlay-rgb), 0.06);
+  }
+
+  .theme__icons {
+    display: grid;
+  }
+
+  @media (max-width: 1024px) {
+    .theme {
+      width: 36px;
+      height: 36px;
+    }
+  }
+
+  .theme__icons :global(.icon) {
+    grid-area: 1 / 1;
+    width: 18px;
+    height: 18px;
+    transition:
+      opacity 0.35s var(--ease-out),
+      transform 0.5s var(--ease-out);
+  }
+
+  /* Temni način: luna; svetli: sonce */
+  .theme__icons :global(.theme__sun) {
+    opacity: 0;
+    transform: rotate(-90deg) scale(0.6);
+  }
+
+  :global(:root[data-theme='light']) .theme__icons :global(.theme__moon) {
+    opacity: 0;
+    transform: rotate(90deg) scale(0.6);
+  }
+
+  :global(:root[data-theme='light']) .theme__icons :global(.theme__sun) {
+    opacity: 1;
+    transform: none;
+  }
+</style>
+
+<script>
+  const root = document.documentElement;
+  const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]'));
+  const isLight = () => root.getAttribute('data-theme') === 'light';
+
+  const sync = () => {
+    const light = isLight();
+    buttons.forEach((b) => {
+      b.setAttribute('aria-pressed', String(light));
+      b.title = light ? 'Preklopi na temni način' : 'Preklopi na svetli način';
+    });
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', light ? '#163a45' : '#0f1414');
+  };
+
+  const apply = (light: boolean, remember: boolean) => {
+    if (light) root.setAttribute('data-theme', 'light');
+    else root.removeAttribute('data-theme');
+    if (remember) {
+      try {
+        localStorage.setItem('sc-theme', light ? 'light' : 'dark');
+      } catch {}
+    }
+    sync();
+    document.dispatchEvent(new CustomEvent('themechange', { detail: { theme: light ? 'light' : 'dark' } }));
+  };
+
+  sync();
+  buttons.forEach((b) => b.addEventListener('click', () => apply(!isLight(), true)));
+</script>

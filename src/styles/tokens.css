@@ -54,6 +54,9 @@
   --shadow-rgb: 5, 10, 9;
   --black-rgb: 0, 0, 0;
   --white-rgb: 255, 255, 255;
+  /* Prosojna prekrivanja na podlagi strani (bela na temnem, ink na svetlem) */
+  --overlay-rgb: 255, 255, 255;
+  --scheme: dark;
 
   /* Semantic */
   --success: #8cc0a0;
@@ -89,7 +92,7 @@
   --bmb-straw: #d8be86;
 
   /* Typography */
-  --font-display: 'Instrument Serif', 'Times New Roman', Georgia, serif;
+  --font-display: 'Domine Variable', 'Domine', Georgia, 'Times New Roman', serif;
   --font-sans: 'Geist Variable', 'Geist', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'Geist Mono Variable', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
 
@@ -103,10 +106,11 @@
   --fs-label: 0.75rem;
 
   /* Wordmark: širina besedila »Site Craft Studio.« v em (izmerjeno s Playwright) */
-  --wm-ratio: 5.12;
-  /* Hero: črke so ločeni elementi (brez kerninga) → nekoliko širše */
-  --wm-ratio-split: 5.16;
-  --wm-ratio-split-2l: 2.84;
+  --wm-ratio: 7.45;
+  /* Hero: črke so ločeni elementi z osnovnim razmikom -0.02em + optičnim kerningom
+     po parih (Hero.astro, KERN) — izmerjeno v Chromu */
+  --wm-ratio-split: 7.783;
+  --wm-ratio-split-2l: 4.315;
 
   /* Layout */
   --container: 1440px;

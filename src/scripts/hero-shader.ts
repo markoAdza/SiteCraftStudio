@@ -77,8 +77,8 @@ void main() {
 }
 `;
 
-function cssColor(name: string): [number, number, number] {
-  const raw = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+function cssColor(el: Element, name: string): [number, number, number] {
+  const raw = getComputedStyle(el).getPropertyValue(name).trim();
   const hex = raw.replace('#', '');
   const full = hex.length === 3 ? hex.split('').map((c) => c + c).join('') : hex;
   const n = parseInt(full, 16);
@@ -132,11 +132,20 @@ export function initHeroShader(canvas: HTMLCanvasElement, host: HTMLElement, red
     mist: gl.getUniformLocation(prog, 'uMist'),
     ink: gl.getUniformLocation(prog, 'uInk'),
   };
-  gl.uniform3fv(u.bg, cssColor('--bg'));
-  gl.uniform3fv(u.deep, cssColor('--accent-deep'));
-  gl.uniform3fv(u.accent, cssColor('--sage'));
-  gl.uniform3fv(u.mist, cssColor('--mist'));
-  gl.uniform3fv(u.ink, cssColor('--sand'));
+  // Barve beremo s hero elementa (ne s :root), ker lahko paleta tokene
+  // znotraj heroja lokalno predefinira (svetli način ima drugačen temen hero).
+  function applyColors() {
+    gl!.uniform3fv(u.bg, cssColor(host, '--bg'));
+    gl!.uniform3fv(u.deep, cssColor(host, '--accent-deep'));
+    gl!.uniform3fv(u.accent, cssColor(host, '--sage'));
+    gl!.uniform3fv(u.mist, cssColor(host, '--mist'));
+    gl!.uniform3fv(u.ink, cssColor(host, '--sand'));
+  }
+  applyColors();
+  document.addEventListener('themechange', () => {
+    applyColors();
+    draw();
+  });
 
   // Programsko renderiranje (brez GPU: SwiftShader/llvmpipe) → le ena statična sličica
   const dbg = gl.getExtension('WEBGL_debug_renderer_info');

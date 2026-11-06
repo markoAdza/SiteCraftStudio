@@ -90,7 +90,7 @@ Za korensko domeno (apex) mora biti DNS cona na Cloudflare: pri registrarju `.si
 
 ## Zasluge
 
-- Pisave: [Instrument Serif](https://fonts.google.com/specimen/Instrument+Serif), [Geist / Geist Mono](https://vercel.com/font) — SIL Open Font License, gostovane lokalno (Fontsource).
+- Pisave: [Domine](https://fonts.google.com/specimen/Domine), [Geist / Geist Mono](https://vercel.com/font) — SIL Open Font License, gostovane lokalno (Fontsource).
 - Animacije: [GSAP](https://gsap.com) (ScrollTrigger, SplitText — brezplačna licenca), [Lenis](https://lenis.darkroom.engineering) (MIT).
 - Ikone: [Lucide](https://lucide.dev) (ISC).
 - Gibanje navdihnjeno z [vue-bits / react-bits](https://github.com/DavidHDev/vue-bits) by DavidHDev (MIT) — ScrollFloat, ScrollReveal, SpotlightCard, Magnet.

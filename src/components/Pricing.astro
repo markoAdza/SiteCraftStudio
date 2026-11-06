@@ -358,9 +358,11 @@ import Button from './ui/Button.astro';
     font-family: var(--font-display);
     font-size: clamp(10rem, 22vw, 20rem);
     line-height: 1;
-    color: transparent;
-    -webkit-text-stroke: 1px rgba(var(--accent-rgb), 0.28);
+    /* polno polnilo namesto obrisa: Domine Variable ima prekrivajoče se konture
+       (prečki €), ki jih text-stroke izriše kot moteče notranje črte */
+    color: rgba(var(--accent-rgb), 0.07);
     pointer-events: none;
+    user-select: none;
   }
 
   .zero__intro {

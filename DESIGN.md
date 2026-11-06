@@ -108,6 +108,20 @@
 - **Nikoli pesek na žajblju** (2,4:1) — na žajbljevi ploskvi je besedilo belo (`--on-accent`), dekorativna pika pa `--ink`.
 - Sence in prekrivanja uporabljajo `--shadow-rgb` / `--bg-rgb` (zeleno-črno), ne čiste črne.
 
+### Svetli način (paleta »Obala«)
+
+Svetli način je privzet: `data-theme="light"` je že v HTML na `<html>` (`Base.astro`). Temni način (osnovni tokeni zgoraj) velja, ko obiskovalec preklopi stikalo (luna/sonce) v navigaciji (`ThemeToggle.astro`); izbira se shrani v `localStorage` (`sc-theme`). Sistemska nastavitev (`prefers-color-scheme`) se ne upošteva. Tokeni so v `src/styles/theme-light.css`.
+
+| Vloga | Barva |
+|------|------|
+| Podlaga / svetle sekcije | `#FFFFFF` / `#EEEEEE` |
+| Besedilo, gumbi, noga (Deep Teal) | `#326273` (naslovi `#16323C`) |
+| Svila, linije (Sea Teal) | `#5C9EAD` |
+| Poudarek (Coral) | `#E39774` — samo dekorativno (pike, sij, greben); *italic* besedilo v temnejši `#A8532F` (4,8:1 na beli) |
+
+- Hero in izpostavljen paket ostaneta temna »otoka« (`#163A45` / `--ink`) z lokalno predefiniranimi tokeni; shader bere barve s `.hero`.
+- `--overlay-rgb` = prosojna prekrivanja na podlagi strani (bela v temnem, ink v svetlem načinu).
+
 ---
 
 ## 3. Typography Rules
@@ -115,23 +129,23 @@
 **Font Stack** (self-hosted prek Fontsource — brez zahtev na Google strežnike zaradi GDPR in hitrosti; vir pisav je Google Fonts):
 ```css
 /* Ekvivalent Google Fonts (za referenco):
-   @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@100..900&family=Geist+Mono:wght@100..900&display=swap&subset=latin-ext'); */
-@import '@fontsource/instrument-serif/400.css';
-@import '@fontsource/instrument-serif/400-italic.css';
+   @import url('https://fonts.googleapis.com/css2?family=Domine:wght@400..700&family=Geist:wght@100..900&family=Geist+Mono:wght@100..900&display=swap&subset=latin-ext'); */
+@import '@fontsource-variable/domine';
 @import '@fontsource-variable/geist';
 @import '@fontsource-variable/geist-mono';
 
---font-display: 'Instrument Serif', 'Times New Roman', Georgia, serif;
+--font-display: 'Domine Variable', 'Domine', Georgia, 'Times New Roman', serif;
 --font-sans: 'Geist Variable', 'Geist', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 --font-mono: 'Geist Mono Variable', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
 ```
 
 | Role | Font | Size | Weight | Line Height | Letter Spacing |
 |------|------|------|--------|-------------|----------------|
-| Wordmark (hero, noga) | Instrument Serif | fit-to-width (`cqw`) | 400 | 0.82 | -0.035em |
-| Display (pripeti naslovi) | Instrument Serif, UPPERCASE | clamp(2.6rem, 5.4vw, 5.75rem) | 400 | 1.02 | -0.01em |
-| Section H2 | Instrument Serif | clamp(2.5rem, 5vw, 4.75rem) | 400 (*italic* za poudarek) | 1.0 | -0.02em |
-| H3 (kartice projektov, cene) | Instrument Serif | clamp(1.9rem, 3vw, 3.25rem) | 400 | 1.02 | -0.015em |
+| Wordmark (hero) | Domine | fit-to-width (`cqw`) | 400 | 0.82 | -0.02em + optični kerning po parih (`KERN` v `Hero.astro`) |
+| Wordmark (noga) | Domine | fit-to-width (`cqw`) | 400 | 0.86 | -0.035em |
+| Display (pripeti naslovi) | Domine, UPPERCASE | clamp(2.6rem, 5.4vw, 5.75rem) | 400 | 1.02 | -0.01em |
+| Section H2 | Domine | clamp(2.5rem, 5vw, 4.75rem) | 400 (*italic* za poudarek — Domine nima italic reza, brskalnik ga nagne sintetično) | 1.0 | -0.02em |
+| H3 (kartice projektov, cene) | Domine | clamp(1.9rem, 3vw, 3.25rem) | 400 | 1.02 | -0.015em |
 | H4 (ploščice, paketi) | Geist | 1.125–1.25rem | 600 | 1.25 | -0.01em |
 | Body L | Geist | clamp(1.0625rem, 1.2vw, 1.25rem) | 400 | 1.6 | — |
 | Body | Geist | 1rem | 400 | 1.65 | — |

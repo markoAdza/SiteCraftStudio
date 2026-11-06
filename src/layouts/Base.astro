@@ -1,7 +1,7 @@
 ---
 import '../styles/global.css';
 import { SITE } from '../data/site';
-import serifLatin from '@fontsource/instrument-serif/files/instrument-serif-latin-400-normal.woff2?url';
+import displayFont from '@fontsource-variable/domine/files/domine-latin-wght-normal.woff2?url';
 
 interface Props {
   title?: string;
@@ -40,7 +40,7 @@ const jsonLd = {
 ---
 
 <!doctype html>
-<html lang="sl">
+<html lang="sl" data-theme="light">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -49,8 +49,9 @@ const jsonLd = {
     <link rel="canonical" href={canonical} />
     {noindex && <meta name="robots" content="noindex, follow" />}
 
-    <meta name="theme-color" content="#0f1414" />
-    <meta name="color-scheme" content="dark" />
+    <!-- Svetli način je privzet; hero ostane temen (Deep Teal) -->
+    <meta name="theme-color" content="#163a45" />
+    <meta name="color-scheme" content="light dark" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -71,7 +72,7 @@ const jsonLd = {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
-    <link rel="preload" href={serifLatin} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={displayFont} as="font" type="font/woff2" crossorigin />
 
     <script is:inline>
       // JS je na voljo → CSS lahko pripravi začetna stanja animacij.
@@ -79,9 +80,21 @@ const jsonLd = {
       (function () {
         var d = document.documentElement;
         d.classList.add('js');
+
+        // Svetli način je privzet (data-theme="light" je že v HTML). Temni način
+        // samo, če ga je obiskovalec izbral s stikalom (ThemeToggle.astro).
+        // Nastavimo pred izrisom (brez utripa).
+        var t = null;
+        try { t = localStorage.getItem('sc-theme'); } catch (e) {}
+        if (t === 'dark') {
+          d.removeAttribute('data-theme');
+          var m = document.querySelector('meta[name="theme-color"]');
+          if (m) m.setAttribute('content', '#0f1414');
+        }
+
         var done = function () { d.classList.add('fonts-ready'); };
         if (document.fonts && document.fonts.load) {
-          document.fonts.load('400 1em "Instrument Serif"').then(done, done);
+          document.fonts.load('400 1em "Domine Variable"').then(done, done);
         } else { done(); }
         setTimeout(done, 1200);
       })();

@@ -1,0 +1,104 @@
+/* ==========================================================================
+   SVETLI NAČIN — paleta »Obala« (temni način = tokens.css).
+   Vklop: data-theme="light" na <html> (stikalo v navigaciji, Base.astro).
+   Bela / #EEEEEE podlaga, Deep Teal #326273 besedilo in dejanja,
+   Sea Teal #5C9EAD linije in svila, Coral #E39774 poudarek.
+   Hero, noga in izpostavljen paket ostanejo temni »otoki«.
+   Pisave so v obeh načinih enake (tokens.css).
+
+   Vloge primitivov kot v DESIGN.md §2: --sage = svila/znamka,
+   --mist = hladna tančica, --sand = topel poudarek (greben, sij, pike).
+   ========================================================================== */
+:root[data-theme='light'] {
+  --scheme: light;
+
+  --sage: #5c9ead;
+  --mist: #326273;
+  --sand: #e39774;
+
+  --bg: #ffffff;
+  --surface: #f6f8f8;
+  --surface-alt: #eeeeee;
+  --surface-hover: #e6ebec;
+  --paper: #eeeeee;
+  --paper-2: #ffffff;
+
+  --border: #dfe5e7;
+  --border-hover: #bccacf;
+  --paper-line: #d3dbde;
+
+  --text: #16323c;
+  --text-secondary: #326273;
+  --text-tertiary: #4a6a76;
+
+  --ink: #16323c;
+  --ink-2: #326273;
+  --ink-3: #4a6a76;
+
+  --accent: #326273;
+  --accent-hover: #3b7083;
+  --accent-press: #284f5d;
+  --accent-ink: #a8532f;
+  --accent-deep: #1d4a58;
+  --accent-on-paper: #326273;
+  --on-accent: #ffffff;
+  --on-accent-2: rgba(255, 255, 255, 0.86);
+
+  --bg-rgb: 255, 255, 255;
+  --paper-rgb: 238, 238, 238;
+  --text-rgb: 22, 50, 60;
+  --accent-rgb: 50, 98, 115;
+  --accent-ink-rgb: 227, 151, 116;
+  --sage-rgb: 92, 158, 173;
+  --mist-rgb: 50, 98, 115;
+  --sand-rgb: 227, 151, 116;
+  --shadow-rgb: 22, 50, 60;
+  --overlay-rgb: 22, 50, 60;
+
+  --success: #2f7d5a;
+  --success-rgb: 47, 125, 90;
+  --error: #b2402f;
+  --warning: #9a6a12;
+
+  --shadow-raised: 0 1px 0 rgba(var(--white-rgb), 0.6) inset, 0 18px 40px -22px rgba(var(--shadow-rgb), 0.35);
+  --shadow-curtain: 0 -14px 40px rgba(var(--shadow-rgb), 0.1);
+}
+
+/* Temni otoki v svetlem načinu: hero in izpostavljen paket (komponenti
+   pričakujeta temne tokene besedila). Shader bere tokene s .hero. */
+:root[data-theme='light'] :is(.hero, .plan--featured) {
+  --scheme: dark;
+  --text: #ffffff;
+  --text-secondary: #b9d3da;
+  --text-tertiary: #8fb6c1;
+  --accent-ink: #e39774;
+  --accent-ink-rgb: 227, 151, 116;
+  --border: #24505d;
+  --border-hover: #3a6a79;
+  --overlay-rgb: 255, 255, 255;
+}
+
+:root[data-theme='light'] .hero {
+  --bg: #163a45;
+  --accent: #e39774;
+  --accent-deep: #22505e;
+  --mist: #326273;
+  --bg-rgb: 22, 58, 69;
+  --shadow-rgb: 10, 32, 40;
+}
+
+/* Na temnem kartičnem ozadju (--ink) je gumb svetlejši Sea Teal s temnim besedilom */
+:root[data-theme='light'] .plan--featured {
+  --accent: #5c9ead;
+  --accent-hover: #6cadbb;
+  --accent-press: #4f8e9c;
+  --accent-rgb: 92, 158, 173;
+  --on-accent: #0f2a33;
+  --on-accent-2: rgba(15, 42, 51, 0.84);
+}
+
+/* Noga je Deep Teal (= --accent); pika logotipa v koralni namesto temnega inka */
+:root[data-theme='light'] .footer__dot,
+:root[data-theme='light'] .nav__logo-dot {
+  color: var(--sand);
+}

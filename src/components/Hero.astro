@@ -5,17 +5,39 @@
  * Hero je sticky »zavesa« — vsebina strani zdrsne čezenj.
  */
 const lines = ['Site Craft', 'Studio.'];
+
+// Optično kerniranje (em) za pare znotraj besed. Ločene črke izgubijo kerning pisave,
+// zato je izračunano iz obrisov Domine 400: polovična izravnava belega prostora med
+// črkami + spodnja meja 0.045em najmanjšega razmika (prečke f/t in serife se ne dotikajo).
+// Velja ob osnovnem razmiku --wm-track: -0.02em. Ob spremembi preračunaj --wm-ratio-split*.
+const KERN: Record<string, number> = {
+  Si: -0.01,
+  te: 0.01,
+  Cr: -0.006,
+  ra: 0.011,
+  af: 0.023,
+  ft: 0.033,
+  St: -0.002,
+  tu: 0.026,
+  ud: 0.006,
+  di: 0.004,
+  io: 0.005,
+  'o.': -0.012,
+};
+
 let index = 0;
 // Vsaka črka v svojem elementu (maska za razkritje). Druga vrstica dobi vodilni
 // presledek, ki je na mobilnem (dve vrstici) skrit.
-const split = lines.map((line, li) =>
-  [...(li > 0 ? ' ' : '') + line].map((ch, ci) => ({
+const split = lines.map((line, li) => {
+  const chars = [...(li > 0 ? ' ' : '') + line];
+  return chars.map((ch, ci) => ({
     ch,
     i: ch === ' ' ? -1 : index++,
+    k: KERN[ch + (chars[ci + 1] ?? '')] ?? 0,
     dot: ch === '.',
     lead: li > 0 && ci === 0,
-  })),
-);
+  }));
+});
 ---
 
 <div class="hero-wrap" id="top">
@@ -48,11 +70,11 @@ const split = lines.map((line, li) =>
             {
               split.map((line) => (
                 <span class="wm__line">
-                  {line.map(({ ch, i, dot, lead }) =>
+                  {line.map(({ ch, i, k, dot, lead }) =>
                     ch === ' ' ? (
                       <span class:list={['wm__space', lead && 'wm__space--lead']}>{' '}</span>
                     ) : (
-                      <span class:list={['wm__ch', dot && 'wm__dot']} style={`--i:${i}`}>
+                      <span class:list={['wm__ch', dot && 'wm__dot']} style={`--i:${i};--k:${k}em`}>
                         <span>{ch}</span>
                       </span>
                     ),
@@ -248,7 +270,9 @@ const split = lines.map((line, li) =>
     font-weight: 400;
     font-size: calc(100cqw / var(--wm-ratio-split));
     line-height: 0.82;
-    letter-spacing: -0.035em;
+    /* Razmik je na .wm__ch (osnovni razmik + optični kerning para), ne v letter-spacing */
+    --wm-track: -0.02em;
+    letter-spacing: 0;
     color: var(--text);
     white-space: nowrap;
     text-shadow: 0 0 48px rgba(var(--sage-rgb), 0.45);
@@ -266,6 +290,7 @@ const split = lines.map((line, li) =>
 
   .wm__ch {
     display: inline-block;
+    margin-inline-end: calc(var(--wm-track) + var(--k, 0em));
     line-height: 1.02;
     padding-top: 0.04em;
     clip-path: inset(-30% -20% 0 -20%);
