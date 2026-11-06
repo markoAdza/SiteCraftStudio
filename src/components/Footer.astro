@@ -6,6 +6,7 @@
  * Skrita podrobnost: ko je noga povsem razkrita, pika »oživi«.
  */
 import { NAV, SITE } from '../data/site';
+import { wmKern } from '../data/wordmark';
 import Icon from './ui/Icon.astro';
 
 interface Props {
@@ -14,12 +15,24 @@ interface Props {
 const { home = true } = Astro.props;
 const href = (id: string) => (home ? `#${id}` : `/#${id}`);
 const year = new Date().getFullYear();
+// Wordmark kot v heroju: vsaka črka svoj element z optičnim kerningom para
+const wmChars = [...'Site Craft Studio.'].map((ch, i, all) => ({ ch, k: wmKern(ch, all[i + 1]) }));
 ---
 
 <footer class="footer" data-footer>
   <div class="footer__inner">
     <p class="footer__wm" aria-hidden="true">
-      Site Craft Studio<span class="footer__dot">.</span>
+      {
+        wmChars.map(({ ch, k }) =>
+          ch === ' ' ? (
+            <span>{' '}</span>
+          ) : (
+            <span class:list={['footer__ch', ch === '.' && 'footer__dot']} style={`--k:${k}em`}>
+              {ch}
+            </span>
+          ),
+        )
+      }
     </p>
 
     <div class="footer__cols">
@@ -65,13 +78,20 @@ const year = new Date().getFullYear();
     padding: clamp(20px, 2.4vw, 32px) var(--gutter) clamp(18px, 2vw, 28px);
   }
 
+  /* Flex: prazni znaki iz markupa med črkami se ne izrišejo (natančna širina) */
   .footer__wm {
+    display: flex;
     font-family: var(--font-display);
     font-size: calc(100cqw / var(--wm-ratio));
     line-height: 0.86;
-    letter-spacing: -0.035em;
+    /* Razmik je na .footer__ch (--wm-track + optični kerning para), ne v letter-spacing */
+    letter-spacing: 0;
     white-space: nowrap;
     color: var(--on-accent);
+  }
+
+  .footer__ch {
+    margin-inline-end: calc(var(--wm-track) + var(--k, 0em));
   }
 
   .footer__dot {

@@ -4,27 +4,9 @@
  * spodaj in ogromen wordmark čez celo širino ob spodnjem robu.
  * Hero je sticky »zavesa« — vsebina strani zdrsne čezenj.
  */
+import { wmKern } from '../data/wordmark';
+
 const lines = ['Site Craft', 'Studio.'];
-
-// Optično kerniranje (em) za pare znotraj besed. Ločene črke izgubijo kerning pisave,
-// zato je izračunano iz obrisov Domine 400: polovična izravnava belega prostora med
-// črkami + spodnja meja 0.045em najmanjšega razmika (prečke f/t in serife se ne dotikajo).
-// Velja ob osnovnem razmiku --wm-track: -0.02em. Ob spremembi preračunaj --wm-ratio-split*.
-const KERN: Record<string, number> = {
-  Si: -0.01,
-  te: 0.01,
-  Cr: -0.006,
-  ra: 0.011,
-  af: 0.023,
-  ft: 0.033,
-  St: -0.002,
-  tu: 0.026,
-  ud: 0.006,
-  di: 0.004,
-  io: 0.005,
-  'o.': -0.012,
-};
-
 let index = 0;
 // Vsaka črka v svojem elementu (maska za razkritje). Druga vrstica dobi vodilni
 // presledek, ki je na mobilnem (dve vrstici) skrit.
@@ -33,7 +15,7 @@ const split = lines.map((line, li) => {
   return chars.map((ch, ci) => ({
     ch,
     i: ch === ' ' ? -1 : index++,
-    k: KERN[ch + (chars[ci + 1] ?? '')] ?? 0,
+    k: wmKern(ch, chars[ci + 1]),
     dot: ch === '.',
     lead: li > 0 && ci === 0,
   }));
@@ -268,10 +250,9 @@ const split = lines.map((line, li) => {
   .wm {
     font-family: var(--font-display);
     font-weight: 400;
-    font-size: calc(100cqw / var(--wm-ratio-split));
+    font-size: calc(100cqw / var(--wm-ratio));
     line-height: 0.82;
-    /* Razmik je na .wm__ch (osnovni razmik + optični kerning para), ne v letter-spacing */
-    --wm-track: -0.02em;
+    /* Razmik je na .wm__ch (--wm-track + optični kerning para), ne v letter-spacing */
     letter-spacing: 0;
     color: var(--text);
     white-space: nowrap;
@@ -370,7 +351,7 @@ const split = lines.map((line, li) => {
   /* --------------------------------------------------------- Mobilno */
   @media (max-width: 640px) {
     .wm {
-      font-size: calc(100cqw / var(--wm-ratio-split-2l));
+      font-size: calc(100cqw / var(--wm-ratio-2l));
     }
 
     .wm__visual {

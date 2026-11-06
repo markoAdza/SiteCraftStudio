@@ -141,8 +141,7 @@ Svetli način je privzet: `data-theme="light"` je že v HTML na `<html>` (`Base.
 
 | Role | Font | Size | Weight | Line Height | Letter Spacing |
 |------|------|------|--------|-------------|----------------|
-| Wordmark (hero) | Domine | fit-to-width (`cqw`) | 400 | 0.82 | -0.02em + optični kerning po parih (`KERN` v `Hero.astro`) |
-| Wordmark (noga) | Domine | fit-to-width (`cqw`) | 400 | 0.86 | -0.035em |
+| Wordmark (hero, noga) | Domine | fit-to-width (`cqw`) | 400 | 0.82 (noga 0.86) | `--wm-track` -0.02em + optični kerning po parih (`src/data/wordmark.ts`) |
 | Display (pripeti naslovi) | Domine, UPPERCASE | clamp(2.6rem, 5.4vw, 5.75rem) | 400 | 1.02 | -0.01em |
 | Section H2 | Domine | clamp(2.5rem, 5vw, 4.75rem) | 400 (*italic* za poudarek — Domine nima italic reza, brskalnik ga nagne sintetično) | 1.0 | -0.02em |
 | H3 (kartice projektov, cene) | Domine | clamp(1.9rem, 3vw, 3.25rem) | 400 | 1.02 | -0.015em |

@@ -105,12 +105,12 @@
   --fs-small: 0.875rem;
   --fs-label: 0.75rem;
 
-  /* Wordmark: širina besedila »Site Craft Studio.« v em (izmerjeno s Playwright) */
-  --wm-ratio: 7.45;
-  /* Hero: črke so ločeni elementi z osnovnim razmikom -0.02em + optičnim kerningom
-     po parih (Hero.astro, KERN) — izmerjeno v Chromu */
-  --wm-ratio-split: 7.783;
-  --wm-ratio-split-2l: 4.315;
+  /* Wordmark (hero + noga): črke so ločeni elementi z osnovnim razmikom --wm-track
+     + optičnim kerningom po parih (src/data/wordmark.ts). Razmerji = širina besedila
+     v em (izmerjeno v Chromu): »Site Craft Studio.« v eni vrstici / »Site Craft«. */
+  --wm-track: -0.02em;
+  --wm-ratio: 7.783;
+  --wm-ratio-2l: 4.315;
 
   /* Layout */
   --container: 1440px;
