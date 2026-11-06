@@ -3,8 +3,7 @@ import { Image } from 'astro:assets';
 import { SITE } from '../data/site';
 import Icon from './ui/Icon.astro';
 import Button from './ui/Button.astro';
-// TODO: zamenjaj s pravo fotografijo (portret 4:5, vsaj 900 × 1125 px)
-import portrait from '../assets/about/portrait-placeholder.jpg';
+import portrait from '../assets/about/portrait.jpg';
 ---
 
 <section class="section sheet about" id="o-meni" aria-labelledby="o-meni-title">
@@ -12,8 +11,8 @@ import portrait from '../assets/about/portrait-placeholder.jpg';
     <figure class="about__photo" data-reveal>
       <Image
         src={portrait}
-        alt="Delovni prostor razvijalca — koda na zaslonu prenosnika"
-        widths={[420, 640, 900]}
+        alt={`Portret — ${SITE.owner}`}
+        widths={[420, 640, 900, 1200]}
         sizes="(max-width: 1024px) 90vw, 36vw"
         loading="lazy"
         class="about__img"
@@ -93,6 +92,7 @@ import portrait from '../assets/about/portrait-placeholder.jpg';
 
   .about__photo :global(.about__img) {
     width: 100%;
+    height: auto; /* override the height="" attribute Astro writes, so aspect-ratio applies */
     aspect-ratio: 4 / 5;
     object-fit: cover;
   }
