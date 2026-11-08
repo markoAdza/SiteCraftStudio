@@ -1,0 +1,225 @@
+---
+/**
+ * Bistro Bombina — pomanjšan uvod s strani bombina-v2.vercel.app:
+ * fotografija mize čez celo ploskev, temno senčenje zgoraj in spodaj,
+ * zgornja vrstica (kraj, Meni, SL/EN, steklen gumb »Rezerviraj«) in
+ * čopičast logotip BOMBINA čez vso širino na dnu.
+ * Logotipa sta enobarvna SVG-ja, izrisana kot CSS maska (barva = currentColor).
+ */
+import { Image } from 'astro:assets';
+import Icon from '../ui/Icon.astro';
+import heroTable from '../../assets/work/bmb-hero-table.jpg';
+import bombinaMark from '../../assets/work/bmb-wordmark-bombina.svg';
+import bistroMark from '../../assets/work/bmb-wordmark-bistro.svg';
+---
+
+<div class="bmb" aria-hidden="true">
+  <Image
+    class="bmb__photo"
+    src={heroTable}
+    alt=""
+    widths={[480, 720, 960, 1280]}
+    sizes="(max-width: 760px) 92vw, 640px"
+    loading="lazy"
+  />
+  <div class="bmb__shade"></div>
+
+  <div class="bmb__top">
+    <span class="bmb__place">Bistro · Trbovlje</span>
+    <div class="bmb__actions">
+      <span class="bmb__link">Meni</span>
+      <span class="bmb__lang">SL <i>/</i> EN</span>
+      <span class="bmb__btn"><Icon name="phone" />Rezerviraj</span>
+    </div>
+  </div>
+
+  <div class="bmb__bottom">
+    <div class="bmb__meta">
+      <span class="bmb__mark bmb__mark--bistro" style={`--mark: url(${bistroMark.src})`}></span>
+      <p class="bmb__tagline">Sezonska kuhinja, dobra pijača in prostor, kjer se počutite kot doma.</p>
+      <span class="bmb__scroll">Drsi <Icon name="arrow-down" /></span>
+    </div>
+    <span class="bmb__mark bmb__mark--bombina" style={`--mark: url(${bombinaMark.src})`}></span>
+  </div>
+</div>
+
+<style>
+  .bmb {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    container-type: size;
+    background: var(--bmb-ink);
+    color: var(--bmb-linen);
+    --pad: clamp(12px, 3.6cqw, 26px);
+  }
+
+  .bmb :global(.bmb__photo) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    object-fit: cover;
+    object-position: 62% 50%;
+    transform-origin: 62% 50%;
+    animation: bmb-zoom 18s ease-in-out infinite alternate;
+  }
+
+  @keyframes bmb-zoom {
+    from {
+      transform: scale(1.08);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+
+  /* Senčenje kot na izvirniku: rahlo zgoraj, močneje spodaj pod logotipom */
+  .bmb__shade {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to bottom, rgba(var(--bmb-ink-rgb), 0.5) 0%, rgba(var(--bmb-ink-rgb), 0) 26%),
+      linear-gradient(
+        to top,
+        rgba(var(--bmb-ink-rgb), 0.86) 0%,
+        rgba(var(--bmb-ink-rgb), 0.45) 38%,
+        rgba(var(--bmb-ink-rgb), 0) 66%
+      );
+  }
+
+  /* ------------------------------------------------------------ Zgoraj */
+  .bmb__top {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: var(--pad) var(--pad) 0;
+  }
+
+  .bmb__place,
+  .bmb__link,
+  .bmb__lang,
+  .bmb__scroll {
+    font: 600 clamp(0.5rem, 1.5cqw, 0.6875rem) / 1 var(--font-sans);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .bmb__actions {
+    display: flex;
+    align-items: center;
+    gap: clamp(10px, 2.6cqw, 18px);
+  }
+
+  .bmb__lang i {
+    font-style: normal;
+    opacity: 0.55;
+  }
+
+  .bmb__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: clamp(6px, 1.4cqw, 9px) clamp(10px, 2.4cqw, 15px);
+    border-radius: var(--r-pill);
+    border: 1px solid rgba(var(--bmb-linen-rgb), 0.7);
+    background: rgba(var(--bmb-ink-rgb), 0.18);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    font: 600 clamp(0.5rem, 1.5cqw, 0.6875rem) / 1 var(--font-sans);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .bmb__btn :global(.icon),
+  .bmb__scroll :global(.icon) {
+    width: 1.2em;
+    height: 1.2em;
+  }
+
+  /* ------------------------------------------------------------ Spodaj */
+  .bmb__bottom {
+    position: relative;
+    display: grid;
+    gap: clamp(8px, 2cqw, 16px);
+    padding: 0 var(--pad) var(--pad);
+  }
+
+  .bmb__meta {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: end;
+    gap: clamp(10px, 3cqw, 28px);
+    filter: drop-shadow(0 1px 10px rgba(var(--bmb-ink-rgb), 0.5));
+  }
+
+  .bmb__tagline {
+    max-width: 32ch;
+    font: 500 clamp(0.6875rem, 2.3cqw, 0.9375rem) / 1.4 var(--font-sans);
+    text-shadow: 0 1px 14px rgba(var(--bmb-ink-rgb), 0.6);
+  }
+
+  .bmb__scroll {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .bmb__mark {
+    display: block;
+    background: currentColor;
+    -webkit-mask: var(--mark) center / contain no-repeat;
+    mask: var(--mark) center / contain no-repeat;
+  }
+
+  .bmb__mark--bistro {
+    height: clamp(16px, 4.6cqw, 34px);
+    aspect-ratio: 1170 / 355;
+  }
+
+  .bmb__mark--bombina {
+    width: 100%;
+    aspect-ratio: 3081 / 775;
+  }
+
+  /* Ozka kartica (telefon): kot izvirnik pod 700 px */
+  @container (max-width: 460px) {
+    .bmb__link,
+    .bmb__lang {
+      display: none;
+    }
+
+    .bmb__meta {
+      grid-template-columns: auto 1fr;
+    }
+
+    .bmb__scroll {
+      justify-self: end;
+    }
+
+    .bmb__tagline {
+      grid-column: 1 / -1;
+      grid-row: 2;
+    }
+  }
+
+  /* Pavza, ko kartica ni na zaslonu (data-inview na .pcard__visual) */
+  :global(.pcard__visual:not(.is-visible)) .bmb :global(.bmb__photo) {
+    animation-play-state: paused;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bmb :global(.bmb__photo) {
+      animation: none;
+    }
+  }
+</style>

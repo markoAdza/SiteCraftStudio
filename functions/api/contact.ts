@@ -26,7 +26,7 @@ interface PagesContext {
   env: Env;
 }
 
-const PLANS = ['Še ne vem', 'BASIC', 'BUSINESS', 'PREMIUM', 'BUSINESS ZERO'];
+const PLANS = ['Še ne vem', 'BASIC', 'BUSINESS', 'PREMIUM', 'ENKRATNO'];
 const MAX_BYTES = 32 * 1024;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 

@@ -83,13 +83,12 @@
   --ahil-patina-2: #9c7a49;
   --ahil-patina-3: #3a2c18;
   --ahil-patina-4: #161310;
-  --bmb-paper: #f6f1e7;
-  --bmb-paper-deep: #ebe3d4;
-  --bmb-ink: #16130f;
-  --bmb-olive: #33452f;
-  --bmb-terracotta: #c2703a;
-  --bmb-clay: #a2422f;
-  --bmb-straw: #d8be86;
+  --bmb-ink: #1e1a15;
+  --bmb-ink-rgb: 30, 26, 21;
+  --bmb-linen: #f7f2ea;
+  --bmb-linen-rgb: 247, 242, 234;
+  --bmb-sage: #b7c3a0;
+  --bmb-caramel: #a8906c;
 
   /* Typography */
   --font-display: 'Domine Variable', 'Domine', Georgia, 'Times New Roman', serif;

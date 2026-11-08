@@ -92,7 +92,7 @@
   /* Project brand tokens — SAMO znotraj kartic projektov (nespremenjeni) */
   --lan-ink: #1C1C1C;  --lan-ink-2: #262626;  --lan-sun: #F9CD1E;  --lan-cream: #F7F3E7;
   --ahil-ink: #0B0B0A; --ahil-chalk: #ECEBE6; --ahil-bronze: #B08D57; --ahil-gold: #D6AA6C; --ahil-deep: #7A5C33; --ahil-dim: #1E1912;
-  --bmb-paper: #F6F1E7; --bmb-paper-deep: #EBE3D4; --bmb-ink: #16130F; --bmb-olive: #33452F; --bmb-terracotta: #C2703A; --bmb-clay: #A2422F; --bmb-straw: #D8BE86;
+  --bmb-ink: #1E1A15; --bmb-linen: #F7F2EA; --bmb-sage: #B7C3A0; --bmb-caramel: #A8906C;
 }
 ```
 

@@ -1,5 +1,5 @@
 ---
-import { PLANS, ZERO_PLAN } from '../data/pricing';
+import { PLANS, ONE_TIME_PLAN } from '../data/pricing';
 import Icon from './ui/Icon.astro';
 import Button from './ui/Button.astro';
 ---
@@ -11,7 +11,7 @@ import Button from './ui/Button.astro';
       <h2 class="h2" id="cenik-title" data-float>Izberite paket, ki <em>ustreza</em> vašemu podjetju.</h2>
       <p class="lead" data-reveal>
         Vsi paketi vključujejo izdelavo spletne strani, gostovanje, SSL, varnostne kopije in tehnično podporo. Ena
-        mesečna naročnina — brez presenečenj.
+        mesečna naročnina — brez presenečenj. Raje plačate enkrat? Tudi to je mogoče, po dogovoru.
       </p>
     </header>
 
@@ -63,25 +63,24 @@ import Button from './ui/Button.astro';
       }
     </div>
 
-    <article class="zero" data-reveal aria-labelledby="plan-zero">
-      <span class="zero__watermark" aria-hidden="true">0 €</span>
+    <article class="zero" data-reveal aria-labelledby="plan-enkratno">
+      <span class="zero__watermark" aria-hidden="true">1×</span>
       <div class="zero__intro">
-        <span class="zero__badge">{ZERO_PLAN.tagline}</span>
-        <h3 class="plan__name zero__name" id="plan-zero">{ZERO_PLAN.name}</h3>
-        <p class="zero__desc">{ZERO_PLAN.description}</p>
+        <span class="zero__badge">{ONE_TIME_PLAN.tagline}</span>
+        <h3 class="plan__name zero__name" id="plan-enkratno">{ONE_TIME_PLAN.name}</h3>
+        <p class="zero__desc">{ONE_TIME_PLAN.description}</p>
       </div>
       <div class="zero__price">
         <p class="plan__price">
-          <span class="plan__amount">{ZERO_PLAN.price} €</span>
-          <span class="plan__per">/ mesec</span>
+          <span class="plan__amount plan__amount--text">Po dogovoru</span>
         </p>
-        <p class="plan__setup">{ZERO_PLAN.setup}</p>
+        <p class="plan__setup">{ONE_TIME_PLAN.setup}</p>
       </div>
       <div class="zero__side">
-        <p class="plan__includes">{ZERO_PLAN.includes}</p>
+        <p class="plan__includes">{ONE_TIME_PLAN.includes}</p>
         <ul class="plan__features zero__features">
           {
-            ZERO_PLAN.features.map((f) => (
+            ONE_TIME_PLAN.features.map((f) => (
               <li>
                 <Icon name="check" />
                 <span>{f}</span>
@@ -91,9 +90,9 @@ import Button from './ui/Button.astro';
         </ul>
         <Button
           href="#kontakt"
-          label="Izberi BUSINESS ZERO"
+          label="Povprašajte za ponudbo"
           variant="ink"
-          data-plan={ZERO_PLAN.id}
+          data-plan={ONE_TIME_PLAN.id}
           icon="arrow-right"
           class="plan__cta"
         />
@@ -163,6 +162,13 @@ import Button from './ui/Button.astro';
     font-size: clamp(3.5rem, 5vw, 4.75rem);
     line-height: 0.9;
     letter-spacing: -0.03em;
+  }
+
+  /* »Po dogovoru« je daljše od zneska → manjša velikost */
+  .plan__amount--text {
+    font-size: clamp(2.5rem, 3.6vw, 3.25rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
   }
 
   .plan__per {
@@ -334,7 +340,7 @@ import Button from './ui/Button.astro';
     }
   }
 
-  /* ================================================================ ZERO */
+  /* ===================================================== ENKRATNO PLAČILO */
   .zero {
     position: relative;
     isolation: isolate;

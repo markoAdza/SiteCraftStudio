@@ -12,6 +12,8 @@ export const SITE = {
   description:
     'Profesionalne spletne strani za podjetja, izdelane v enem tednu. Oblikovanje, razvoj, gostovanje, domena, SEO in vzdrževanje — za vse poskrbim jaz. Paketi že od 49 € na mesec.',
   locale: 'sl_SI',
+  /** Kontaktni obrazec (Cloudflare Pages Function + Resend + Turnstile). Vklopi, ko je backend postavljen. */
+  contactFormEnabled: false,
 } as const;
 
 export type NavItem = { id: string; label: string };

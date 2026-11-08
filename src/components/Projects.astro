@@ -9,7 +9,7 @@ import PinnedTitle from './PinnedTitle.astro';
 import Button from './ui/Button.astro';
 import LanSeal from './projects/LanSeal.astro';
 import AhilHelmet from './projects/AhilHelmet.astro';
-import BombinaChapters from './projects/BombinaChapters.astro';
+import BombinaHero from './projects/BombinaHero.astro';
 import InternalDashboard from './projects/InternalDashboard.astro';
 
 const total = String(PROJECTS.length).padStart(2, '0');
@@ -68,7 +68,7 @@ const total = String(PROJECTS.length).padStart(2, '0');
           <div class="pcard__visual" data-inview>
             {p.id === 'lan' && <LanSeal />}
             {p.id === 'ahil' && <AhilHelmet />}
-            {p.id === 'bombina' && <BombinaChapters />}
+            {p.id === 'bombina' && <BombinaHero />}
             {p.id === 'internal' && <InternalDashboard />}
           </div>
         </article>
@@ -216,10 +216,11 @@ const total = String(PROJECTS.length).padStart(2, '0');
   @media (max-width: 760px) {
     .pcard,
     .pcard--featured {
-      top: calc(var(--nav-h) + 10px + var(--i) * 10px);
+      /* Nižja kartica + večji zamik → prejšnja kartica vidno pokuka izpod naslednje */
+      top: calc(var(--nav-h) + 12px + var(--i) * 16px);
       grid-template-columns: minmax(0, 1fr);
       grid-template-rows: minmax(0, 46%) minmax(0, 1fr);
-      height: min(80svh, 700px);
+      height: min(74svh, 640px);
       min-height: 0;
       gap: 14px;
       padding: 12px;
@@ -257,10 +258,23 @@ const total = String(PROJECTS.length).padStart(2, '0');
       width: 100%;
     }
   }
+
+  /* Nizki telefoni: manj prostora vizualu, več besedilu */
+  @media (max-width: 760px) and (max-height: 720px) {
+    .pcard,
+    .pcard--featured {
+      grid-template-rows: minmax(0, 38%) minmax(0, 1fr);
+    }
+
+    .pcard__desc {
+      -webkit-line-clamp: 3;
+      line-clamp: 3;
+    }
+  }
 </style>
 
 <script>
-  import { gsap, reduceMotion, canHover, navOffset, onIdle } from '../scripts/motion';
+  import { gsap, reduceMotion, canHover, onIdle } from '../scripts/motion';
 
   const cards = [...document.querySelectorAll<HTMLElement>('[data-pcard]')];
 
@@ -277,8 +291,10 @@ const total = String(PROJECTS.length).padStart(2, '0');
         scrollTrigger: {
           trigger: next,
           start: 'top bottom',
-          end: () => `top top+=${navOffset() + 24 + (i + 1) * 25}`,
+          // konec = ko se naslednja kartica pripne (njen sticky `top` je odvisen od prelomne točke)
+          end: () => `top top+=${parseFloat(getComputedStyle(next).top) || 0}`,
           scrub: true,
+          invalidateOnRefresh: true,
         },
       });
     });

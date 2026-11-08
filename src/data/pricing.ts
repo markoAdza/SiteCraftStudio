@@ -3,10 +3,11 @@
  * Cene so v evrih na mesec; začetna postavitev je enkraten strošek.
  */
 export type Plan = {
-  id: 'BASIC' | 'BUSINESS' | 'PREMIUM' | 'BUSINESS ZERO';
+  id: 'BASIC' | 'BUSINESS' | 'PREMIUM' | 'ENKRATNO';
   name: string;
   tagline: string;
-  price: number;
+  /** null = cena po dogovoru */
+  price: number | null;
   setup: string;
   description: string;
   includes?: string;
@@ -73,21 +74,22 @@ export const PLANS: Plan[] = [
   },
 ];
 
-export const ZERO_PLAN: Plan = {
-  id: 'BUSINESS ZERO',
-  name: 'BUSINESS ZERO',
-  tagline: 'Brez začetnega vložka',
-  price: 89,
-  setup: '0 € postavitve · 12-mesečna začetna vezava',
+/** Enkratno plačilo namesto mesečne naročnine — obseg in cena po dogovoru. */
+export const ONE_TIME_PLAN: Plan = {
+  id: 'ENKRATNO',
+  name: 'ENKRATNO PLAČILO',
+  tagline: 'Brez mesečne naročnine',
+  price: null,
+  setup: 'Enkratno plačilo · cena glede na obseg',
   description:
-    'Spletna stran brez velike začetne investicije. Dobite vse, kar vključuje paket BUSINESS — brez enkratnega stroška postavitve.',
-  includes: 'Enako kot paket BUSINESS:',
+    'Raje plačate enkrat? Stran izdelam po meri za enkraten znesek, ki ga določiva glede na obseg — brez mesečne naročnine.',
+  includes: 'Kaj dobite:',
   features: [
-    'Dostop do CMS',
-    'Logotip in celostna grafična podoba',
-    'Do 8 podstrani',
-    'Večjezičnost',
-    '30 minut pomoči pri vsebini mesečno',
+    'Spletna stran po meri, v vaši lasti',
+    'Obseg in cena po dogovoru',
+    'Brez mesečne naročnine in vezave',
+    'Optimizacija za mobilne naprave in osnovni SEO',
+    'Gostovanje in vzdrževanje po želji, ločeno',
   ],
 };
 
@@ -97,5 +99,5 @@ export const PLAN_OPTIONS = [
   { value: 'BASIC', label: 'BASIC — 49 € / mesec' },
   { value: 'BUSINESS', label: 'BUSINESS — 69 € / mesec' },
   { value: 'PREMIUM', label: 'PREMIUM — 99 € / mesec' },
-  { value: 'BUSINESS ZERO', label: 'BUSINESS ZERO — 89 € / mesec' },
+  { value: 'ENKRATNO', label: 'ENKRATNO PLAČILO — po dogovoru' },
 ] as const;

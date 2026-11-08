@@ -21,6 +21,15 @@ export const PROJECTS: Project[] = [
     featured: true,
   },
   {
+    id: 'bombina',
+    title: 'Bistro Bombina',
+    meta: 'Bistro · Trbovlje',
+    description:
+      'Topla stran za bistro: celozaslonski uvod s čopičastim logotipom, tedenska ponudba in jedilnik z alergeni, catering, mnenja gostov, Instagram in dvojezična vsebina.',
+    tags: ['Dvojezično', 'Jedilnik', 'Catering', 'Mnenja gostov'],
+    url: 'https://bombina-v2.vercel.app/',
+  },
+  {
     id: 'ahil',
     title: 'Ahil fitnes',
     meta: 'Fitnes 24/7 · Hrastnik, Trbovlje, Sevnica',
@@ -28,15 +37,6 @@ export const PROJECTS: Project[] = [
       'Premium predstavitev fitnesa, odprtega 24 ur na dan: temna, močna vizualna podoba z bronasto Ahilovo čelado in jasna pot do včlanitve na vseh treh lokacijah.',
     tags: ['24/7', '3 lokacije', 'Paralaksa', 'Mobile-first'],
     url: 'https://ahilfitnes.vercel.app/',
-  },
-  {
-    id: 'bombina',
-    title: 'Bistro Bombina',
-    meta: 'Bistro · Trbovlje',
-    description:
-      'Topla, uredniška stran za bistro: vodoravna poglavja, ki se odvijajo ob drsenju, tedenska ponudba, večerna karta, sobotni brunch, catering in dvojezična vsebina.',
-    tags: ['Dvojezično', 'Jedilnik', 'Catering', 'Animacije'],
-    url: 'https://bombina-topaz.vercel.app/sl',
   },
   {
     id: 'internal',
