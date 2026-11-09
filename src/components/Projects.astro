@@ -12,7 +12,8 @@ import AhilHelmet from './projects/AhilHelmet.astro';
 import BombinaHero from './projects/BombinaHero.astro';
 import InternalDashboard from './projects/InternalDashboard.astro';
 
-const total = String(PROJECTS.length).padStart(2, '0');
+const projects = PROJECTS.filter((p) => !p.hidden);
+const total = String(projects.length).padStart(2, '0');
 ---
 
 <PinnedTitle
@@ -28,7 +29,7 @@ const total = String(PROJECTS.length).padStart(2, '0');
 <section class="stack" aria-label="Izbrani projekti">
   <div class="stack__inner container">
     {
-      PROJECTS.map((p, i) => (
+      projects.map((p, i) => (
         <article
           class:list={['pcard', p.featured && 'pcard--featured', `pcard--${p.id}`]}
           style={`--i:${i}`}

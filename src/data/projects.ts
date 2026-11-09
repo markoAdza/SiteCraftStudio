@@ -7,6 +7,8 @@ export type Project = {
   tags: string[];
   url?: string;
   featured?: boolean;
+  /** Skrit projekt se ne prikaže na strani (ostane v podatkih). */
+  hidden?: boolean;
 };
 
 export const PROJECTS: Project[] = [
@@ -28,6 +30,7 @@ export const PROJECTS: Project[] = [
       'Topla stran za bistro: celozaslonski uvod s čopičastim logotipom, tedenska ponudba in jedilnik z alergeni, catering, mnenja gostov, Instagram in dvojezična vsebina.',
     tags: ['Dvojezično', 'Jedilnik', 'Catering', 'Mnenja gostov'],
     url: 'https://bombina-v2.vercel.app/',
+    hidden: true,
   },
   {
     id: 'ahil',
