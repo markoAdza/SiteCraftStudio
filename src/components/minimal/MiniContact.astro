@@ -1,0 +1,64 @@
+---
+/** Kontakt kratke predstavitve: klic in e-pošta, brez obrazca. */
+import { SITE } from '../../data/site';
+import Button from '../ui/Button.astro';
+---
+
+<section class="mini-section" id="kontakt" aria-labelledby="mkontakt-title">
+  <div class="mini-wrap">
+    <div class="mini-card mcontact">
+      <header class="mini-head mcontact__head">
+        <p class="eyebrow"><b>(03)</b> Kontakt</p>
+        <h2 class="mini-title" id="mkontakt-title">Pokličite ali pišite — <em>odgovorim hitro.</em></h2>
+        <p class="mcontact__who">
+          {SITE.owner}, {SITE.ownerTitle}
+        </p>
+      </header>
+      <div class="mcontact__actions">
+        <Button href={SITE.phoneHref} label={`Pokličite ${SITE.phone}`} iconLeft="phone" size="lg" />
+        <Button href={SITE.emailHref} label="Pišite mi" icon="mail" size="lg" variant="ghost" />
+      </div>
+      <p class="mcontact__plain">
+        <a class="link" href={SITE.phoneHref}>{SITE.phone}</a>
+        <span aria-hidden="true">·</span>
+        <a class="link" href={SITE.emailHref}>{SITE.email}</a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .mcontact {
+    display: grid;
+    gap: 24px;
+  }
+
+  .mcontact__head {
+    margin-bottom: 0;
+  }
+
+  .mcontact__who {
+    color: var(--text-secondary);
+  }
+
+  .mcontact__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .mcontact__plain {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 12px;
+    font-size: var(--fs-small);
+    color: var(--text-tertiary);
+    overflow-wrap: anywhere;
+  }
+
+  @media (max-width: 480px) {
+    .mcontact__actions :global(.btn) {
+      width: 100%;
+    }
+  }
+</style>

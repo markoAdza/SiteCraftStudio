@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import { SITE } from '../data/site';
+import { FULL_PATH, SITE, VIEW_KEY } from '../data/site';
 import displayFont from '@fontsource-variable/domine/files/domine-latin-wght-normal.woff2?url';
 
 interface Props {
@@ -9,9 +9,20 @@ interface Props {
   /** Pot brez domene, npr. "/politika-zasebnosti/" */
   path?: string;
   noindex?: boolean;
+  /** Naloži GSAP/Lenis animacije (motion.ts). Kratka predstavitev jih ne potrebuje. */
+  motion?: boolean;
+  /** Samo na /: če je obiskovalec izbral celotno podobo, ga pred izrisom preusmeri tja. */
+  viewRedirect?: boolean;
 }
 
-const { title = SITE.title, description = SITE.description, path = '/', noindex = false } = Astro.props;
+const {
+  title = SITE.title,
+  description = SITE.description,
+  path = '/',
+  noindex = false,
+  motion = true,
+  viewRedirect = false,
+} = Astro.props;
 const canonical = new URL(path, SITE.url).toString();
 const ogImage = new URL('/og.png', SITE.url).toString();
 
@@ -25,16 +36,14 @@ const jsonLd = {
   description: SITE.description,
   telephone: SITE.phone,
   email: SITE.email,
-  priceRange: '49 € – 99 € / mesec',
+  priceRange: 'od 60 € / mesec',
   areaServed: { '@type': 'Country', name: 'Slovenija' },
   address: { '@type': 'PostalAddress', addressCountry: 'SI' },
   founder: { '@type': 'Person', name: SITE.owner, honorificSuffix: SITE.ownerTitle },
   knowsLanguage: ['sl', 'en'],
   makesOffer: [
-    { '@type': 'Offer', name: 'BASIC — spletna prisotnost', price: '49', priceCurrency: 'EUR' },
-    { '@type': 'Offer', name: 'BUSINESS — spletna prisotnost + CMS', price: '69', priceCurrency: 'EUR' },
-    { '@type': 'Offer', name: 'PREMIUM — popolna oskrba', price: '99', priceCurrency: 'EUR' },
-    { '@type': 'Offer', name: 'ENKRATNO PLAČILO — po dogovoru', priceCurrency: 'EUR' },
+    { '@type': 'Offer', name: 'POPOLNA OSKRBA — mesečna naročnina', price: '60', priceCurrency: 'EUR' },
+    { '@type': 'Offer', name: 'ENKRATNO PLAČILO — po dogovoru, spremembe 40 € / h', priceCurrency: 'EUR' },
   ],
 };
 ---
@@ -74,6 +83,17 @@ const jsonLd = {
 
     <link rel="preload" href={displayFont} as="font" type="font/woff2" crossorigin />
 
+    {
+      viewRedirect && (
+        <script is:inline define:vars={{ fullPath: FULL_PATH, viewKey: VIEW_KEY }}>
+          // Obiskovalec je izbral celotno podobo → preusmeri pred izrisom (brez utripa).
+          try {
+            if (localStorage.getItem(viewKey) === 'full') location.replace(fullPath + location.hash);
+          } catch (e) {}
+        </script>
+      )
+    }
+
     <script is:inline>
       // JS je na voljo → CSS lahko pripravi začetna stanja animacij.
       // .fonts-ready sproži uvodno animacijo wordmarka (po nalaganju pisave ali najkasneje po 1,2 s).
@@ -105,8 +125,12 @@ const jsonLd = {
   <body>
     <a class="skip-link" href="#vsebina">Preskoči na vsebino</a>
     <slot />
-    <script>
-      import '../scripts/motion';
-    </script>
+    {
+      motion && (
+        <script>
+          import '../scripts/motion';
+        </script>
+      )
+    }
   </body>
 </html>

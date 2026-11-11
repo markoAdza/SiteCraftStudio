@@ -1,0 +1,84 @@
+---
+/** Noga kratke predstavitve: velik preklop na celotno podobo + pravne povezave. */
+import { FULL_PATH, SITE } from '../../data/site';
+import Icon from '../ui/Icon.astro';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="mfoot">
+  <div class="mini-wrap">
+    <a class="mfoot__full" href={FULL_PATH} data-view="full">
+      <span class="mfoot__full-text">
+        <span class="mfoot__full-label">Želite izvedeti več?</span>
+        <span class="mfoot__full-title">Prikaži celotno stran</span>
+      </span>
+      <Icon name="arrow-right" />
+    </a>
+    <p class="mfoot__meta">
+      <span>© {year} {SITE.name}</span>
+      <a class="link" href="/politika-zasebnosti/">Politika zasebnosti</a>
+    </p>
+  </div>
+</footer>
+
+<style>
+  .mfoot {
+    padding-block: clamp(32px, 5vw, 56px);
+    border-top: 1px solid var(--border);
+  }
+
+  .mfoot__full {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: clamp(20px, 3vw, 32px);
+    border-radius: var(--r-md);
+    background: var(--accent);
+    color: var(--on-accent);
+    transition: background-color 0.3s var(--ease-out);
+  }
+
+  .mfoot__full:hover {
+    background: var(--accent-hover);
+  }
+
+  .mfoot__full-text {
+    display: grid;
+    gap: 6px;
+  }
+
+  .mfoot__full-label {
+    font: 500 var(--fs-label) / 1.3 var(--font-mono);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--on-accent-2);
+  }
+
+  .mfoot__full-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3.4vw, 2.25rem);
+    line-height: 1.05;
+  }
+
+  .mfoot__full :global(.icon) {
+    width: 28px;
+    height: 28px;
+    transition: transform 0.3s var(--ease-out);
+  }
+
+  .mfoot__full:hover :global(.icon) {
+    transform: translateX(4px);
+  }
+
+  .mfoot__meta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px 16px;
+    margin-top: 24px;
+    font-size: var(--fs-small);
+    color: var(--text-tertiary);
+  }
+</style>

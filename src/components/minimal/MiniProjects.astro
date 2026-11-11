@@ -1,0 +1,78 @@
+---
+/** Projekti kratke predstavitve: vsi vidni projekti kot preproste kartice. */
+import { PROJECTS } from '../../data/projects';
+import Icon from '../ui/Icon.astro';
+
+const projects = PROJECTS.filter((p) => !p.hidden);
+---
+
+<section class="mini-section" id="projekti" aria-labelledby="mprojekti-title">
+  <div class="mini-wrap">
+    <header class="mini-head">
+      <p class="eyebrow"><b>(02)</b> Projekti</p>
+      <h2 class="mini-title" id="mprojekti-title">Nekaj mojih <em>izdelkov</em>.</h2>
+    </header>
+
+    <ul class="mprojects">
+      {
+        projects.map((p) => (
+          <li class="mini-card mproject">
+            <p class="mproject__meta">{p.meta}</p>
+            <h3 class="mproject__title">{p.title}</h3>
+            <p class="mproject__desc">{p.description}</p>
+            {p.url && (
+              <a class="link mproject__link" href={p.url} target="_blank" rel="noopener noreferrer">
+                Oglejte si stran
+                <Icon name="arrow-up-right" />
+                <span class="sr-only"> (odpre se v novem zavihku)</span>
+              </a>
+            )}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .mprojects {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+  }
+
+  .mproject {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .mproject__meta {
+    font: 500 var(--fs-label) / 1.3 var(--font-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+  }
+
+  .mproject__title {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    line-height: 1.1;
+  }
+
+  .mproject__desc {
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: var(--text-secondary);
+  }
+
+  .mproject__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: auto;
+    padding-top: 6px;
+    font-size: var(--fs-small);
+    align-self: flex-start;
+  }
+</style>

@@ -41,6 +41,8 @@ src/
 | Telefon, e-pošta, meni | `src/data/site.ts` |
 | Paketi in cene | `src/data/pricing.ts` (tudi `PLANS` v `functions/api/contact.ts`, če spremeniš imena paketov) |
 | Projekti (besedila, povezave) | `src/data/projects.ts` |
+| Kratka predstavitev (`/`, privzeta) | `src/pages/index.astro` + `src/components/minimal/` (točke s `key: true` v `pricing.ts`) |
+| Celotna spletna podoba (`/celotna/`) | `src/pages/celotna.astro`; izbira pogleda se zapomni v `localStorage` (`sc-view`) |
 | Fotografija »O meni« | zamenjaj `src/assets/about/portrait-placeholder.jpg` (portret 4:5, ≥ 900 × 1125 px) |
 | Barve, pisave | `src/styles/tokens.css` (+ posodobi `DESIGN.md`) |
 

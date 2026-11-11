@@ -5,7 +5,7 @@
  * Ogromen wordmark čez celo širino + 3 stolpci + spodnja vrstica.
  * Skrita podrobnost: ko je noga povsem razkrita, pika »oživi«.
  */
-import { NAV, SITE } from '../data/site';
+import { FULL_PATH, NAV, SITE } from '../data/site';
 import { wmKern } from '../data/wordmark';
 import Icon from './ui/Icon.astro';
 
@@ -13,7 +13,7 @@ interface Props {
   home?: boolean;
 }
 const { home = true } = Astro.props;
-const href = (id: string) => (home ? `#${id}` : `/#${id}`);
+const href = (id: string) => (home ? `#${id}` : `${FULL_PATH}#${id}`);
 const year = new Date().getFullYear();
 // Wordmark kot v heroju: vsaka črka svoj element z optičnim kerningom para
 const wmChars = [...'Site Craft Studio.'].map((ch, i, all) => ({ ch, k: wmKern(ch, all[i + 1]) }));

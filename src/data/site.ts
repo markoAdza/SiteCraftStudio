@@ -10,11 +10,16 @@ export const SITE = {
   emailHref: 'mailto:marko.4adzaga.4@gmail.com',
   title: 'Site Craft Studio. — Izdelava spletnih strani v enem tednu',
   description:
-    'Profesionalne spletne strani za podjetja, izdelane v enem tednu. Oblikovanje, razvoj, gostovanje, domena, SEO in vzdrževanje — za vse poskrbim jaz. Paketi že od 49 € na mesec.',
+    'Profesionalne spletne strani za podjetja, izdelane v enem tednu. Oblikovanje, razvoj, gostovanje, domena, SEO in vzdrževanje — za vse poskrbim jaz. Popolna oskrba za 60 € na mesec.',
   locale: 'sl_SI',
   /** Kontaktni obrazec (Cloudflare Pages Function + Resend + Turnstile). Vklopi, ko je backend postavljen. */
   contactFormEnabled: false,
 } as const;
+
+/** Pot do celotne spletne podobe (privzeto se prikaže kratka predstavitev na /). */
+export const FULL_PATH = '/celotna/';
+/** localStorage ključ za izbrani pogled: 'full' | 'min'. */
+export const VIEW_KEY = 'sc-view';
 
 export type NavItem = { id: string; label: string };
 

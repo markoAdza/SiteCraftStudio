@@ -1,0 +1,158 @@
+---
+/** Cenik kratke predstavitve: obe možnosti, samo ključne točke (`key`). */
+import { ALL_PLANS } from '../../data/pricing';
+import Icon from '../ui/Icon.astro';
+import Button from '../ui/Button.astro';
+---
+
+<section class="mini-section" id="cenik" aria-labelledby="mcenik-title">
+  <div class="mini-wrap">
+    <header class="mini-head">
+      <p class="eyebrow"><b>(01)</b> Cenik</p>
+      <h2 class="mini-title" id="mcenik-title">Dve preprosti <em>možnosti</em>.</h2>
+    </header>
+
+    <div class="mplans">
+      {
+        ALL_PLANS.map((plan) => (
+          <article
+            class:list={['mini-card', 'mplan', plan.featured && 'mplan--featured']}
+            aria-labelledby={`mplan-${plan.id}`}
+          >
+            {plan.featured && <span class="mplan__badge">Vse vključeno</span>}
+            <h3 class="mplan__name" id={`mplan-${plan.id}`}>
+              {plan.name}
+            </h3>
+            {plan.price !== null ? (
+              <p class="mplan__price">
+                <span class="mplan__amount">{plan.price} €</span>
+                <span class="mplan__per">/ mesec</span>
+              </p>
+            ) : (
+              <p class="mplan__price">
+                <span class="mplan__amount mplan__amount--text">Po dogovoru</span>
+              </p>
+            )}
+            <p class="mplan__setup">{plan.price !== null ? plan.setup : plan.tagline}</p>
+            {plan.rate && (
+              <p class="mplan__setup">
+                Spremembe in nadgradnje: <b>{plan.rate}</b>
+              </p>
+            )}
+            <ul class="mini-check mplan__features">
+              {plan.features
+                .filter((f) => f.key)
+                .map((f) => (
+                  <li>
+                    <Icon name="check" />
+                    <span>{f.text}</span>
+                  </li>
+                ))}
+            </ul>
+            <Button
+              href="#kontakt"
+              label={plan.price !== null ? 'Želim to možnost' : 'Povprašajte za ponudbo'}
+              variant={plan.featured ? 'primary' : 'ghost'}
+              icon="arrow-right"
+              class="mplan__cta"
+            />
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .mplans {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    align-items: stretch;
+  }
+
+  .mplan {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mplan--featured {
+    border-color: var(--accent);
+    box-shadow: var(--shadow-glow);
+  }
+
+  .mplan__badge {
+    position: absolute;
+    top: -12px;
+    left: clamp(20px, 3vw, 32px);
+    padding: 6px 12px;
+    border-radius: var(--r-pill);
+    background: var(--accent);
+    color: var(--on-accent);
+    font: 600 0.6875rem / 1 var(--font-mono);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .mplan__name {
+    font: 600 0.8125rem / 1 var(--font-mono);
+    letter-spacing: 0.16em;
+    color: var(--text-secondary);
+  }
+
+  .mplan__price {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .mplan__amount {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 6vw, 4rem);
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+  }
+
+  .mplan__amount--text {
+    font-size: clamp(2.25rem, 4.4vw, 2.875rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .mplan__per {
+    font-size: var(--fs-small);
+    color: var(--text-tertiary);
+  }
+
+  .mplan__setup {
+    margin-top: 8px;
+    font: 500 var(--fs-label) / 1.4 var(--font-mono);
+    letter-spacing: 0.06em;
+    color: var(--text-tertiary);
+  }
+
+  .mplan__setup b {
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .mplan__features {
+    margin: 24px 0 28px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+
+  .mplan :global(.mplan__cta) {
+    margin-top: auto;
+    width: 100%;
+  }
+
+  @media (max-width: 720px) {
+    .mplans {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 28px;
+    }
+  }
+</style>

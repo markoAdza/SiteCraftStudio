@@ -4,7 +4,7 @@
  * sredina logotip, desno klik-za-klic + e-pošta + CTA).
  * Na mobilnih: hamburger levo, logotip sredina, klic desno + spustni meni.
  */
-import { NAV, SITE } from '../data/site';
+import { FULL_PATH, NAV, SITE } from '../data/site';
 import Icon from './ui/Icon.astro';
 import Button from './ui/Button.astro';
 import ThemeToggle from './ThemeToggle.astro';
@@ -14,7 +14,7 @@ interface Props {
   home?: boolean;
 }
 const { home = true } = Astro.props;
-const href = (id: string) => (home ? `#${id}` : `/#${id}`);
+const href = (id: string) => (home ? `#${id}` : `${FULL_PATH}#${id}`);
 ---
 
 <nav class="nav" data-nav aria-label="Glavna navigacija">
@@ -64,6 +64,9 @@ const href = (id: string) => (home ? `#${id}` : `/#${id}`);
         <Icon name="mail" />
         <span class="nav__mail-text">{SITE.email}</span>
       </a>
+      <a class="nav__contact nav__short" href="/" data-view="min" title="Prikaži kratko predstavitev">
+        Kratka predstavitev
+      </a>
       <ThemeToggle />
       <Button href={href('kontakt')} label="Kontakt" size="sm" class="nav__cta" magnet />
       <a class="nav__call" href={SITE.phoneHref} aria-label={`Pokličite ${SITE.phone}`}>
@@ -90,6 +93,7 @@ const href = (id: string) => (home ? `#${id}` : `/#${id}`);
     <div class="nav__menu-contact">
       <a href={SITE.phoneHref}><Icon name="phone" />{SITE.phone}</a>
       <a href={SITE.emailHref}><Icon name="mail" />{SITE.email}</a>
+      <a href="/" data-view="min" data-nav-close>Kratka predstavitev</a>
     </div>
   </div>
 </nav>
@@ -226,6 +230,13 @@ const href = (id: string) => (home ? `#${id}` : `/#${id}`);
 
   .nav__contact:hover {
     color: var(--text);
+  }
+
+  .nav__short {
+    padding-inline: 12px;
+    border: 1px solid var(--border-hover);
+    border-radius: var(--r-pill);
+    min-height: 36px;
   }
 
   .nav__contact .icon {
@@ -393,6 +404,8 @@ const href = (id: string) => (home ? `#${id}` : `/#${id}`);
 </style>
 
 <script>
+  import '../scripts/view-switch';
+
   const nav = document.querySelector<HTMLElement>('[data-nav]');
   const toggle = nav?.querySelector<HTMLButtonElement>('[data-nav-toggle]');
   const toggleLabel = nav?.querySelector<HTMLElement>('[data-nav-toggle-label]');

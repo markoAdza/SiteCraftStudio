@@ -1,54 +1,32 @@
 ---
+/**
+ * Kratka predstavitev (privzeta prva stran): opis, cenik, projekti, kontakt.
+ * Celotna spletna podoba je na /celotna/ (src/pages/celotna.astro); izbira se
+ * zapomni v localStorage (scripts/view-switch.ts) in Base.astro (viewRedirect).
+ */
+import '../styles/minimal.css';
 import Base from '../layouts/Base.astro';
-import Hero from '../components/Hero.astro';
-import Nav from '../components/Nav.astro';
-import PinnedTitle from '../components/PinnedTitle.astro';
-import Promises from '../components/Promises.astro';
-import Services from '../components/Services.astro';
-import Pricing from '../components/Pricing.astro';
-import About from '../components/About.astro';
-import Projects from '../components/Projects.astro';
-import Contact from '../components/Contact.astro';
-import Footer from '../components/Footer.astro';
+import MiniHeader from '../components/minimal/MiniHeader.astro';
+import MiniIntro from '../components/minimal/MiniIntro.astro';
+import MiniPricing from '../components/minimal/MiniPricing.astro';
+import MiniProjects from '../components/minimal/MiniProjects.astro';
+import MiniContact from '../components/minimal/MiniContact.astro';
+import MiniFooter from '../components/minimal/MiniFooter.astro';
 ---
 
-<Base>
-  <Hero />
-
-  <div class="page">
-    <Nav />
-
+<Base motion={false} viewRedirect>
+  <div class="mini">
+    <MiniHeader />
     <main id="vsebina">
-      <PinnedTitle
-        id="kaj-delam"
-        num="01"
-        label="Kaj delam"
-        tone="paper"
-        sub="Oblikujem, razvijem in vzdržujem spletne strani za podjetja."
-      >
-        <span class="pin-line">Za vse poskrbim jaz</span>
-        <span class="pin-line">vi se posvetite <em>svojemu poslu.</em></span>
-      </PinnedTitle>
-
-      <section class="statement sheet" aria-label="Kaj dobite">
-        <Promises />
-      </section>
-
-      <Services />
-      <Pricing />
-      <About />
-      <Projects />
-      <Contact />
+      <MiniIntro />
+      <MiniPricing />
+      <MiniProjects />
+      <MiniContact />
     </main>
+    <MiniFooter />
   </div>
-
-  <Footer />
 </Base>
 
-<style>
-  .statement {
-    position: relative;
-    z-index: 1;
-    background: var(--bg);
-  }
-</style>
+<script>
+  import '../scripts/view-switch';
+</script>

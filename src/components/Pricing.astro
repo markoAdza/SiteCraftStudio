@@ -1,5 +1,5 @@
 ---
-import { PLANS, ONE_TIME_PLAN } from '../data/pricing';
+import { ALL_PLANS } from '../data/pricing';
 import Icon from './ui/Icon.astro';
 import Button from './ui/Button.astro';
 ---
@@ -8,16 +8,16 @@ import Button from './ui/Button.astro';
   <div class="container">
     <header class="section-head section-head--split">
       <p class="eyebrow"><b>(04)</b> Cenik</p>
-      <h2 class="h2" id="cenik-title" data-float>Izberite paket, ki <em>ustreza</em> vašemu podjetju.</h2>
+      <h2 class="h2" id="cenik-title" data-float>Dve preprosti <em>možnosti</em>.</h2>
       <p class="lead" data-reveal>
-        Vsi paketi vključujejo izdelavo spletne strani, gostovanje, SSL, varnostne kopije in tehnično podporo. Ena
-        mesečna naročnina — brez presenečenj. Raje plačate enkrat? Tudi to je mogoče, po dogovoru.
+        Mesečna naročnina, v kateri za vse poskrbim jaz — ali enkratno plačilo, kasnejše spremembe pa plačate po
+        porabljenem času. Gostovanje je vključeno v obeh primerih. Brez presenečenj.
       </p>
     </header>
 
     <div class="plans">
       {
-        PLANS.map((plan, i) => (
+        ALL_PLANS.map((plan, i) => (
           <article
             class:list={['plan', plan.featured && 'plan--featured']}
             data-reveal
@@ -26,18 +26,29 @@ import Button from './ui/Button.astro';
             aria-labelledby={`plan-${plan.id}`}
           >
             {plan.featured && <div class="plan__glow" aria-hidden="true" />}
-            {plan.featured && <span class="plan__badge">Najbolj priljubljeno</span>}
+            {plan.featured && <span class="plan__badge">Vse vključeno</span>}
             <header class="plan__head">
               <h3 class="plan__name" id={`plan-${plan.id}`}>
                 {plan.name}
               </h3>
               <p class="plan__tagline">{plan.tagline}</p>
             </header>
-            <p class="plan__price">
-              <span class="plan__amount">{plan.price} €</span>
-              <span class="plan__per">/ mesec</span>
-            </p>
+            {plan.price !== null ? (
+              <p class="plan__price">
+                <span class="plan__amount">{plan.price} €</span>
+                <span class="plan__per">/ mesec</span>
+              </p>
+            ) : (
+              <p class="plan__price">
+                <span class="plan__amount plan__amount--text">Po dogovoru</span>
+              </p>
+            )}
             <p class="plan__setup">{plan.setup}</p>
+            {plan.rate && (
+              <p class="plan__rate">
+                Spremembe in nadgradnje: <b>{plan.rate}</b>
+              </p>
+            )}
             <p class="plan__desc">{plan.description}</p>
             <hr class="plan__rule" />
             {plan.includes && <p class="plan__includes">{plan.includes}</p>}
@@ -45,13 +56,13 @@ import Button from './ui/Button.astro';
               {plan.features.map((f) => (
                 <li>
                   <Icon name="check" />
-                  <span>{f}</span>
+                  <span>{f.text}</span>
                 </li>
               ))}
             </ul>
             <Button
               href="#kontakt"
-              label={`Izberi ${plan.name}`}
+              label={plan.cta}
               variant={plan.featured ? 'primary' : 'ink'}
               class="plan__cta"
               data-plan={plan.id}
@@ -63,44 +74,8 @@ import Button from './ui/Button.astro';
       }
     </div>
 
-    <article class="zero" data-reveal aria-labelledby="plan-enkratno">
-      <span class="zero__watermark" aria-hidden="true">1×</span>
-      <div class="zero__intro">
-        <span class="zero__badge">{ONE_TIME_PLAN.tagline}</span>
-        <h3 class="plan__name zero__name" id="plan-enkratno">{ONE_TIME_PLAN.name}</h3>
-        <p class="zero__desc">{ONE_TIME_PLAN.description}</p>
-      </div>
-      <div class="zero__price">
-        <p class="plan__price">
-          <span class="plan__amount plan__amount--text">Po dogovoru</span>
-        </p>
-        <p class="plan__setup">{ONE_TIME_PLAN.setup}</p>
-      </div>
-      <div class="zero__side">
-        <p class="plan__includes">{ONE_TIME_PLAN.includes}</p>
-        <ul class="plan__features zero__features">
-          {
-            ONE_TIME_PLAN.features.map((f) => (
-              <li>
-                <Icon name="check" />
-                <span>{f}</span>
-              </li>
-            ))
-          }
-        </ul>
-        <Button
-          href="#kontakt"
-          label="Povprašajte za ponudbo"
-          variant="ink"
-          data-plan={ONE_TIME_PLAN.id}
-          icon="arrow-right"
-          class="plan__cta"
-        />
-      </div>
-    </article>
-
     <p class="pricing__note" data-reveal>
-      Niste prepričani, kateri paket je pravi? <a class="link" href="#kontakt">Pokličite ali pišite</a> — skupaj
+      Niste prepričani, katera možnost je prava? <a class="link" href="#kontakt">Pokličite ali pišite</a> — skupaj
       izbereva najboljšo možnost za vaše podjetje.
     </p>
   </div>
@@ -109,9 +84,11 @@ import Button from './ui/Button.astro';
 <style>
   .plans {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(16px, 2.4vw, 32px);
     align-items: stretch;
+    max-width: 1040px;
+    margin-inline: auto;
   }
 
   /* ================================================================ Plan */
@@ -181,6 +158,18 @@ import Button from './ui/Button.astro';
     font: 500 var(--fs-label) / 1.4 var(--font-mono);
     letter-spacing: 0.06em;
     color: var(--ink-3);
+  }
+
+  .plan__rate {
+    margin-top: 6px;
+    font: 500 var(--fs-label) / 1.4 var(--font-mono);
+    letter-spacing: 0.06em;
+    color: var(--ink-2);
+  }
+
+  .plan__rate b {
+    font-weight: 600;
+    color: var(--ink);
   }
 
   .plan__desc {
@@ -334,83 +323,10 @@ import Button from './ui/Button.astro';
     white-space: nowrap;
   }
 
-  @media (min-width: 1025px) {
+  @media (min-width: 821px) {
     .plan--featured {
       translate: 0 -14px;
     }
-  }
-
-  /* ===================================================== ENKRATNO PLAČILO */
-  .zero {
-    position: relative;
-    isolation: isolate;
-    overflow: hidden;
-    display: grid;
-    grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.8fr) minmax(0, 1fr);
-    gap: clamp(24px, 4vw, 64px);
-    align-items: center;
-    margin-top: 16px;
-    padding: clamp(24px, 3vw, 44px);
-    border-radius: var(--r-md);
-    border: 1px solid var(--ink);
-    background: var(--paper-2);
-  }
-
-  .zero__watermark {
-    position: absolute;
-    right: -0.04em;
-    bottom: -0.22em;
-    z-index: -1;
-    font-family: var(--font-display);
-    font-size: clamp(10rem, 22vw, 20rem);
-    line-height: 1;
-    /* polno polnilo namesto obrisa: Domine Variable ima prekrivajoče se konture
-       (prečki €), ki jih text-stroke izriše kot moteče notranje črte */
-    color: rgba(var(--accent-rgb), 0.07);
-    pointer-events: none;
-    user-select: none;
-  }
-
-  .zero__intro {
-    display: grid;
-    gap: 12px;
-    justify-items: start;
-  }
-
-  .zero__badge {
-    padding: 7px 12px;
-    border-radius: var(--r-pill);
-    background: var(--ink);
-    color: var(--paper);
-    font: 600 0.6875rem / 1 var(--font-mono);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-  }
-
-  .zero__name {
-    font-size: 0.9375rem;
-  }
-
-  .zero__desc {
-    max-width: 46ch;
-    color: var(--ink-2);
-  }
-
-  .zero__price .plan__price {
-    margin-top: 0;
-  }
-
-  .zero__side {
-    display: grid;
-    gap: 4px;
-  }
-
-  .zero__features {
-    margin-bottom: 20px;
-  }
-
-  .zero :global(.plan__cta) {
-    width: 100%;
   }
 
   .pricing__note {
@@ -420,18 +336,11 @@ import Button from './ui/Button.astro';
   }
 
   /* ================================================================ Odzivnost */
-  @media (max-width: 1024px) {
+  @media (max-width: 820px) {
     .plans {
       grid-template-columns: minmax(0, 1fr);
       max-width: 580px;
-      margin-inline: auto;
       gap: 28px;
-    }
-
-    .zero {
-      grid-template-columns: minmax(0, 1fr);
-      max-width: 580px;
-      margin: 28px auto 0;
     }
   }
 </style>

@@ -1,9 +1,15 @@
 /**
- * Paketi po specifikaciji (specifikacija-spletne-strani.pdf, poglavje 3.1).
- * Cene so v evrih na mesec; začetna postavitev je enkraten strošek.
+ * Cenik: dve možnosti — mesečna naročnina (POPOLNA OSKRBA) ali enkratno plačilo.
+ * Cene so v evrih; začetna postavitev je enkraten strošek.
  */
+export type PlanFeature = {
+  text: string;
+  /** Prikaže se tudi na minimalni (kratki) predstavitvi. */
+  key?: boolean;
+};
+
 export type Plan = {
-  id: 'BASIC' | 'BUSINESS' | 'PREMIUM' | 'ENKRATNO';
+  id: 'OSKRBA' | 'ENKRATNO';
   name: string;
   tagline: string;
   /** null = cena po dogovoru */
@@ -11,93 +17,66 @@ export type Plan = {
   setup: string;
   description: string;
   includes?: string;
-  features: string[];
+  features: PlanFeature[];
+  /** Urna postavka za dodatno delo, npr. '40 € / h'. */
+  rate?: string;
+  /** Napis na gumbu. */
+  cta: string;
   featured?: boolean;
 };
 
 export const PLANS: Plan[] = [
   {
-    id: 'BASIC',
-    name: 'BASIC',
-    tagline: 'Spletna prisotnost',
-    price: 49,
+    id: 'OSKRBA',
+    name: 'POPOLNA OSKRBA',
+    tagline: 'Mesečna naročnina',
+    cta: 'Izberi popolno oskrbo',
+    price: 60,
     setup: '+ 199 € enkratna postavitev',
-    description: 'Za podjetje, ki potrebuje profesionalno spletno stran brez nepotrebne kompleksnosti.',
-    features: [
-      'Do 4–5 podstrani',
-      'Optimizacija za mobilne naprave',
-      'Kontaktni obrazec in klic z enim klikom',
-      'Osnovni SEO — vidnost na Googlu',
-      'Urejanje delovnega časa',
-      'Gostovanje, SSL, varnostne kopije in nadzor',
-      'Tehnična podpora',
-    ],
-  },
-  {
-    id: 'BUSINESS',
-    name: 'BUSINESS',
-    tagline: 'Spletna prisotnost + CMS',
-    price: 69,
-    setup: '+ 199 € enkratna postavitev',
-    description: 'Za podjetja, ki želijo sama urejati svojo vsebino.',
-    includes: 'Vse iz paketa BASIC, plus:',
+    description: 'Za lastnike, ki želijo, da za njihovo spletno prisotnost v celoti poskrbim jaz.',
+    includes: 'Kaj dobite:',
     featured: true,
     features: [
-      'Dostop do CMS (sistem za urejanje vsebine)',
-      'Izdelava logotipa',
-      'Izdelava celostne grafične podobe',
-      'Do 8 podstrani',
-      'Strukturne nadgradnje spletne strani',
-      'Prevod strani v druge jezike z enostavnim preklopom jezika',
-      'Urejanje storitev in cen',
-      'Urejanje novic in objav',
-      'Urejanje obvestil',
-      'Urejanje jedilnikov, cenikov …',
-      '30 minut pomoči pri vsebini mesečno',
-    ],
-  },
-  {
-    id: 'PREMIUM',
-    name: 'PREMIUM',
-    tagline: 'Popolna oskrba',
-    price: 99,
-    setup: '+ 199 € enkratna postavitev',
-    description: 'Za lastnike, ki želijo, da za večino njihove spletne prisotnosti poskrbim jaz.',
-    includes: 'Vse iz paketa BUSINESS, plus:',
-    features: [
-      'Neomejeno spreminjanje strukture strani (novi elementi …)',
-      '60 minut posodobitev vsebine mesečno',
-      'Pomoč pri objavi ponudb in obvestil',
-      'Mesečno poročilo o uspešnosti',
-      'Prednostna podpora',
+      { text: 'Spletna stran do 8 podstrani, prilagojena telefonom', key: true },
+      { text: 'Izdelava logotipa in celostne grafične podobe' },
+      { text: 'CMS: sami urejate storitve, cene, jedilnike, novice', key: true },
+      { text: 'Posodobitve vsebine in spremembe strukture vključene', key: true },
+      { text: 'Večjezična stran z enostavnim preklopom jezika' },
+      { text: 'Osnovni SEO, kontaktni obrazec, klic z enim klikom' },
+      { text: 'Gostovanje, SSL, varnostne kopije in nadzor', key: true },
+      { text: 'Mesečno poročilo in prednostna podpora', key: true },
     ],
   },
 ];
 
-/** Enkratno plačilo namesto mesečne naročnine — obseg in cena po dogovoru. */
+/** Enkratno plačilo namesto mesečne naročnine — cena po dogovoru, delo po urah. */
 export const ONE_TIME_PLAN: Plan = {
   id: 'ENKRATNO',
   name: 'ENKRATNO PLAČILO',
   tagline: 'Brez mesečne naročnine',
+  cta: 'Povprašajte za ponudbo',
   price: null,
   setup: 'Enkratno plačilo · cena glede na obseg',
   description:
-    'Raje plačate enkrat? Stran izdelam po meri za enkraten znesek, ki ga določiva glede na obseg — brez mesečne naročnine.',
+    'Raje plačate enkrat? Stran izdelam po meri za enkraten znesek, ki ga določiva glede na obseg. Kasnejše spremembe plačate po porabljenem času.',
   includes: 'Kaj dobite:',
+  rate: '40 € / h',
   features: [
-    'Spletna stran po meri, v vaši lasti',
-    'Obseg in cena po dogovoru',
-    'Brez mesečne naročnine in vezave',
-    'Optimizacija za mobilne naprave in osnovni SEO',
-    'Gostovanje in vzdrževanje po želji, ločeno',
+    { text: 'Spletna stran po meri, v vaši lasti', key: true },
+    { text: 'Cena glede na obseg, po dogovoru', key: true },
+    { text: 'Gostovanje vključeno', key: true },
+    { text: 'Optimizacija za telefone in osnovni SEO' },
+    { text: 'Spremembe, nadgradnje in objave: 40 € / h', key: true },
+    { text: 'Brez vezave' },
   ],
 };
+
+/** Vse možnosti po vrsti (mesečna, enkratna). */
+export const ALL_PLANS: Plan[] = [...PLANS, ONE_TIME_PLAN];
 
 /** Možnosti za izbiro paketa v kontaktnem obrazcu (mora se ujemati s functions/api/contact.ts). */
 export const PLAN_OPTIONS = [
   { value: 'Še ne vem', label: 'Še ne vem — svetujte mi' },
-  { value: 'BASIC', label: 'BASIC — 49 € / mesec' },
-  { value: 'BUSINESS', label: 'BUSINESS — 69 € / mesec' },
-  { value: 'PREMIUM', label: 'PREMIUM — 99 € / mesec' },
+  { value: 'OSKRBA', label: 'POPOLNA OSKRBA — 60 € / mesec' },
   { value: 'ENKRATNO', label: 'ENKRATNO PLAČILO — po dogovoru' },
 ] as const;
